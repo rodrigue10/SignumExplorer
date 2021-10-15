@@ -1,0 +1,59 @@
+﻿@page "/unconfirmedtransactions/{transid}"
+
+
+@inject ISignumDataService SignumService
+
+
+<h3>Transaction Detail</h3>
+
+
+@if (TransDetail == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PropertyInfo item in TransDetail.GetType().GetProperties())
+            {
+               <tr>
+                   <td> @item.Name </td>
+                    <td>@item.GetValue(TransDetail)</td>                   
+               </tr> 
+
+            }
+
+            
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    private ITransaction? TransDetail;
+
+
+        [Parameter]
+    public string? Transid { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Transid != null)
+        {
+            TransDetail = await SignumService.GetTransaction((long)UInt64.Parse(Transid));
+        }
+    }
+
+
+
+
+
+}

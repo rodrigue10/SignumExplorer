@@ -1,0 +1,133 @@
+﻿@page "/dashboard"
+
+@inject ISignumDataService SignumService
+
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100px;"> Put some Price stats?/latest Block</MudPaper>
+        </MudItem>
+        <MudItem xs="12" >
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100px;">Pending Transactions</MudPaper>
+        </MudItem>
+
+                <MudItem  xs="12" >
+
+                    @if(blocks == null)
+            {
+                <p><em>Loading Recent Blocks...</em></p>
+            }
+            else
+            {
+                
+            
+            <MudTable Height="400px" Items="@blocks" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Latest Blocks</MudText>
+             
+                </ToolBarContent>
+                <HeaderContent>
+                     <MudTh>Time</MudTh>
+                    <MudTh>Height</MudTh>
+                    <MudTh>Gen ID</MudTh>
+                    <MudTh>Gen Name</MudTh>
+                    <MudTh>Pool ID</MudTh>
+                    <MudTh>Pool Name</MudTh>
+                    <MudTh>Total Amount</MudTh>
+                    <MudTh>Total Fee</MudTh>
+
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Time"><MudText Typo="Typo.body2">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " minutes ago")</MudText></MudTd>
+                    <MudTd DataLabel="Height"><MudLink Typo="Typo.body1" Underline="Underline.None" Href=@($"/blocks/{context.Id}")>@context.Height</MudLink></MudTd>
+                    <MudTd>
+                       <MudText><MudLink Typo="Typo.body1" Underline="Underline.None" Href=@($"/accounts/{context.GeneratorId}")>@($"{context.GeneratorRS}")</MudLink> </MudText>
+                                               </MudTd>
+                        <MudTd>
+                        <MudText Typo="Typo.body2">Miner Name Placeholder</MudText>
+                                                </MudTd>
+                        <MudTd>
+                        <MudText Typo="Typo.body1">Pool Place Holder</MudText>                  
+                                                </MudTd>
+                        <MudTd>
+                        <MudText Typo="Typo.body2">Pool Name Place Holder</MudText>
+                    </MudTd>
+                    <MudTd>@context.Transactions.Count.ToString()</MudTd>
+                    <MudTd>
+                        <MudText> @($"Total Amount: {context.TotalAmount} Signa") </MudText>
+                        </MudTd>
+                        <MudTd>
+                        <MudText> @($"Fee: {context.TotalFee} Signa")</MudText>
+                    </MudTd>
+
+                </RowTemplate>
+                </MudTable>
+                                <MudTFootRow>
+                    <MudPaper> <MudNavLink  Href="/blocks" Icon="@Icons.Filled.Storage"> Link To All Blocks  </MudNavLink> </MudPaper>
+                </MudTFootRow>
+                }
+        </MudItem>
+
+        <MudItem xs="12" >
+                                @if(transactions == null)
+            {
+                <p><em>Loading Recent Transactions...</em></p>
+            }
+            else
+            {
+            
+                  <MudTable Height="400px" Items="@transactions" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Latest Transactions</MudText>
+             
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh></MudTh>
+                    <MudTh></MudTh>
+                    <MudTh></MudTh>
+
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>
+                        <MudLink Typo="Typo.body2" Underline="Underline.None" Href=@($"/transactions/{context.Id}")>@context.Id</MudLink>
+                        <MudText Typo="Typo.body2">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " minutes ago")</MudText>
+                    </MudTd>
+                    <MudTd>
+                       <MudText>From:  <MudLink Typo="Typo.body1" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@($"{context.SenderRS}")</MudLink> </MudText>
+                        <MudText Typo="Typo.body2">Miner Name Placeholder</MudText>
+                        <MudText Typo="Typo.body2">@context.Type</MudText>
+                       <MudText>To:  <MudLink Typo="Typo.body1" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@($"{context.RecipientRS}")</MudLink> </MudText>                  
+                        <MudText Typo="Typo.body2">Recipient Name Place Holder</MudText>
+                    </MudTd>
+
+                    <MudTd>
+                        <MudText> @($"{context.Amount} Signa") </MudText>
+                        <MudText> @($"Fee: {context.Fee} Signa")</MudText>
+                    </MudTd>
+
+                </RowTemplate>
+                </MudTable>
+                <MudTFootRow>
+                    <MudPaper> <MudNavLink  Href="/transactions" Icon="@Icons.Filled.Receipt"> Link To All Transactions  </MudNavLink> </MudPaper>
+                </MudTFootRow>
+                }
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+@code{
+
+    IEnumerable<IBlock>? blocks;
+    IEnumerable<ITransaction>? transactions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        blocks = await SignumService.GetBlocks(6);
+        transactions = await SignumService.GetTransactions(6);
+
+    }
+
+}

@@ -1,0 +1,58 @@
+﻿@page "/unconfirmedtransactions"
+
+@inject ISignumDataService SignumService
+
+
+<h3>Unconfirmed Transactions</h3>
+
+
+@if (SignumUnConfirmTransactions == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+
+            <tr>
+                @foreach (PropertyInfo item in typeof(UnconfirmedTransaction).GetProperties())
+                {               
+                  <th> @item.Name </th>
+                 
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trans in SignumUnConfirmTransactions)
+            {
+                <tr>
+                    @foreach (PropertyInfo item2 in typeof(UnconfirmedTransaction).GetProperties())
+                    {               
+                      <td> @item2.GetValue(trans) </td>
+                 
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    private List<UnconfirmedTransaction>? SignumUnConfirmTransactions;
+
+    protected override async Task OnInitializedAsync()
+    {
+           
+        SignumUnConfirmTransactions = await SignumService.GetUnconfirmedTransactions(100);
+    }
+
+
+
+
+
+}

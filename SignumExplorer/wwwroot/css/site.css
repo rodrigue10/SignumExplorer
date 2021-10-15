@@ -1,0 +1,33 @@
+#chartcandle {
+    width: 100%;
+    height: 500px;
+}
+
+
+#chartdiv {
+    width: 100%;
+    height: 500px;
+}
+
+#chartpie {
+    width: 100%;
+    height: 500px;
+}
+#chartbarline {
+    width: 100%;
+    height: 500px;
+}
+
+#chartstockbasic {
+    width: 100%;
+    height: 500px;
+    max-width: 100%;
+}
+
+#stockcontrols {
+    overflow: hidden;
+    padding-bottom: 3px;
+}
+
+
+

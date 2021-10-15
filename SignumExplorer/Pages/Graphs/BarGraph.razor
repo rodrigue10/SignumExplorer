@@ -1,0 +1,19 @@
+﻿@namespace SignumExplorer.Pages
+
+@inject IJSRuntime JS
+
+<div  id="chartdiv"> </div>
+
+@code {
+
+
+        protected override void OnAfterRender(bool firstRender)
+    {
+
+
+        JS.InvokeVoidAsync("CreateColumnChart");
+
+        //base.OnAfterRender(firstRender);
+    }
+
+}

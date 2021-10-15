@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>7ff81c16-8237-44f1-ba9f-9200623712cf</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-rc.1.*">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.0-rc.1.*" />
+    <PackageReference Include="MudBlazor" Version="5.1.5" />
+    <PackageReference Include="MudBlazor.ThemeManager" Version="1.0.5" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.0-rc.1.ci.20211007223757" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0-rc.1.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\" />
+    <Folder Include="Explorer\" />
+	
+  </ItemGroup>
+
+</Project>

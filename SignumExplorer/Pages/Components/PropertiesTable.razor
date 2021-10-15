@@ -1,0 +1,108 @@
+﻿@namespace SignumExplorer.Pages
+
+@using System.Reflection
+@using System.Globalization
+
+@inject IStringLocalizer<App> L
+@inject IDialogService DialogService
+
+@if (objectType == null || InputObject == null)
+{
+    <p><em>Loading ...</em></p>
+}
+else
+{    
+
+    <MudTable Items="@objectType.GetProperties()"     FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true" Breakpoint="Breakpoint.None">
+       <ToolBarContent>
+            <MudText Typo="Typo.h6">@tableText</MudText>             
+        </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Property</MudTh>
+                <MudTh>Details</MudTh>
+
+            </HeaderContent>
+            <RowTemplate>
+
+                 <MudTd DataLabel="Property">@L[context.Name]</MudTd>
+
+            @if (@context.Name.ToLower().Contains("codestring"))
+            {
+                  <MudTd DataLabel="Detail"><MudButton Size="Size.Small" OnClick="@((e) => OpenDialog(context))" Variant="Variant.Filled" Color="Color.Primary">Details</MudButton></MudTd> 
+
+
+            }
+            else
+            {
+                    <MudTd DataLabel="Detail">@context.GetValue(InputObject)</MudTd>
+            }
+
+
+       
+
+            </RowTemplate> 
+</MudTable>
+
+
+}
+
+
+@code{
+
+    [Parameter, EditorRequired]
+    public object? InputObject { get; set; }
+
+    [Parameter]    
+    public Type? InterfaceType { get; set; }
+
+    [Parameter]
+    public string? TableText { get; set; }
+
+
+    private Type? objectType;
+    private string? tableText;
+
+    async Task OpenDialog(PropertyInfo info)
+    {
+        if(InputObject != null)
+        {
+            var parameters = new DialogParameters { ["propinfo"]=info, ["inputobject"] = InputObject };
+
+
+            var result = await DialogService.Show<CodeDialog>(info.Name, parameters).Result;          
+
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+   {
+
+        if(InterfaceType == null)
+        {
+            if(InputObject != null)
+            {
+                    objectType =  InputObject.GetType(); 
+            }
+    
+        }
+        else
+        {
+            objectType =  InterfaceType;
+        }
+
+        if(TableText == null)
+        {
+            tableText = L["Properties"];
+
+        }
+        else
+        {
+            tableText = TableText;
+        }
+
+
+    }
+
+
+
+}

@@ -1,0 +1,67 @@
+﻿@inject IConfiguration Configuration
+@inject NavigationManager Nav
+
+
+ <MudTooltip Text="@Culture.DisplayName">
+   <MudItem> 
+       
+      
+            <MudMenu  Icon="@Icons.Material.Outlined.Translate"  Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
+
+                        @foreach(var item in supportedCultures)
+                            {
+                                            <MudMenuItem OnClick="@((e) => ChangeCulture(item))"  >@item.DisplayName</MudMenuItem>
+                     
+                            }
+                 </MudMenu>
+       
+
+        </MudItem>
+        </MudTooltip>
+
+
+
+@code
+{
+
+    private List<CultureInfo> supportedCultures = new();
+
+     private Func<CultureInfo, string> convertFunc = ci => ci?.DisplayName;
+
+
+    protected override void OnInitialized()
+    {
+        Culture = CultureInfo.CurrentCulture;
+
+        foreach(var item in Configuration.GetSection("Cultures")
+             .GetChildren().ToDictionary(x => x.Key, y => y.Value).Keys)
+        {
+            supportedCultures.Add(new CultureInfo(item));
+        }
+    }
+
+    private CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                var uri = new Uri(Nav.Uri)
+                    .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+                var cultureEscaped = Uri.EscapeDataString(value.Name);
+                var uriEscaped = Uri.EscapeDataString(uri);
+
+                Nav.NavigateTo(
+                    $"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                    forceLoad: true);
+            }
+        }
+    }
+
+
+    private void ChangeCulture(CultureInfo item)
+    {
+        Culture = item;
+    }
+}

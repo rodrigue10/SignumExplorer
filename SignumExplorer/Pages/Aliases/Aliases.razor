@@ -1,0 +1,120 @@
+﻿@namespace SignumExplorer.Pages
+
+@page "/aliases"
+
+@inject ISignumDataService SignumService
+@inject IStringLocalizer<App> L
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+@if (counts == null)
+{
+
+}
+else
+{   
+ 
+    <MudGrid>
+        <MudItem xs="12">
+            <MudTable RowsPerPage="10" ServerData="@(new Func<TableState, Task<TableData<IAlias>>>(ServerReload))" 
+                    @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h3">Aliases</MudText>
+                     <MudSpacer /> 
+                     <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                         
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>
+                        <MudTableSortLabel SortLabel="height_field" T="IAlias">Height</MudTableSortLabel></MudTh>
+                        <MudTh>Date/Time</MudTh>
+                        <MudTh><MudTableSortLabel SortLabel="aliasname_field" T="IAlias">Alias Name </MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortLabel="aliasid_field" T="IAlias">Alias ID</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortLabel="aliasuri_field" T="IAlias">Alias URI</MudTableSortLabel></MudTh>
+                        <MudTh>Owner</MudTh>
+                        <MudTh>Latest</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.Height</MudLink></MudTd>
+                    <MudTd DataLabel="Date"><MudText Typo="Typo.caption">@context.Time </MudText></MudTd>
+                    <MudTd DataLabel="Name"> <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/aliases/{context.Id}")>@context.AliasName</MudLink> </MudTd>
+                    <MudTd DataLabel="Alias ID"><MudLink  Typo="Typo.caption" Underline="Underline.None" Href=@($"/aliases/{context.Id}")>@context.Id</MudLink> </MudTd>
+                    <MudTd DataLabel="Alias URI"><MudText Typo="Typo.caption">@context.AliasUri</MudText></MudTd>
+                    <MudTd DataLabel="Owner"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.AccountId}")>@context.AccountRS</MudLink></MudTd>
+                    <MudTd DataLabel="Latest"><MudText Typo="Typo.caption">@context.Latest </MudText></MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+        </MudGrid>
+        }
+
+</MudContainer>
+
+
+
+@code {
+
+    private NodeCounts? counts;
+    private IEnumerable<IAlias>? data;
+    private MudTable<IAlias>? table;
+    private int totalItems;
+    private string searchString = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+       counts = await SignumService.NodeCountItems();
+
+    }
+
+    private async Task<TableData<IAlias>> ServerReload(TableState state)
+    {
+        
+        totalItems = counts.Aliases;
+
+        var sortDir = (int)state.SortDirection;
+        string? sortLabel = null;
+
+        switch (state.SortLabel)
+        {
+            case "aliasid_field":
+                sortLabel = nameof(IAlias.Id);
+                break;
+            case "height_field":
+                sortLabel = nameof(IAlias.Height);
+                break;
+            case "aliasname_field":
+                sortLabel = nameof(IAlias.AliasName);
+                break;
+            case "aliasuri_field":
+                sortLabel = nameof(IAlias.AliasUri);
+                break;
+            default:
+                sortLabel = "";
+            break;
+
+        }        
+         data = await SignumService.GetFilteredSortedPagedAliases(searchString, sortLabel, state.Page, state.PageSize, sortDir );
+
+        return new TableData<IAlias>() {TotalItems = totalItems, Items = data};
+    }
+
+    private void OnSearch(string text)
+    {
+        searchString = text;
+        table.ReloadServerData();
+    }
+
+
+}

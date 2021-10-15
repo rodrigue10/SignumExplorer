@@ -1,0 +1,137 @@
+﻿@page "/blocks"
+
+@inject ISignumDataService SignumService
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+
+@if (counts == null)
+{
+
+}
+else
+{   
+ 
+    <MudGrid>
+        <MudItem xs="12">
+            <MudTable RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<IBlock>>>(ServerReload))" 
+                    @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h3">Blocks</MudText>
+                     <MudSpacer /> 
+                     <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search: Height, Id or Generator Id" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                         
+                </ToolBarContent>
+                <HeaderContent>
+                     <MudTh>
+                        <MudTableSortLabel SortLabel="height_field" T="IBlock">
+                            Block Height
+                        </MudTableSortLabel>
+                        </MudTh>
+                    <MudTh>Date/Time</MudTh>
+                    <MudTh>Txns</MudTh>
+                    <MudTh>Total Amount (Signa)</MudTh>
+                    <MudTh>Total Fee (Signa)</MudTh>
+                    <MudTh>Size (bytes)</MudTh>
+
+                    <MudTh>
+                        <MudTableSortLabel SortLabel="generator_field" T="IBlock">
+                           Generator Id
+                        </MudTableSortLabel></MudTh>
+                        <MudTh>
+                        <MudTableSortLabel SortLabel="recipient_field" T="IBlock">
+                           Recipient Id
+                        </MudTableSortLabel></MudTh>
+
+                </HeaderContent>
+                <RowTemplate>
+		
+                    <MudTd DataLabel="Block Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocks/{(long)context.Id}")>@context.Height</MudLink></MudTd>
+                    <MudTd DataLabel="Date/Time"><MudText Typo="Typo.caption">@context.Time.ToLocalTime().ToString("G")  </MudText></MudTd>
+                    <MudTd DataLabel="Txn"><MudText Typo="Typo.caption">@context.TransactionCount</MudText></MudTd>
+                    <MudTd DataLabel="Total Amount"><MudText Typo="Typo.caption">@($"{context.TotalAmount}")</MudText></MudTd>
+                    <MudTd DataLabel="Total Fee"><MudText Typo="Typo.caption">@($"{context.TotalFee} Signa") </MudText></MudTd>
+                    <MudTd DataLabel="Size"><MudText Typo="Typo.caption">@($"{context.PayloadLength}")</MudText></MudTd>
+                    <MudTd DataLabel="Generator ID">
+                        <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.GeneratorId}")>@context.GeneratorRS</MudLink> <p></p>
+                            <MudLink Typo="Typo.overline" Underline="Underline.None" Href=@($"/accounts/{context.GeneratorId}")>@context.Name</MudLink>
+                            </MudTd>
+                                                <MudTd DataLabel="Recipient ID">
+                        <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipId}")>@context.RecipientRS</MudLink> <p></p>
+                            <MudLink Typo="Typo.overline" Underline="Underline.None" Href=@($"/accounts/{context.RecipId}")>@context.RecipName</MudLink>
+                            </MudTd>
+
+                </RowTemplate>                     
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+        </MudGrid>
+        }
+
+
+    
+    </MudContainer>
+
+
+
+@code {
+   
+    private NodeCounts? counts;
+    private IEnumerable<IBlock>? data;
+    private MudTable<IBlock>? table;
+    private int totalItems;
+    private string searchString = "";
+       
+
+
+    protected override async Task OnInitializedAsync()
+    {
+       counts = await SignumService.NodeCountItems();
+    }
+
+    private async Task<TableData<IBlock>> ServerReload(TableState state)
+    {
+        
+        totalItems = counts.Blocks;
+
+        var sortDir = (int)state.SortDirection;
+        string? sortLabel = null;
+
+        switch (state.SortLabel)
+        {
+
+            case "height_field":
+                sortLabel = nameof(IBlock.Height);
+                break;
+                            case "generator_field":
+                sortLabel = nameof(IBlock.GeneratorId);
+                break;
+
+            default:
+                sortLabel = "";
+            break;
+
+        }        
+         data = await SignumService.GetFilteredSortedPagedBlocksView(searchString, sortLabel, state.Page, state.PageSize, sortDir );
+
+        return new TableData<IBlock>() {TotalItems = totalItems, Items = data};
+    }
+
+    private void OnSearch(string text)
+    {
+        searchString = text;
+        table.ReloadServerData();
+    }
+
+
+
+
+}

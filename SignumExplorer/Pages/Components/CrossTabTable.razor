@@ -1,0 +1,86 @@
+﻿@namespace SignumExplorer.Pages
+@typeparam TObject
+@using System.Reflection
+
+
+@if (objectType == null || InputObjects == null)
+{
+    <p><em>Loading ...</em></p>
+}
+else
+{    
+
+        <MudTable Items="InputObjects"  FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true" Breakpoint="Breakpoint.None">
+            <ToolBarContent>  
+                 <MudText Typo="Typo.h6">@tableText</MudText>  
+            </ToolBarContent>
+            <HeaderContent>
+                @foreach(var item in objectType.GetProperties())
+                    {
+                        <MudTh>@item.Name</MudTh>
+
+                    }
+        
+              </HeaderContent>
+                        <RowTemplate>  
+                          
+                                @foreach(var prop in objectType.GetProperties())
+                                    {
+                                        <MudTd>@prop.GetValue(context)</MudTd>
+                                    }
+                
+                        </RowTemplate> 
+                </MudTable>
+
+
+}
+
+
+@code{
+
+    [Parameter, EditorRequired]
+    public IEnumerable<TObject?>? InputObjects { get; set; }
+
+    [Parameter]    
+    public Type? InterfaceType { get; set; }
+
+    [Parameter]
+    public string? TableText { get; set; }
+
+
+    private Type? objectType;
+    private string? tableText;
+
+
+    protected override async Task OnInitializedAsync()
+   {
+
+        if(InterfaceType == null)
+        {
+            if(InputObjects != null)
+            {
+                objectType = InputObjects.First().GetType();
+            }
+    
+        }
+        else
+        {
+           objectType =  InterfaceType;
+        }
+
+        if(TableText == null)
+        {
+            tableText = "Properties";
+
+        }
+        else
+        {
+            tableText = TableText;
+        }
+
+
+    }
+
+
+
+}

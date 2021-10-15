@@ -1,0 +1,50 @@
+﻿@namespace SignumExplorer.Pages
+@using System.Net
+@using System.Text
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent >
+        <MudContainer Style=" max-width:800px; max-height:500px; overflow-wrap:anywhere; overflow-y: scroll">
+            @if (Loading)
+      {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <MudText Typo="Typo.caption">@LicenseText</MudText>
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Size="Size.Small" Color="Color.Primary" OnClick="Ok">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public PropertyInfo? propinfo { get; set; }
+    [Parameter] public object? inputobject { get; set; }
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await base.OnInitializedAsync();
+        Loading = true;
+
+        LicenseText = propinfo.GetValue(inputobject).ToString();
+        Loading = false;
+    }
+
+    private string LicenseText;
+    private bool Loading = false;
+
+    private void Ok()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+}

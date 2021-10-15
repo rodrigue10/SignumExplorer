@@ -1,0 +1,23 @@
+﻿@namespace SignumExplorer.Pages
+@inject IJSRuntime JS
+
+
+<div  id="chartpie"> </div>
+
+
+@code {
+
+        CountryInfo countryInfo = new();
+    List<CountryInfo> countryInfos = new();
+
+        protected override void OnAfterRender(bool firstRender)
+    {
+
+                countryInfos = countryInfo.GetCountryInfos();
+        JS.InvokeVoidAsync("GeneratePieChart", countryInfos);
+
+
+        //base.OnAfterRender(firstRender);
+    }
+
+}
