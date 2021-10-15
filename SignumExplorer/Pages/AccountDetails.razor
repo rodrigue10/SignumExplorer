@@ -525,7 +525,7 @@ else
     </MudTabPanel>
         
         <MudTabPanel Icon="@Icons.Material.Filled.Person" ToolTip="Aliases" BadgeData="@accountCounts.Aliases.ToString()" BadgeColor="Color.Secondary">
-                    @if (AccountAliases.Value == null)
+                    @if (AccountAliases == null)
         {
             <p><em>Loading Account Aliases ...</em></p>
         }
