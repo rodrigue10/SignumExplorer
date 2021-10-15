@@ -79,7 +79,7 @@ namespace SignumExplorer.Models
 
         ulong IBlock.Nonce => (ulong)Nonce;
 
-        ICollection<ITransaction> IBlock.Transactions { get
+        ICollection<ITransaction>? IBlock.Transactions { get
             {
                 var hash = new HashSet<ITransaction>();
                 foreach(var item in Transactions)

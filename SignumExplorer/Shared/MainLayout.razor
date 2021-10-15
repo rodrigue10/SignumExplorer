@@ -45,7 +45,7 @@
 
 @code {
     bool _drawerOpen = true;
-     string _normalText;
+
 
     void DrawerToggle()
     {
@@ -69,12 +69,11 @@ protected override void OnInitialized()
 {
     StateHasChanged();
 }
+  
 
-    
-    private bool resetValueOnEmptyText;
-    private bool coerceText;
-    private bool coerceValue;
-    private string value1, value2;
+
+    private string value2;
+
     private string[] states =
     {
         "Alabama", "Alaska", "American Samoa", "Arizona",

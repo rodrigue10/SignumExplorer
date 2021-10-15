@@ -44,7 +44,7 @@ namespace SignumExplorer.Models
         //public byte[]? Ats { get;  }
         public string AtsString { get; }
 
-        public  ICollection<ITransaction> Transactions { get; }
+        public  ICollection<ITransaction>? Transactions { get; }
 
         public string GeneratorRS => ReedSolomon.encode(GeneratorId);
 

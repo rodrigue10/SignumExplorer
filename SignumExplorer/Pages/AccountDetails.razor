@@ -525,7 +525,7 @@ else
     </MudTabPanel>
         
         <MudTabPanel Icon="@Icons.Material.Filled.Person" ToolTip="Aliases" BadgeData="@accountCounts.Aliases.ToString()" BadgeColor="Color.Secondary">
-                    @if (AccountAliases == null )
+                    @if (AccountAliases.Value == null)
         {
             <p><em>Loading Account Aliases ...</em></p>
         }
@@ -660,14 +660,14 @@ else
 
 
 @code {
-    private List<ITrade>? AccountTrades;
+    private IEnumerable<ITrade>? AccountTrades;
     private IEnumerable<IBidOrder>? AccountBids;
     private IEnumerable<IAskOrder>? AccountAsks;
-    private List<IAssetTransfer>? AccountAssetTransfers;
+    private IEnumerable<IAssetTransfer>? AccountAssetTransfers;
     private IAccount? AccountDet;
-    private List<ITransaction>? AccountTransactions;
-    private List<IAccountAsset>? AccountAssets;
-    private List<IAlias>? AccountAliases;
+   // private List<ITransaction>? AccountTransactions;
+    private IEnumerable<IAccountAsset>? AccountAssets;
+    private IEnumberable<IAlias>? AccountAliases;
     private IEnumerable<IAt>? AccountAts;
 
 

@@ -6,13 +6,28 @@ namespace SignumExplorer.Models
     {
         public static string? TransactionDescription(int PrimaryType, int SubType)
         {
-             var primaryType = Enum.GetName(typeof(TransactionTypes.Primary), PrimaryType);
+             var primaryType = Enum.GetName(typeof(Primary), PrimaryType);
 
-            var fullname = typeof(TransactionTypes.Primary).FullName.Replace("Primary", primaryType);
-    
-            Type enumtype = Type.GetType(fullname);
+            var fullname = typeof(Primary).FullName;
 
-            return Enum.GetName(enumtype, SubType);
+                if (fullname != null)
+                {
+                    fullname.Replace("Primary", primaryType);
+
+                    Type? enumtype = Type.GetType(fullname);
+                    if (enumtype != null)
+                    {
+                        return Enum.GetName(enumtype, SubType);
+                    }
+                    else { return ""; }
+
+                }
+                else
+                {
+                    return "";
+
+                }
+
 
         }
          public enum Primary

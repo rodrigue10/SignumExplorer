@@ -102,25 +102,15 @@
              
         </ToolBarContent>
                           <HeaderContent>
-                                <MudTh>
-                                     Transaction ID
-                               </MudTh>
-
-                                  <MudTh>Height  </MudTh>   
-                     
+                                <MudTh>Transaction ID</MudTh>
+                                <MudTh>Height  </MudTh>   
                                 <MudTh>Date/Time</MudTh>
-
-                                <MudTh>                    
-                                    Type                      
-                                </MudTh>
+                                <MudTh>Type </MudTh>
                                 <MudTh>Amount</MudTh>
                                 <MudTh>Fee</MudTh>
-                                <MudTh>
-                                Sender></MudTh>
+                                <MudTh> Sender</MudTh>
                                 <MudTh></MudTh>
-                                <MudTh>
-                                Recipient
-                                </MudTh>
+                                <MudTh> Recipient </MudTh>
                             </HeaderContent>
                             <RowTemplate>
 		
@@ -130,7 +120,7 @@
                                 <MudTd DataLabel="Type"><MudText Typo="Typo.caption">@context.TransactionType </MudText></MudTd>        
                                 <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
                                 <MudTd DataLabel="Fee"><MudText Typo="Typo.caption">@context.Fee </MudText></MudTd>
-                              @*  <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>*@
+
                                 @if(@context.SenderId == AtDetails.Id)
                                         {
                                             <MudTd DataLabel="Sender"><MudText Typo="Typo.caption">(Contract)</MudText></MudTd>
@@ -145,7 +135,7 @@
                                             <MudTd DataLabel="Recipient"><MudText Typo="Typo.caption">(Contract)</MudText></MudTd>                                              
 
                                         }
-                                @*<MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>*@
+
 
                             </RowTemplate> 
         <PagerContent>
