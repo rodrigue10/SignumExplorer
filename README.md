@@ -22,7 +22,7 @@ The project is in active development so bugs/issues are to be expected.
 ### MariaDB Views and Indexes
 The DB will need some additional Views and Indexes added.  This is a manual process at this 
 time so using your DB access tool of choice you will find a series of `.sql` scripts located here:
- [DB Scripts](/SignumExplorer/SignumExplorer/DB scripts)
+ [DB Scripts](https://github.com/rodrigue10/SignumExplorer/tree/master/SignumExplorer/DB%20scripts)
   
 
 
