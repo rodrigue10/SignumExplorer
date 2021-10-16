@@ -56,7 +56,7 @@ namespace SignumExplorer.Context
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=srs-node-pool;user=signum;password=signumpassword;database=signum", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.4-mariadb"));
+                optionsBuilder.UseMySql("server=srv-sql01;user=root;password=burst;database=signum", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.4-mariadb"));
             }
         }
 

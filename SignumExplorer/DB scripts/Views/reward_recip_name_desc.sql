@@ -1,10 +1,12 @@
-﻿select
+﻿CREATE OR REPLACE
+ALGORITHM = UNDEFINED VIEW `reward_recip_name_desc` AS
+select
     `rra`.`db_id` AS `db_id`,
     `rra`.`account_id` AS `account_id`,
     `rra`.`prev_recip_id` AS `prev_recip_id`,
     `rra`.`recip_id` AS `recip_id`,
     `rra`.`from_height` AS `from_height`,
-    `rra`.`height` AS `height`, 
+    `rra`.`height` AS `height`,
     `rra`.`latest` AS `latest`,
     `a`.`name` AS `recip_name`,
     `a`.`description` AS `recip_descrip`

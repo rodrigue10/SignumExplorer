@@ -124,7 +124,14 @@
                                 <MudText Typo="Typo.overline">Sender Name Placeholder</MudText>
                  
                     </MudTd>
-                    <MudTd>
+                    @if(context.RecipientId == 0)
+                        {
+                        <MudText Typo="Typo.caption">@context.TransactionType</MudText>
+
+                        }
+                        else
+                        {
+                         <MudTd>
 
                           <MudText Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@($"{context.RecipientRS}")</MudLink> </MudText> 
                                <MudSpacer></MudSpacer>
@@ -133,6 +140,9 @@
                             
 
                     </MudTd>
+
+                        }
+
 
                     <MudTd>
                         <MudText Typo="Typo.caption"> @(context.Amount) </MudText>
@@ -153,43 +163,8 @@
 
     </MudGrid>
 
-       <h1>AmCharts Demo in Blazor!</h1>
-    <MudGrid >  
-
-    <MudItem xs="12" sm="6">
-        <MudCard>
-            <MudCardContent>
-                <BarGraph></BarGraph>
-
-
-            </MudCardContent>
-        </MudCard>
-
-
-    </MudItem>
-       <MudItem xs="12" sm="6">
-        <MudCard>
-            <MudCardContent>
-
-                <PieGraph></PieGraph>
-
-
-            </MudCardContent>
-        </MudCard>
-        </MudItem>
-</MudGrid>
+       
 </MudContainer>
-
-
-
-
-
-
-
-
-
-
-
 
 
 @code{

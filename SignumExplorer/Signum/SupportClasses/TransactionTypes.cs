@@ -1,35 +1,78 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SignumExplorer.Models
 {
     public static class TransactionTypes
-    {
+    {   
+
         public static string? TransactionDescription(int PrimaryType, int SubType)
-        {
-             var primaryType = Enum.GetName(typeof(Primary), PrimaryType);
+        {            
 
-            var fullname = typeof(Primary).FullName;
-
-                if (fullname != null)
-                {
-                    fullname.Replace("Primary", primaryType);
-
-                    Type? enumtype = Type.GetType(fullname);
-                    if (enumtype != null)
-                    {
-                        return Enum.GetName(enumtype, SubType);
-                    }
-                    else { return ""; }
-
-                }
-                else
-                {
-                    return "";
-
-                }
-
+            if (TransactionSubTypes.TryGetValue((PrimaryType, SubType), out string? result))
+            {
+                return result;
+            }
+            else
+            {
+                return string.Empty;
+            }
 
         }
+
+        private static readonly Dictionary<(int, int), string> TransactionSubTypes = new Dictionary<(int, int), string>()
+        {
+
+            //Payment (0) SubTypes
+           {(0,0), "OrdinaryPayment" },
+           {(0,1),"MultiOutPayment" },
+            {(0,2),"MultiOutSame" },
+
+            //Messaging (1) SubTypes
+            {(1,0), "ArbitraryMessage" },
+            {(1,1),"AliasAssignent" },
+            {(1,5),"AccountInfo" },
+            {(1,6),"AliasSell" },
+            {(1,7),"AliasBuy" },
+
+            //ColoredCoins (2) SubTypes
+            {(2,0), "AssetIssuance" },
+            {(2,1), "AssetTransfer" },
+            {(2,2), "AskOrderPlacement" },
+            {(2,3), "BidOrderPlacement" },
+            {(2,4),  "AskOrderCancellation" },
+            {(2,5), "BidOrderCancellation" },
+
+            //Digital Goods (3) SubTypes
+            {(3,0), "Listing" },
+            {(3,1),"DeListing" },
+            {(3,2),"PriceChange" },
+            {(3,4), "QuantityChange" },
+            {(3,5), "Purchase" },
+            {(3,6), "Delivery"},
+            {(3,7), "Refund" },
+
+            //AccountControl (4) SubTypes
+            {(4,0), "EffectiveBalanceLeasing" },
+
+            //SignaMining (20) SubTypes
+            {(20,0), "RewardRecipientAssignment"},
+            {(20,1), "AddCommitment" },
+            {(20,2), "RemoveCommitment" },
+
+            //AdvancedPayment (21) SubTypes
+            {(21,0), "EscrowCreation" },
+            {(21,1),"EscrowSign" },
+            {(21,2),"SubscriptionSubscribe" },
+            {(21,3),"SubscriptionCancel" },
+            {(21,4),"SubscriptionPayment" },
+
+            {(22,0), "AT_Creation" },
+            {(22,1), "AT_Payment" }
+
+        };
+
+
          public enum Primary
         {
             Payment = 0,
@@ -43,15 +86,12 @@ namespace SignumExplorer.Models
             
         
         }
-
          public enum Payment
         {
             OrdinaryPayment = 0,
             MultiOutPayment = 1,
             MultiOutSamePayment = 2
         }
-
-
          public enum Messaging
         {
 
@@ -63,8 +103,6 @@ namespace SignumExplorer.Models
 
 
         }
-
-
         public enum ColoredCoins
         {
 
@@ -78,8 +116,6 @@ namespace SignumExplorer.Models
 
 
         }
-
-
         public enum DigitalGoods
         {
 
@@ -93,18 +129,11 @@ namespace SignumExplorer.Models
             Refund = 7
 
         }
-
-
-
-
         public enum AccountControl
         {
             EffectiveBalanceLeasing = 0
 
         }
-
-
-
         public enum SignaMining
         {
             RewardRecipientAssignment = 0,
@@ -112,8 +141,6 @@ namespace SignumExplorer.Models
             RemoveCommitment = 2,
 
         }
-
-
         public enum AdvancedPayment
         {
 
@@ -125,9 +152,6 @@ namespace SignumExplorer.Models
             SubscriptionPayment = 5,
 
         }
-
- 
-
         public enum AutomatedTransactions
         {
 
@@ -136,17 +160,14 @@ namespace SignumExplorer.Models
 
         }
 
+        public enum PeerStates
+        {
+            NonConnected = 0,
+            Connected = 1,
+            Disconnected = 2
+        }
 
-    public enum PeerStates
-    {
-        NonConnected = 0,
-        Connected = 1,
-        Disconnected = 2
     }
 
-    }
-
-
- 
-    
+  
 }

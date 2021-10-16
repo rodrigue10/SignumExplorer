@@ -11,34 +11,47 @@ namespace SignumExplorer.Signum
     public static class SignumExtensions
     {
 
-
-
-
-
         
+        /// <summary>
+        /// GZip Compression 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static byte[] Compress(this byte[] data)
+        {
+            using (var compressedStream = new MemoryStream())
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(data, 0, data.Length);
+                zipStream.Close();
+                return compressedStream.ToArray();
+            }
+        }
 
-public static byte[] Compress(this byte[] data)
-{
-    using (var compressedStream = new MemoryStream())
-    using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
-    {
-        zipStream.Write(data, 0, data.Length);
-        zipStream.Close();
-        return compressedStream.ToArray();
-    }
-}
+        /// <summary>
+        /// GZip Decompression
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static byte[] Decompress(this byte[] data)
+        {
+            using (var compressedStream = new MemoryStream(data))
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+            using (var resultStream = new MemoryStream())
+            {
+                zipStream.CopyTo(resultStream);
+                return resultStream.ToArray();
+            }
+        }
 
-public static byte[] Decompress(this byte[] data)
-{
-    using (var compressedStream = new MemoryStream(data))
-    using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
-    using (var resultStream = new MemoryStream())
-    {
-        zipStream.CopyTo(resultStream);
-        return resultStream.ToArray();
-    }
-}
-public static string Truncate(this string value,
+        /// <summary>
+        /// Truncate a string to a specifice length and add Elipsis on the end
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maxLength"></param>
+        /// <param name="addEllipsis"></param>
+        /// <returns></returns>
+        public static string Truncate(this string value,
             int maxLength,
             bool addEllipsis = false)
         {
@@ -70,6 +83,7 @@ public static string Truncate(this string value,
         {
             return ReedSolomon.decode(value);
         }
+
 
     public static IEnumerable<T> OrderDynamic<T>(IEnumerable<T> Data, string propToOrder)
     {
