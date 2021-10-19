@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace SignumExplorer.Models
 {
-
     public partial class AtState
     {
         public long DbId { get; set; }
@@ -18,6 +17,4 @@ namespace SignumExplorer.Models
         public int Height { get; set; }
         public bool? Latest { get; set; }
     }
-
-
 }

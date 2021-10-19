@@ -59,7 +59,7 @@
                        <MudSpacer></MudSpacer>
                         <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipId}")>@($"{context.RecipName}")</MudLink>
                     </MudTd>
-                    <MudTd><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Id}")>@context.TransactionCount</MudLink></MudTd>
+                    <MudTd><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.TransactionCount</MudLink></MudTd>
                     <MudTd>
                         <MudText Typo="Typo.caption"> @context.TotalAmount.ToString() </MudText>                        
                     </MudTd>

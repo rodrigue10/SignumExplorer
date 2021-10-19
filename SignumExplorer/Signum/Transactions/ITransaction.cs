@@ -44,5 +44,7 @@ namespace SignumExplorer.Models
 
         public string SenderRS => ReedSolomon.encode(SenderId);
         public string RecipientRS => ReedSolomon.encode(RecipientId.Value);
+
+
     }
 }

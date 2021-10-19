@@ -1,0 +1,228 @@
+﻿@namespace SignumExplorer.Pages
+@using System.Net
+@using System.Text
+@using System.Numerics
+
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent >
+        <MudContainer Style=" max-width:800px; max-height:500px; overflow-wrap:anywhere; overflow-y: scroll">
+            @if (Loading)
+           {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <MudText>@totalcount</MudText>
+                <MudTable Items="@tabledDatas" Hover="true" Dense="true" Breakpoint="Breakpoint.None" >
+                    <HeaderContent>
+                        <MudTh>Account</MudTh>
+                        <MudTh>Amount</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Account"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.AccountId}")>@context.AccountId</MudLink></MudTd>
+                        <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
+
+                    </RowTemplate>
+                </MudTable>
+
+
+
+               
+
+                
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Size="Size.Small" Color="Color.Primary" OnClick="Ok">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    string[] headings = { "Account", "Amount"};
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public PropertyInfo? propinfo { get; set; }
+    [Parameter] public ITransaction? inputobject { get; set; }
+
+    private List<MultiOutItem> tabledDatas { get; set; }
+
+    private int totalcount {get; set;}
+
+    protected override  void OnInitialized()
+    {
+
+
+        Loading = true;
+
+        LicenseText = inputobject.AttachmentBytes;
+
+        if(inputobject != null)
+        {
+            tabledDatas =  ParseAttachemt(inputobject);  
+        }
+
+
+
+        Loading = false;
+
+
+    }
+
+    private string LicenseText;
+    private bool Loading = false;
+
+    private void Ok()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    public List<MultiOutItem> ParseAttachemt(ITransaction inputobject)
+    {
+        List<MultiOutItem> lists = new();
+
+        var inputHex = inputobject.AttachmentBytes;
+        var transtype = inputobject.Type;
+        var subtype = inputobject.Subtype;
+        var totalamount = inputobject.Amount;
+        var feeamount = inputobject.Fee;
+
+        //skip the first byte
+        inputHex = inputHex.Remove(0,2);        
+
+        //Get Item count from attachment bytes
+        var countlong = Convert.ToInt64(inputHex.Substring(0, 2),16);
+
+        int count = (int)countlong;
+
+        inputHex = inputHex.Remove(0, 2);
+
+        var counts = Convert.ToInt32(count);
+        totalcount = counts;
+
+        if(transtype == 0)
+        {
+            //MultiOutDiff
+            if(subtype == 1)
+            {
+
+                for (var i = 0; i < counts ; i++)
+                {
+                    //Get Hex String
+                    string converstring = inputHex.Substring(0,16);
+                    //Convert Hext String to byte Array and then Reverse due to endianess
+                    byte[] endian = ConvertHexStringToByteArray(converstring);
+                    Array.Reverse(endian);
+                    
+                    //Convert back to Hex String
+                    converstring = BitConverter.ToString(endian).Replace("-", "");
+                    //Use BigInteger to Parse as Hex string
+                    var bigInteger = BigInteger.Parse(converstring, NumberStyles.AllowHexSpecifier);
+
+                    //Convert to long 
+                    long conver2 = Convert.ToInt64(bigInteger.ToString());
+                    //Convert to ulong
+                    ulong conver = (ulong)conver2;
+
+
+                    //Remove this section of the attachment 
+                    inputHex = inputHex.Remove(0, 16);
+                    
+                    
+                    
+                    //Process the Amount next
+
+                    //Get Hex String
+                    string amt = inputHex.Substring(0,16);
+                    //Convert Hext String to byte Array and then Reverse due to endianess
+                    byte[] endian2 = ConvertHexStringToByteArray(amt);
+                    Array.Reverse(endian2);
+                    
+                    //Convert back to Hex String
+                    amt = BitConverter.ToString(endian2).Replace("-", "");
+                    //Use BigInteger to Parse as Hex string
+                    var bigInteger2 = BigInteger.Parse(amt, NumberStyles.AllowHexSpecifier);
+
+                    //Convert to long 
+                    long conver3 = Convert.ToInt64(bigInteger2.ToString());
+                    //Convert to ulong
+                    ulong conver4 = (ulong)conver3;
+                    //Remove this section of the attachment 
+                    inputHex = inputHex.Remove(0, 16);
+
+                    double adjustamount = conver4 / 100000000.0;
+
+
+                    //lists.Add(new MultiOutItem() { AccountId = converstring.ToString(), Amount = amt });
+                    // lists.Add(new MultiOutItem() { AccountId = bigInteger.ToString(), Amount = adjustamount.ToString() });
+                    lists.Add(new MultiOutItem() { AccountId = conver.ToString(), Amount = adjustamount.ToString() });
+                                               
+
+                    }
+            }
+
+            //MultiOutSame
+            if (subtype == 2)
+            {
+                var amount = (totalamount - feeamount) / count;
+
+                for (var i = 0; i < counts ; i++)
+                    {
+                        string converstring = inputHex.Substring(0,16);
+                        //Convert Hext String to byte Array and then Reverse due to endianess
+                        byte[] endian = ConvertHexStringToByteArray(converstring);
+                        Array.Reverse(endian);
+                    
+                        //Convert back to Hex String
+                        converstring = BitConverter.ToString(endian).Replace("-", "");
+                        //Use BigInteger to Parse as Hex string
+                        var bigInteger = BigInteger.Parse(converstring, NumberStyles.AllowHexSpecifier);
+
+                        //Convert to long 
+                        long conver2 = Convert.ToInt64(bigInteger.ToString());
+                        //Convert to ulong
+                        ulong conver = (ulong)conver2;
+
+
+                        //Remove this section of the attachment 
+                        inputHex = inputHex.Remove(0, 16);
+
+                        lists.Add(new MultiOutItem() { AccountId = conver.ToString(), Amount = amount.ToString() });
+         
+                
+
+                    }
+
+
+
+            }
+            
+        }
+
+
+        return lists;
+
+        
+
+
+
+    }
+
+    public static byte[] ConvertHexStringToByteArray(string hexString)
+{
+    if (hexString.Length % 2 != 0)
+    {
+        throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, "The binary key cannot have an odd number of digits: {0}", hexString));
+    }
+
+    byte[] data = new byte[hexString.Length / 2];
+    for (int index = 0; index < data.Length; index++)
+    {
+        string byteValue = hexString.Substring(index * 2, 2);
+        data[index] = byte.Parse(byteValue, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture);
+    }
+
+    return data; 
+}
+
+}

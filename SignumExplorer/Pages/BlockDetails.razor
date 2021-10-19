@@ -1,4 +1,4 @@
-﻿@page "/blocks/{blockid:long}"
+﻿@page "/blocks/{blockid}"
 @page "/blocksheight/{blockheight:int}"
 @inject ISignumDataService SignumService
 @inject IJSRuntime JS
@@ -86,7 +86,7 @@
 
 
     [Parameter]
-    public long? Blockid { get; set; }
+    public string? Blockid { get; set; }
         [Parameter]
     public int? Blockheight { get; set; }
 
@@ -102,7 +102,7 @@
         if(Blockid != null)
         {
                     //BlockDet = await SignumService.GetBlock((long)UInt64.Parse(Blockid));
-                    BlockDet = await SignumService.GetBlock((long)Blockid);
+                    BlockDet = await SignumService.GetBlock((long)UInt64.Parse(Blockid));
         }
         else if(Blockheight != null)
         {

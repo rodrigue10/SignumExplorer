@@ -1,1 +1,0 @@
-﻿Scaffold-DbContext "server=srs-node-pool;user=signum;password=signumpassword;database=signum" -Provider Pomelo.EntityFrameworkCore.MySql -ContextDir Context -OutputDir Models -Force

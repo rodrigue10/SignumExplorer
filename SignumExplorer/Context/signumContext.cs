@@ -2,19 +2,43 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using SignumExplorer.Models;
 
 namespace SignumExplorer.Context
 {
     public partial class signumContext : DbContext
     {
-        public signumContext()
-        {
-        }
+        //public signumContext()
+        //{
+        //}
 
-        public signumContext(DbContextOptions<signumContext> options)
+        //public signumContext(DbContextOptions<signumContext> options)
+        //    : base(options)
+        //{
+        //}
+
+        private readonly IConfiguration? _configuration;
+        private string? ConnectionString { get; }
+        private string? ServerVers { get; }
+
+        public signumContext(DbContextOptions<signumContext> options, IConfiguration configuration)
             : base(options)
         {
+            this._configuration = configuration;
+            ConnectionString = this._configuration.GetConnectionString("SRSConnection");
+            ServerVers = this._configuration.GetSection("MariaDBSettings")["Version"];
+
+        }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+
+                optionsBuilder.UseMySql(ConnectionString, ServerVersion.Parse(ServerVers));
+            }
         }
 
         public virtual DbSet<Account> Accounts { get; set; } = null!;
@@ -31,6 +55,7 @@ namespace SignumExplorer.Context
         public virtual DbSet<BidOrder> BidOrders { get; set; } = null!;
         public virtual DbSet<Block> Blocks { get; set; } = null!;
         public virtual DbSet<BlockRewardRecipDesc> BlockRewardRecipDescs { get; set; } = null!;
+        public virtual DbSet<EfmigrationsHistory> EfmigrationsHistories { get; set; } = null!;
         public virtual DbSet<Escrow> Escrows { get; set; } = null!;
         public virtual DbSet<EscrowDecision> EscrowDecisions { get; set; } = null!;
         public virtual DbSet<FlywaySchemaHistory> FlywaySchemaHistories { get; set; } = null!;
@@ -39,6 +64,7 @@ namespace SignumExplorer.Context
         public virtual DbSet<LatestAccountRewardRecip> LatestAccountRewardRecips { get; set; } = null!;
         public virtual DbSet<LatestAskOrder> LatestAskOrders { get; set; } = null!;
         public virtual DbSet<LatestBidOrder> LatestBidOrders { get; set; } = null!;
+        public virtual DbSet<MultiOutTransactionAttach> MultiOutTransactionAttaches { get; set; } = null!;
         public virtual DbSet<Peer> Peers { get; set; } = null!;
         public virtual DbSet<Purchase> Purchases { get; set; } = null!;
         public virtual DbSet<PurchaseFeedback> PurchaseFeedbacks { get; set; } = null!;
@@ -49,16 +75,9 @@ namespace SignumExplorer.Context
         public virtual DbSet<Trade> Trades { get; set; } = null!;
         public virtual DbSet<TradeAssetDetail> TradeAssetDetails { get; set; } = null!;
         public virtual DbSet<Transaction> Transactions { get; set; } = null!;
+        public virtual DbSet<TransactionAccountName> TransactionAccountNames { get; set; } = null!;
         public virtual DbSet<UnconfirmedTransaction> UnconfirmedTransactions { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseMySql("server=srv-sql01;user=root;password=burst;database=signum", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.6.4-mariadb"));
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -940,6 +959,18 @@ namespace SignumExplorer.Context
                     .HasColumnName("version");
             });
 
+            modelBuilder.Entity<EfmigrationsHistory>(entity =>
+            {
+                entity.HasKey(e => e.MigrationId)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("__EFMigrationsHistory");
+
+                entity.Property(e => e.MigrationId).HasMaxLength(150);
+
+                entity.Property(e => e.ProductVersion).HasMaxLength(32);
+            });
+
             modelBuilder.Entity<Escrow>(entity =>
             {
                 entity.HasKey(e => e.DbId)
@@ -1373,6 +1404,54 @@ namespace SignumExplorer.Context
                 entity.Property(e => e.Quantity)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("quantity");
+            });
+
+            modelBuilder.Entity<MultiOutTransactionAttach>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("multi_out_transaction_attach");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.AttachmentBytes)
+                    .HasColumnType("blob")
+                    .HasColumnName("attachment_bytes");
+
+                entity.Property(e => e.DbId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("db_id");
+
+                entity.Property(e => e.Fee)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("fee");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id");
+
+                entity.Property(e => e.SenderId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("sender_id");
+
+                entity.Property(e => e.SenderName)
+                    .HasMaxLength(100)
+                    .HasColumnName("sender_name")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.Property(e => e.Subtype)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("subtype");
+
+                entity.Property(e => e.Timestamp)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("timestamp");
+
+                entity.Property(e => e.Type)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("type");
             });
 
             modelBuilder.Entity<Peer>(entity =>
@@ -1976,6 +2055,115 @@ namespace SignumExplorer.Context
                     .HasPrincipalKey(p => p.Id)
                     .HasForeignKey(d => d.BlockId)
                     .HasConstraintName("constraint_ff");
+            });
+
+            modelBuilder.Entity<TransactionAccountName>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("transaction_account_names");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.AttachmentBytes)
+                    .HasColumnType("blob")
+                    .HasColumnName("attachment_bytes");
+
+                entity.Property(e => e.BlockId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("block_id");
+
+                entity.Property(e => e.BlockTimestamp)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("block_timestamp");
+
+                entity.Property(e => e.DbId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("db_id");
+
+                entity.Property(e => e.Deadline)
+                    .HasColumnType("smallint(6)")
+                    .HasColumnName("deadline");
+
+                entity.Property(e => e.EcBlockHeight)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("ec_block_height");
+
+                entity.Property(e => e.EcBlockId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("ec_block_id");
+
+                entity.Property(e => e.Fee)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("fee");
+
+                entity.Property(e => e.FullHash)
+                    .HasMaxLength(32)
+                    .HasColumnName("full_hash");
+
+                entity.Property(e => e.HasEncryptedMessage).HasColumnName("has_encrypted_message");
+
+                entity.Property(e => e.HasEncrypttoselfMessage).HasColumnName("has_encrypttoself_message");
+
+                entity.Property(e => e.HasMessage).HasColumnName("has_message");
+
+                entity.Property(e => e.HasPublicKeyAnnouncement).HasColumnName("has_public_key_announcement");
+
+                entity.Property(e => e.Height)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("height");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id");
+
+                entity.Property(e => e.RecipientId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("recipient_id");
+
+                entity.Property(e => e.RecipientName)
+                    .HasMaxLength(100)
+                    .HasColumnName("recipient_name")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.Property(e => e.ReferencedTransactionFullhash)
+                    .HasMaxLength(32)
+                    .HasColumnName("referenced_transaction_fullhash");
+
+                entity.Property(e => e.SenderId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("sender_id");
+
+                entity.Property(e => e.SenderName)
+                    .HasMaxLength(100)
+                    .HasColumnName("sender_name")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.Property(e => e.SenderPublicKey)
+                    .HasMaxLength(32)
+                    .HasColumnName("sender_public_key");
+
+                entity.Property(e => e.Signature)
+                    .HasMaxLength(64)
+                    .HasColumnName("signature");
+
+                entity.Property(e => e.Subtype)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("subtype");
+
+                entity.Property(e => e.Timestamp)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("timestamp");
+
+                entity.Property(e => e.Type)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("type");
+
+                entity.Property(e => e.Version)
+                    .HasColumnType("tinyint(4)")
+                    .HasColumnName("version");
             });
 
             modelBuilder.Entity<UnconfirmedTransaction>(entity =>

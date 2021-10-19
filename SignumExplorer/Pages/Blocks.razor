@@ -46,7 +46,7 @@ else
                 </HeaderContent>
                 <RowTemplate>
 		
-                    <MudTd DataLabel="Block Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocks/{(long)context.Id}")>@context.Height</MudLink></MudTd>
+                    <MudTd DataLabel="Block Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocks/{context.Id}")>@context.Height</MudLink></MudTd>
                     <MudTd DataLabel="Date/Time"><MudText Typo="Typo.caption">@context.Time.ToLocalTime().ToString("G")  </MudText></MudTd>
                     <MudTd DataLabel="Txn"><MudText Typo="Typo.caption">@context.TransactionCount</MudText></MudTd>
                     <MudTd DataLabel="Total Amount"><MudText Typo="Typo.caption">@($"{context.TotalAmount}")</MudText></MudTd>

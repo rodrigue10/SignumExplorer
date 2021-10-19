@@ -7,8 +7,6 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
-
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0-rc.1.*" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-rc.1.*" />
@@ -28,7 +26,8 @@
 
   <ItemGroup>
     <Folder Include="Components\" />
-    <Folder Include="Explorer\" />
+    <Folder Include="ContextTemp\" />
+    <Folder Include="Migrations\Explorer\" />
 	
   </ItemGroup>
 

@@ -3,6 +3,7 @@
 @inject ISignumDataService SignumService
 @inject IJSRuntime JS
 @inject IStringLocalizer<App> L
+@inject IDialogService DialogService
 
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
     @if (AccountDet == null ||
@@ -105,18 +106,37 @@ else
                                 <MudTd DataLabel="Type"><MudText Typo="Typo.caption">@context.TransactionType </MudText></MudTd>        
                                 <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
                                 <MudTd DataLabel="Fee"><MudText Typo="Typo.caption">@context.Fee </MudText></MudTd>
-                                <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>
-                                            @if(@context.SenderId == AccountDet.AccountId)
-                                        {
-                                            <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Error" /></MudTd>
 
-                                        }
+                                @if(@context.SenderId == AccountDet.AccountId)
+                                        {
+                                            <MudTd DataLabel="Sender"><MudText Typo="Typo.caption">(Account)</MudText></MudTd>
+                                            <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Error" /></MudTd>
+                                            if(context.RecipientId != null && context.RecipientId.Value != 0 ){
+                                                  <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
+                                            }
+                                            else
+                                            {
+                                                <MudText Typo="Typo.caption">@context.TransactionType </MudText>
+                                            }
+
+
+                                              }
                                         else
                                         {
+                                             if(context.SenderId != 0)
+                                             {
+                                                <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>
+                                             }
+                                                                                         else
+                                            {
+                                                <MudText Typo="Typo.caption">@context.TransactionType </MudText>
+                                            }
+
                                                <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Success" /></MudTd>
+                                            <MudTd DataLabel="Recipient"><MudText Typo="Typo.caption">(Account)</MudText></MudTd>                                              
 
                                         }
-                                <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
+
 
                             </RowTemplate>                     
                             <NoRecordsContent>
@@ -160,7 +180,7 @@ else
                 <MudGrid>
                     <MudItem xs="12">
                         <MudTable RowsPerPage="20" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReloadMulti))" 
-                                @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
+                                @ref="multitable" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                             <ToolBarContent>
                                 <MudText Typo="Typo.h6">Transactions</MudText>
                                  <MudSpacer /> 
@@ -195,7 +215,7 @@ else
                                 </MudTableSortLabel></MudTh>
                                 <MudTh></MudTh>
                                 <MudTh><MudTableSortLabel SortLabel="recipient_field" T="ITransaction">
-                                Recipient
+                                Details
                                 </MudTableSortLabel></MudTh>
                             </HeaderContent>
                             <RowTemplate>
@@ -217,8 +237,8 @@ else
                                                <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Success" /></MudTd>
 
                                         }
-                                <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
-
+                                @*<MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>*@
+                                <MudTd DataLabel="Details"><MudButton Size="Size.Small" OnClick="@((e) => OpenAttachDialog(context))" Variant="Variant.Filled" Color="Color.Primary">Details</MudButton></MudTd>
                             </RowTemplate>                     
                             <NoRecordsContent>
                                 <MudText>No matching records found</MudText>
@@ -553,7 +573,7 @@ else
         <RowTemplate>
             <MudTd DataLabel="Date/Time">@context.Time</MudTd>
             <MudTd DataLabel="Alias Name Lower">@context.AliasNameLower</MudTd>
-            <MudTd DataLabel="Alias Name">@context.AliasName</MudTd>
+            <MudTd DataLabel="Alias Name"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/aliases/{context.Id}")>@context.AliasName</MudLink></MudTd>
             <MudTd DataLabel="Alias Uri">@context.AliasUri</MudTd>
             <MudTd DataLabel="Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.Height</MudLink></MudTd>
             <MudTd DataLabel="Latest">@context.Latest.Value</MudTd>
@@ -683,6 +703,13 @@ else
     private string searchString = "";
     private long account;
 
+    //Multi-Out
+        private IEnumerable<ITransaction>? multidata;
+    private MudTable<ITransaction>? multitable;
+    private int multitotalItems;
+    private string multisearchString = "";
+
+
 
     [Parameter]
     public string? Accountid { get; set; }
@@ -784,7 +811,7 @@ else
          private async Task<TableData<ITransaction>> ServerReloadMulti(TableState state)
     {
         
-        totalItems = accountCounts.AllTrans - accountCounts.MultiTrans;
+        multitotalItems = accountCounts.MultiTrans;
 
 
         var sortDir = (int)state.SortDirection;
@@ -802,24 +829,41 @@ else
                                            case "sender_field":
                 sortLabel = nameof(ITransaction.SenderId);
                 break;
-                                            case "recipient_field":
-                sortLabel = nameof(ITransaction.RecipientId);
-                break;
+                //                            case "recipient_field":
+                //sortLabel = nameof(ITransaction.RecipientId);
+                //break;
 
             default:
                 sortLabel = "";
             break;
 
         }        
-         data = await SignumService.GetFilteredSortedPagedAccountMultiOut(account, searchString, sortLabel, state.Page, state.PageSize, sortDir );
+         multidata = await SignumService.GetFilteredSortedPagedAccountMultiOut(account, multisearchString, sortLabel, state.Page, state.PageSize, sortDir );
 
-        return new TableData<ITransaction>() {TotalItems = totalItems, Items = data};
+        return new TableData<ITransaction>() {TotalItems = multitotalItems, Items = multidata};
     }
 
     private void OnSearchMulti(string text)
     {
-        searchString = text;
-        table.ReloadServerData();
+        multisearchString = text;
+        multitable.ReloadServerData();
+    }
+
+        async Task OpenAttachDialog(ITransaction transaction)
+    {
+        var info = typeof(ITransaction).GetProperty("AttachmentBytes");
+
+        if(transaction != null)
+        {
+            var parameters = new DialogParameters { ["propinfo"] = info, ["inputobject"] = transaction };
+
+
+            var result = await DialogService.Show<AttachmentDialog>(info.Name, parameters).Result;          
+
+        }
+
+
+
     }
 
 

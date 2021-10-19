@@ -112,7 +112,7 @@ public interface ISignumDataService
     #region Account
 
     public Task<IEnumerable<IAt>?> GetAccountCreatedAts(long accountId);
-    public Task<IEnumerable<ITransaction>?> AccountMultiOutTrans(long accountId);
+    public Task<IEnumerable<ITransaction>> AccountMultiOutTrans(long accountId);
     public Task<IEnumerable<ITransaction>> GetFilteredSortedPagedAccountTransactions(long account, string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0);
 
     public Task<IEnumerable<ITransaction>> GetFilteredSortedPagedAccountMultiOut(long account, string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0);
@@ -221,7 +221,7 @@ public class SignumDataService : ISignumDataService
                 {
                     AllTrans = await context.Transactions.CountAsync(m => (m.RecipientId == account || m.SenderId == account)),
                     MultiTrans = await context.Transactions.CountAsync(m => (m.RecipientId == account || m.SenderId == account)
-                                    && m.Type == (sbyte)TransactionTypes.Primary.Payment
+                                && m.Type == (sbyte)TransactionTypes.Primary.Payment
                                      && m.Subtype != (sbyte)TransactionTypes.Payment.OrdinaryPayment),
                     SingleTrans = await context.Transactions.CountAsync(m => (m.RecipientId == account || m.SenderId == account)
                                     && m.Type == (sbyte)TransactionTypes.Primary.Payment
@@ -761,14 +761,14 @@ public class SignumDataService : ISignumDataService
         }
 
     }
-    public async Task<IEnumerable<ITransaction>?> AccountMultiOutTrans(long accountId)
+    public async Task<IEnumerable<ITransaction>> AccountMultiOutTrans(long accountId)
     {
         using (var context = _contextFactory.CreateDbContext())
         {
 
             return await context.Transactions.Where(m => (m.RecipientId == accountId || m.SenderId == accountId)
-                                    && m.Type == (sbyte)TransactionTypes.Primary.Payment
-                                     && m.Subtype != (sbyte)TransactionTypes.Payment.OrdinaryPayment).ToListAsync<ITransaction>();
+                                    && m.Type == 0
+                                     && m.Subtype != 0).ToListAsync<ITransaction>();
 
         }
     }
@@ -835,7 +835,7 @@ public class SignumDataService : ISignumDataService
 
             query = context.Transactions.Where(m => m.SenderId == account || m.RecipientId == account);
 
-            query = query.Where(m => (m.Subtype != (int)TransactionTypes.Payment.OrdinaryPayment && m.Type == (int)TransactionTypes.Primary.Payment));
+            query = query.Where(m => m.Subtype != (int)TransactionTypes.Payment.OrdinaryPayment && m.Type == (int)TransactionTypes.Primary.Payment);
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {

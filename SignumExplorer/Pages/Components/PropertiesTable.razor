@@ -13,7 +13,7 @@
 else
 {    
 
-    <MudTable Items="@objectType.GetProperties()"     FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true" Breakpoint="Breakpoint.None">
+    <MudTable Items="@objectType.GetProperties()"  RowStyle="overflow-wrap:anywhere;"  FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true" Breakpoint="Breakpoint.None">
        <ToolBarContent>
             <MudText Typo="Typo.h6">@tableText</MudText>             
         </ToolBarContent>
@@ -26,15 +26,15 @@ else
 
                  <MudTd DataLabel="Property">@L[context.Name]</MudTd>
 
-            @if (@context.Name.ToLower().Contains("codestring"))
+            @if (context.Name.ToLower().Contains("codestring"))
             {
-                  <MudTd DataLabel="Detail"><MudButton Size="Size.Small" OnClick="@((e) => OpenDialog(context))" Variant="Variant.Filled" Color="Color.Primary">Details</MudButton></MudTd> 
-
+                 <MudTd DataLabel="Detail"><MudButton Size="Size.Small" OnClick="@((e) => OpenDialog(context))" Variant="Variant.Filled" Color="Color.Primary">Details</MudButton></MudTd>
 
             }
             else
             {
                     <MudTd DataLabel="Detail">@context.GetValue(InputObject)</MudTd>
+                     
             }
 
 
@@ -74,16 +74,18 @@ else
         }
     }
 
+
+
     protected override async Task OnInitializedAsync()
-   {
+    {
 
         if(InterfaceType == null)
         {
             if(InputObject != null)
             {
-                    objectType =  InputObject.GetType(); 
+                objectType =  InputObject.GetType(); 
             }
-    
+
         }
         else
         {
@@ -102,6 +104,7 @@ else
 
 
     }
+     
 
 
 
