@@ -29,7 +29,10 @@ time so using your DB access tool of choice you will find a series of `.sql` scr
  There are a couple files that will help configure the connection strings that are needed to connect to your MariaDB.
  `appsettings.json` and `appsettings.production.json` . 
  
- The main areas of concern are `SRSConnection`, `ExplorerConnection`and `MariaDBSettings`.  These are the areas to input the connection string to allow the app to connect to the Signum Node DB, and the other is for defining the MariaDB version that you are using.  Stick the the format in the files and replace the information needed to match your environment.
+ The main areas of concern in these files are as follows and stick the the format in the files to replace the information needed to match your environment.:
+  - `SRSConnection` - Signum Node Connection String
+  -  `ExplorerConnection` - Explorer DB Connection String (You won't have a DB setup for this.  The app will create it for you as long as the connection string is setup
+  -  `MariaDBSettings` - Define the MariaDB version that you are using.  
  
  ```json
    "ConnectionStrings": {
