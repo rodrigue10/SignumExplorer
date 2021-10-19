@@ -32,7 +32,7 @@ time so using your DB access tool of choice you will find a series of `.sql` scr
  The main areas of concern in these files are as follows and stick the the format in the files to replace the information needed to match your environment.:
   - `SRSConnection` - Signum Node Connection String
   -  `ExplorerConnection` - Explorer DB Connection String (You won't have a DB setup for this.  The app will create it for you as long as the connection string is setup
-  -  `MariaDBSettings` - Define the MariaDB version that you are using.  
+  -  `MariaDBSettings` - Define the MariaDB version that you are using (Recommend using version 10.6 as this is what i've built it with, however >10.3 is likely to work without any issues).  
  
  ```json
    "ConnectionStrings": {
