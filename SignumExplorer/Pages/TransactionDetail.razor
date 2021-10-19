@@ -18,13 +18,17 @@
                             <MudItem xs="12">
                                     <PropertiesTable TableText="@($"{L["Transaction Details"]} - {TransDetail.Id}")" InputObject="TransDetail" InterfaceType="typeof(ITransaction)"></PropertiesTable>
                             </MudItem>
-                        </MudGrid>
-                        
-                        <MudGrid>
+        </MudGrid>
+
+        if(TransDetail.Type == 0 && TransDetail.Subtype !=0)
+        {
+                    <MudGrid>
                             <MudItem xs="12">
                                     <MudButton Size="Size.Small" OnClick="@((e) => OpenAttachDialog(TransDetail))" Variant="Variant.Filled" Color="Color.Primary">Multi-Out Details</MudButton>
                             </MudItem>
                         </MudGrid>
+        }
+
 
 
             }
