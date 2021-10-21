@@ -29,6 +29,20 @@ public interface ISignumDataService
     public Task<AtCounts> AtCounts(long atId);
     public Task<AliasCounts> AliasCounts(long aliasId);
 
+    #region Individual Counts
+
+    public Task<int> BlockCount();
+
+    public Task<int> TransactionCount();
+
+    public Task<int> AssetCount();
+
+    public Task<int> AliasCount();
+    public Task<int> ATCount();
+    public Task<int> AccountCount();
+
+    #endregion
+
     #endregion
 
     #region Assets
@@ -351,6 +365,60 @@ public class SignumDataService : ISignumDataService
     #endregion
 
     #region Individual Counts
+    public async Task<int> BlockCount()
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            
+
+            //counting blocks takes a long time
+            //assume the Block height is the same as block count
+           var block =  await context.Blocks.OrderByDescending(m => m.Height).Take(1).FirstAsync();
+
+            //add 1 to include Block 0
+            return block.Height + 1;
+            //return await context.Blocks.Select(m => m.Height).CountAsync();
+
+
+
+
+        }
+    }
+    public async Task<int> TransactionCount()
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            return await context.Transactions.CountAsync();
+        }
+    }
+    public async Task<int> AssetCount()
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            return await context.Assets.CountAsync();
+        }
+    }
+    public async Task<int> AliasCount()
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            return await context.Aliases.Where(m => m.Latest.Value).CountAsync();
+        }
+    }
+    public async Task<int> ATCount()
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            return await context.Ats.CountAsync();
+        }
+    }
+    public async Task<int> AccountCount()
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            return await context.Accounts.Where(m => m.Latest.Value).CountAsync();
+        }
+    }
 
     #endregion
 

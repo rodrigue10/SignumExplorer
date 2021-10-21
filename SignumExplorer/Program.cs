@@ -8,6 +8,7 @@ using SignumExplorer.Context;
 using SignumExplorer.Data;
 using MudBlazor.Services;
 using System.Linq;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,8 +43,7 @@ builder.Services.AddDbContextFactory<signumContext>(opt =>
 
 
 builder.Services.AddScoped<ISignumDataService, SignumDataService>();
-
-
+builder.Services.AddHttpClient<ISignumAPIService, SignumAPIService>();   
 
 
 var app = builder.Build();

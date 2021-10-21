@@ -5,6 +5,8 @@ namespace SignumExplorer.Models
 {
     public partial class BlockRewardRecipDesc : IBlock
     {
+        
+
 
         public DateTime Time => new DateTime(2014, 8, 11, 2, 0, 0, DateTimeKind.Utc).AddSeconds(Timestamp);
 
@@ -116,6 +118,15 @@ namespace SignumExplorer.Models
 
         //Not able to implement this via this View.
         public ICollection<ITransaction>? Transactions => null;
+
+        string IBlock.Name
+        {
+            get
+            {
+                if (Name != null) return this.Name;
+                else return "(empty)";
+            }
+        }
 
     }
 }

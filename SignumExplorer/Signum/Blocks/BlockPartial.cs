@@ -92,7 +92,7 @@ namespace SignumExplorer.Models
         }
 
         //Not able to implement directly from Block Table....this is used for view/table interface compatibility
-        public string? Name => null;
+        public string Name => "";
 
         public ulong? RecipId => null;
 

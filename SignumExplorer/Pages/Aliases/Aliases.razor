@@ -7,7 +7,7 @@
 
 
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
-@if (counts == null)
+@if (count == null)
 {
 
 }
@@ -69,19 +69,21 @@ else
     private MudTable<IAlias>? table;
     private int totalItems;
     private string searchString = "";
+    private int? count;
 
 
     protected override async Task OnInitializedAsync()
     {
 
-       counts = await SignumService.NodeCountItems();
+        //counts = await SignumService.NodeCountItems();
+        count = await SignumService.AliasCount();
 
     }
 
     private async Task<TableData<IAlias>> ServerReload(TableState state)
     {
-        
-        totalItems = counts.Aliases;
+
+        totalItems = count.Value;
 
         var sortDir = (int)state.SortDirection;
         string? sortLabel = null;

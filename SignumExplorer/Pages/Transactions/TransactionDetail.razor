@@ -1,0 +1,75 @@
+﻿@namespace SignumExplorer.Pages
+
+@page "/transactions/{transid}"
+
+@inject ISignumDataService SignumService
+@inject IStringLocalizer<App> L
+@inject IDialogService DialogService
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+
+            @if (TransDetail == null)
+            {
+                <p><em>Loading Details...</em></p>
+            }
+            else
+            {   
+
+
+                        <MudGrid>
+                            <MudItem xs="12">
+                                    <PropertiesTable TableText="@($"{L["Transaction Details"]} - {TransDetail.Id}")" InputObject="TransDetail" InterfaceType="typeof(ITransaction)"></PropertiesTable>
+                            </MudItem>
+        </MudGrid>
+
+        if(TransDetail.Type == 0 && TransDetail.Subtype !=0)
+        {
+                    <MudGrid>
+                            <MudItem xs="12">
+                                    <MudButton Size="Size.Small" OnClick="@((e) => OpenAttachDialog(TransDetail))" Variant="Variant.Filled" Color="Color.Primary">Multi-Out Details</MudButton>
+                            </MudItem>
+                        </MudGrid>
+        }
+
+
+
+            }
+</MudContainer>
+
+
+
+
+@code {
+    private ITransaction? TransDetail;
+
+
+    [Parameter]
+    public string? Transid { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    { 
+        if (Transid != null)
+        {
+            TransDetail = await SignumService.GetTransaction((long)UInt64.Parse(Transid));
+
+        }
+    }
+
+    async Task OpenAttachDialog(ITransaction transaction)
+    {
+        var info = typeof(ITransaction).GetProperty("AttachmentBytes");
+
+        if(transaction != null)
+        {
+            var parameters = new DialogParameters { ["propinfo"] = info, ["inputobject"] = transaction };
+
+
+            var result = await DialogService.Show<AttachmentDialog>(info.Name, parameters).Result;          
+
+        }
+
+
+
+    }
+
+}

@@ -3,24 +3,21 @@
 
 
 <MudLayout>
-    <MudThemeManagerButton OnClick="@((e) => OpenThemeManager(true))" />
-    <MudThemeManager Open="_themeManagerOpen" OpenChanged="OpenThemeManager" Theme="_themeManager" ThemeChanged="UpdateTheme" />
-    <MudThemeProvider Theme="_themeManager.Theme" />
-    <MudAppBar Elevation="_themeManager.AppBarElevation">
+
+    <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        
-            <MudSpacer />
-                <MudAutocomplete T="string" Label="Search for Account, Block, Asset ID (not working...)" @bind-Value="value2" SearchFunc="@Search2"
-                         ResetValueOnEmptyText="false"
-                         CoerceText="false" CoerceValue="true"
+            <MudSpacer></MudSpacer>
+                <MudAutocomplete T="string" HelperText="@("Account, Block, Asset ID")" Class="docs-search-bar" HelperTextOnFocus="true" @bind-Value="value2" SearchFunc="@Search2"
+                         ResetValueOnEmptyText="false" Variant="Variant.Outlined"
+                         CoerceText="false" CoerceValue="true" Dense="true" Adornment="Adornment.Start"
                          AdornmentIcon="@Icons.Material.Outlined.Search" AdornmentColor="Color.Secondary" />
             
-         <MudSpacer />
+                 <MudSpacer />
 
-         @*Button to toggle dark mode.  Currently have Theme Manager implemented to work on color pallate for this*@
-           @* <DarkMode></DarkMode>*@
+
+        <DarkMode></DarkMode>
             <ChooseLanguage></ChooseLanguage>
-                <MudTooltip Text="GitHub repository (TODO...Mudblazor link for now...)">
+                <MudTooltip Text="GitHub repository)">
                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Edge="Edge.End" Color="Color.Inherit" Link="https://github.com/rodrigue10/SignumExplorer" Target="_blank" />
                 </MudTooltip>
                      <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Color="Color.Inherit" Edge="Edge.End" />
@@ -28,7 +25,7 @@
                     <MudText>S-TGS2-BU2Q-DBFR-DNATE</MudText>
 
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="_themeManager.DrawerClipMode" Elevation="_themeManager.DrawerElevation">
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="5">
         <MudDrawerHeader>
             <MudText Typo="Typo.h5" Class="mt-1">Signum Explorer</MudText>
         </MudDrawerHeader>
@@ -46,30 +43,16 @@
 @code {
     bool _drawerOpen = true;
 
-
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
-    private ThemeManagerTheme _themeManager = new ThemeManagerTheme();
-public bool _themeManagerOpen = false;
 
-void OpenThemeManager(bool value)
-{
-    _themeManagerOpen = value;
-}
+    protected override void OnInitialized()
+    {
 
-void UpdateTheme(ThemeManagerTheme value)
-{
-    _themeManager = value;
-    StateHasChanged();
-}
+    }
 
-protected override void OnInitialized()
-{
-    StateHasChanged();
-}
-  
 
 
     private string value2;
@@ -105,6 +88,8 @@ protected override void OnInitialized()
 
     private async Task<IEnumerable<string>> Search2(string value)
     {
+        var listed = new List<(string, string)>();
+
         // In real life use an asynchronous function for fetching data from an api.
         await Task.Delay(5);
 

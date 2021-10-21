@@ -6,53 +6,104 @@
 
 @code{
 
+    MudTheme currentTheme = new MudTheme();
+    MudTheme mudDefault = new MudTheme();
+
     protected override void OnInitialized()
     {
-        currentTheme = defaultTheme;
+        OverrideDefaultTheme(mudDefault);
+        OverrideDefaultFonts(darkTheme);
+        currentTheme = mudDefault;
+
     }
 
     void DarkModeChange()
     {
-        if (currentTheme == defaultTheme)
+
+
+        if (currentTheme == mudDefault)
         {
             currentTheme = darkTheme;
         }
         else
         {
-            currentTheme = defaultTheme;
+            currentTheme = mudDefault;
         }
     }
 
-    MudTheme currentTheme = new MudTheme();
+    void OverrideDefaultFonts(MudTheme theme)
+    {
+        //Typography setup 
+        theme.Typography.Body1.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Body2.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Button.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Caption.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Default.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H1.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H2.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H3.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H4.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H5.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H6.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Overline.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Subtitle1.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Subtitle2.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" }; 
+
+    }
+    void OverrideDefaultTheme(MudTheme theme)
+    {
+        //Update Color Scheme
+        theme.Palette.Primary = "#0066ff";
+        theme.Palette.Secondary = "#021851";
+        theme.Palette.Tertiary = "#00FF88";
+        theme.Palette.AppbarBackground = "#0099ff";
+        theme.Palette.TableHover = Colors.BlueGrey.Lighten4;
+        theme.Palette.Black = "#272c34";
+
+        //Typography setup 
+        theme.Typography.Body1.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Body2.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Button.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Caption.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Default.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H1.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H2.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H3.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H4.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H5.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.H6.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Overline.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Subtitle1.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
+        theme.Typography.Subtitle2.FontFamily = new[] { "Montserrat", "Helvetica", "Arial", "sans-serif" };
 
 
-
+    }
 
     MudTheme defaultTheme = new MudTheme()
     {
 
-                Palette = new Palette()
+        Palette = new Palette()
         {
-            Primary = Colors.Blue.Default,
-            Secondary = Colors.Blue.Accent4,
-            AppbarBackground = Colors.Blue.Default,
+            Primary = "#0066ff",
+            Secondary = "#021851",
+            AppbarBackground = "#0099ff",
             TableHover = Colors.BlueGrey.Lighten4,
             Black = "#272c34"
-        },
 
+
+        },
         LayoutProperties = new LayoutProperties()
         {
             DrawerWidthLeft = "260px",
             DrawerWidthRight = "300px"
         }
-        
-    };
+        };
 
     MudTheme darkTheme = new MudTheme()
     {
         Palette = new Palette()
         {
-            
+
             Black = "#27272f",
             Background = "#32333d",
             BackgroundGrey = "#27272f",
@@ -72,7 +123,13 @@
             TableLines = "rgba(255,255,255, 0.12)",
             LinesDefault = "rgba(255,255,255, 0.12)",
             LinesInputs = "rgba(255,255,255, 0.3)",
-            TextDisabled = "rgba(255,255,255, 0.2)"
+            TextDisabled = "rgba(255,255,255, 0.2)",
+            Primary = "#0066ff",
+            Secondary = "#021851"
+            
         }
+
+
     };
+
 }

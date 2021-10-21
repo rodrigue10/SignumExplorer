@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject IJSRuntime JS
 @inject ISignumDataService SignumService
+@inject ISignumAPIService API
 
 
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
@@ -10,10 +11,67 @@
             <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;"> Put some Price stats?/latest Block</MudPaper>
         </MudItem>
         <MudItem xs="12" >
-            <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">Pending Transactions (API Not Setup)</MudPaper>
+
+            
+            @if(unconfirmedTransAPI == null)
+            {
+               <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">No Pending Transactions...</MudPaper>
+            }
+            else
+            {           
+              
+       <MudTable Height="200px"  Items="unconfirmedTransAPI.UnconfirmedTransactions" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Unconfirmed Transactions</MudText>
+                </ToolBarContent>
+
+
+                <HeaderContent>
+                    <MudTh>Timestamp</MudTh>          
+                    <MudTh>Height</MudTh>
+                    <MudTh>Amount</MudTh>
+                      <MudTh>Fee</MudTh>
+                    <MudTh>Sender</MudTh>
+                    <MudTh>Recipient</MudTh>
+                    <MudTh>Type</MudTh>
+                    <MudTh>Subtype</MudTh>   
+
+
+
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>
+                        <MudText Typo="Typo.caption">@(context.Timestamp)</MudText>
+                    </MudTd>
+                    <MudTd>
+                        <MudText Typo="Typo.caption">@(context.Height)</MudText>
+                    </MudTd>
+                    <MudTd>
+                        <MudText Typo="Typo.caption">@(context.AmountNQT)</MudText>
+                    </MudTd>
+                    <MudTd>
+                        <MudText Typo="Typo.caption">@(context.FeeNQT)</MudText>
+                    </MudTd>
+                    <MudTd>
+                        <MudText Style="word-break:keep-all" Typo="Typo.caption">@(context.SenderRS)</MudText>
+                    </MudTd>
+                        <MudTd>
+                        <MudText Style="word-break:keep-all" Typo="Typo.caption">@(context.RecipientRS)</MudText>
+                    </MudTd>
+                        <MudTd>
+                        <MudText Typo="Typo.caption">@(context.Type)</MudText>
+                    </MudTd>
+                        <MudTd>
+                        <MudText Typo="Typo.caption">@(context.Subtype)</MudText>
+                    </MudTd>
+                </RowTemplate>
+         </MudTable>
+
+               }      
+                          
         </MudItem>
 
-                <MudItem  xs="12" >
+    <MudItem  xs="12" >
 
         @if(blocks == null)
             {
@@ -29,37 +87,43 @@
              
                 </ToolBarContent>
                 <HeaderContent>
-                    <MudTh>Height</MudTh>
                     <MudTh>Created</MudTh>
+                    
+                        <MudTh><MudBadge Left="true" Content="@("Tx")" Color="Color.Primary" Overlap="false" Class="mx-6 my-4" >Height</MudBadge></MudTh>
+                       
+
                     <MudTh>Forger</MudTh>
                     <MudTh>Pool</MudTh>
-                    <MudTh>Txns</MudTh>
+                    <MudTh>Reward</MudTh>
                     <MudTh>Total Amount</MudTh>
                     <MudTh>Fee</MudTh>
 
                 </HeaderContent>
                 <RowTemplate>
-
-                    <MudTd> 
-                        <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocks/{context.Id}")>@context.Height</MudLink>
-
-                    </MudTd>
                     <MudTd DataLabel="Created">
-                                             
-                        <MudText Typo="Typo.overline">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " minutes ago")</MudText>
+                        <MudText Typo="Typo.caption">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " minutes ago")</MudText>
                     </MudTd>
+                    <MudTd> 
+                        <MudBadge Left="true" Content="@context.TransactionCount.ToString()" Color="Color.Primary" Overlap="false" Class="mx-6 my-4">
+                        <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocks/{context.Id}")>@context.Height</MudLink>
+                        </MudBadge>
+
+                    </MudTd>
+
 
                     <MudTd>
-                       <MudText Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.GeneratorId}")>@($"{context.GeneratorRS}")</MudLink> </MudText>
+                       <MudText Style="word-break:keep-all" Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.GeneratorId}")>@(($"S-{context.GeneratorRS}").RSTrim())</MudLink> </MudText>
                        <MudSpacer></MudSpacer>
-                        <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.GeneratorId}")>@($"{context.Name}")</MudLink>
+                        <MudText Style="overflow-wrap:anywhere"  Typo="Typo.caption">@(($"{context.Name}").Truncate(20,true))</MudText>
                     </MudTd>
                                         <MudTd>
-                       <MudText Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipId}")>@($"{context.RecipientRS}")</MudLink> </MudText>
+                       <MudText Style="word-break:keep-all" Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipId}")>@(($"S-{context.RecipientRS}").RSTrim())</MudLink> </MudText>
                        <MudSpacer></MudSpacer>
-                        <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipId}")>@($"{context.RecipName}")</MudLink>
+                        <MudText Style="overflow-wrap:anywhere"  Typo="Typo.caption">@(($"{context.RecipName}").Truncate(20,true))</MudText>
                     </MudTd>
-                    <MudTd><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.TransactionCount</MudLink></MudTd>
+                                        <MudTd>
+                        <MudText Typo="Typo.caption"> @((context.Height.GetBlockReward()/100000000).ToString()) </MudText>
+                    </MudTd>
                     <MudTd>
                         <MudText Typo="Typo.caption"> @context.TotalAmount.ToString() </MudText>                        
                     </MudTd>
@@ -70,13 +134,13 @@
                 </RowTemplate>
                 </MudTable>
                   <MudTFootRow>
-                     <MudNavLink  Href="/blocks" Icon="@Icons.Filled.Storage">All Blocks  </MudNavLink>
+                     <MudNavLink  Href="/blocks" Icon="@Icons.Material.Filled.Layers">All Blocks  </MudNavLink>
                 </MudTFootRow>
                 }
         </MudItem>
 
         <MudItem xs="12" >
-                    @if(transactions == null)
+            @if(transactions == null)
             {
                 <p><em>Loading Recent Transactions...</em></p>
             }
@@ -119,11 +183,13 @@
 
                     <MudTd>
      
-                        <MudText Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@($"{context.SenderRS}")</MudLink> </MudText>
+                        <MudText Style="word-break:keep-all" Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@(($"S-{context.SenderRS}").RSTrim())</MudLink> </MudText>
                                <MudSpacer></MudSpacer>
-                                <MudText Typo="Typo.overline">Sender Name Placeholder</MudText>
+                                <MudText Typo="Typo.caption">Sender Name Placeholder</MudText>
                  
                     </MudTd>
+
+                    <MudTd>
                     @if(context.RecipientId == 0)
                         {
                         <MudText Typo="Typo.caption">@context.TransactionType</MudText>
@@ -131,17 +197,21 @@
                         }
                         else
                         {
-                         <MudTd>
+                        
 
-                          <MudText Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@($"{context.RecipientRS}")</MudLink> </MudText> 
+                          <MudText Style="word-break:keep-all" Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@(($"S-{context.RecipientRS}").RSTrim())</MudLink> </MudText> 
                                <MudSpacer></MudSpacer>
-                                <MudText Typo="Typo.overline">Recipient Name Place Holder</MudText>
+                                <MudText Typo="Typo.caption">Recipient Name Place Holder</MudText>
                            <MudSpacer></MudSpacer>
                             
 
-                    </MudTd>
+                             
 
                         }
+                        </MudTd>
+
+
+                        
 
 
                     <MudTd>
@@ -156,7 +226,7 @@
                 </RowTemplate>
                 </MudTable>
                 <MudTFootRow>
-                     <MudNavLink  Href="/transactions" Icon="@Icons.Filled.Receipt">  All Transactions  </MudNavLink>
+                     <MudNavLink  Href="/transactions" Icon="@Icons.Material.Filled.DoubleArrow">  All Transactions  </MudNavLink>
                 </MudTFootRow>
                 }
         </MudItem>
@@ -171,12 +241,14 @@
 
     IEnumerable<IBlock>? blocks;
     IEnumerable<ITransaction>? transactions;
+    UnconfirmedTransAPI? unconfirmedTransAPI;
 
 
     protected override async Task OnInitializedAsync()
     {
         blocks = await SignumService.GetLatestBlocks(20);
         transactions = await SignumService.GetLatestTransactions(20);
+        unconfirmedTransAPI = await API.getUnconfirmedTransactions();
     }
 
 

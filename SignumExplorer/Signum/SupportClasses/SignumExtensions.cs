@@ -4,14 +4,34 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.IO;
 using System.IO.Compression;
-
+using System.Numerics;
 
 namespace SignumExplorer.Signum
 {
     public static class SignumExtensions
     {
+        public static long GetBlockReward(this int blockHeight)
+        {
 
-        
+
+            if (blockHeight == 0)
+            {
+                return 0;
+            }
+            if (blockHeight >= 972000)
+            {
+                // Minimum incentive, lower than 0.6 % per year
+                return 10000000000;
+            }
+            int month = blockHeight / 10800;
+
+            var bigInt = BigInteger.Multiply(BigInteger.Parse("100000000"),BigInteger.Divide(BigInteger.Multiply(BigInteger.Parse("10000"), BigInteger.Pow(BigInteger.Parse("95"), month)), BigInteger.Pow(BigInteger.Parse("100"), month)));
+
+            return (long)bigInt;
+
+        }
+
+
         /// <summary>
         /// GZip Compression 
         /// </summary>
@@ -73,6 +93,28 @@ namespace SignumExplorer.Signum
             return result;
         }
 
+        /// <summary>
+        /// Truncate a string to a specifice length and add Elipsis on the end
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maxLength"></param>
+        /// <param name="addEllipsis"></param>
+        /// <returns></returns>
+        public static string RSTrim(this string value)
+        {
+            // Check for valid string before attempting to truncate
+            if (string.IsNullOrEmpty(value)) return value;
+            if (value.Length != 22) return value;
+
+            // Proceed with truncating
+            var result = value.Substring(0, 6);
+            result += "...";
+            result += value.Substring(17, 5);
+
+
+            return result;
+        }
+
 
         public static string EncodeRS(this ulong value)
         {
@@ -109,6 +151,8 @@ namespace SignumExplorer.Signum
         }
 
     }
+
+
 
 
 }

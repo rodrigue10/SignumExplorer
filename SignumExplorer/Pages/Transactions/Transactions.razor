@@ -1,0 +1,145 @@
+﻿@namespace SignumExplorer.Pages
+
+@page "/transactions"
+
+@inject ISignumDataService SignumService
+
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+
+@if (count == null)
+{
+
+}
+else
+{   
+ 
+    <MudGrid>
+        <MudItem xs="12">
+            <MudTable RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReload))" 
+                    @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h3">Transactions</MudText>
+                     <MudSpacer /> 
+                     <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search: Id, Height, Sender Id, Recipient Id" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                                         
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>
+                    <MudTableSortLabel SortLabel="transid_field" T="ITransaction">
+                         Transaction ID
+                     </MudTableSortLabel></MudTh>
+
+                      <MudTh>
+                             <MudTableSortLabel SortLabel="height_field" T="ITransaction">
+                            Height
+                     </MudTableSortLabel>  </MudTh>   
+                     
+                    <MudTh>Date/Time</MudTh>
+
+                    <MudTh>
+                      
+                        Type
+                      
+                    </MudTh>
+
+                    <MudTh>Amount</MudTh>
+                    <MudTh>Fee</MudTh>
+                    <MudTh>
+                    <MudTableSortLabel SortLabel="sender_field" T="ITransaction">
+                    Sender
+                    </MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="recipient_field" T="ITransaction">
+                    Recipient
+                    </MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+		
+                    <MudTd DataLabel="Transaction ID"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/transactions/{context.Id}")>@context.Id.ToString().Truncate(10,true)</MudLink></MudTd>
+                    <MudTd DataLabel="Block Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.Height</MudLink></MudTd>
+                    <MudTd DataLabel="Date/Time"><MudText Typo="Typo.caption">@context.Time</MudText></MudTd>
+                    <MudTd DataLabel="Type"><MudText Typo="Typo.caption">@context.TransactionType </MudText></MudTd>        
+                    <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
+                    <MudTd DataLabel="Fee"><MudText Typo="Typo.caption">@context.Fee </MudText></MudTd>
+                    <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>
+                    <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
+
+                </RowTemplate>                     
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+        </MudGrid>
+        }
+
+    </MudContainer>
+
+
+@code {
+    private NodeCounts? counts;
+    private IEnumerable<ITransaction>? data;
+    private MudTable<ITransaction>? table;
+    private int totalItems;
+    private string searchString = "";
+    private int? count;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //counts = await SignumService.NodeCountItems();
+        count = await SignumService.TransactionCount();
+    }
+
+    private async Task<TableData<ITransaction>> ServerReload(TableState state)
+    {
+
+        totalItems = count.Value;
+
+        var sortDir = (int)state.SortDirection;
+        string? sortLabel = null;
+
+        switch (state.SortLabel)
+        {
+
+            case "height_field":
+                sortLabel = nameof(ITransaction.Height);
+                break;
+                            case "transid_field":
+                sortLabel = nameof(ITransaction.Id);
+                break;
+                                           case "sender_field":
+                sortLabel = nameof(ITransaction.SenderId);
+                break;
+                                            case "recipient_field":
+                sortLabel = nameof(ITransaction.RecipientId);
+                break;
+
+            default:
+                sortLabel = "";
+            break;
+
+        }        
+         data = await SignumService.GetFilteredSortedPagedTransactions(searchString, sortLabel, state.Page, state.PageSize, sortDir );
+
+        return new TableData<ITransaction>() {TotalItems = totalItems, Items = data};
+    }
+
+    private void OnSearch(string text)
+    {
+        searchString = text;
+        table.ReloadServerData();
+    }
+  
+
+
+
+}

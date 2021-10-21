@@ -33,7 +33,7 @@ namespace SignumExplorer.Models
         public string GeneratorRS => ReedSolomon.encode(GeneratorId);
 
 
-        public string? Name { get; }
+        public string Name { get; }
         public ulong? RecipId { get; }
         public string? RecipName { get; }
         public ulong? TransactionCount { get; }

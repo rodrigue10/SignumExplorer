@@ -1,0 +1,216 @@
+﻿@namespace SignumExplorer.Pages
+
+@page "/ats/{atid}"
+@inject ISignumDataService SignumService
+@inject IJSRuntime JS
+@inject IStringLocalizer<App> L
+@inject IDialogService DialogService
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+
+ @if (AtDetails == null)
+        {
+            <p><em>Loading Details...</em></p>
+        }
+        else
+        { 
+
+
+            <MudGrid>
+                <MudItem xs="12">
+                        <PropertiesTable TableText="@($"{L["Smart Contract Details"]} - {AtDetails.Id}")" InputObject="AtDetails" InterfaceType="typeof(IAt)"></PropertiesTable>
+                </MudItem>
+            </MudGrid>
+        }
+
+ @if (counts == null)
+        {
+            <p><em>Loading Details...</em></p>
+        }
+        else
+        { 
+<MudTabs  Elevation="2" Rounded="true" Centered="true">
+    <MudTabPanel Icon="@Icons.Material.Filled.TransitEnterexit" ToolTip="States"  BadgeData=@($"{counts.AtStates}") BadgeColor="Color.Secondary">
+
+        @if (AtStatesList == null )
+        {
+            <p><em>Loading ...</em></p>
+        }
+        else
+        {  
+
+  
+            <MudItem xs="12">
+          <MudTable RowsPerPage="25" Items="@AtStatesList" RowStyle="overflow-wrap: anywhere;" HorizontalScrollbar="false" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">States</MudText>
+             
+        </ToolBarContent>
+        <HeaderContent>
+                     <MudTh>Height</MudTh>
+                     <MudTh>Next Height</MudTh>
+                    <MudTh>Freeze Same Bal</MudTh>
+                    <MudTh>Min Activation</MudTh>
+                    <MudTh>Prev Balance</MudTh>
+                    <MudTh>Prev Height</MudTh>
+                    <MudTh>Latest</MudTh>
+                    <MudTh>Sleep Between</MudTh>
+                    <MudTh>State</MudTh>
+
+        </HeaderContent>
+        <RowTemplate>
+
+		             <MudTd DataLabel="Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{(long)context.Height}")>@context.Height</MudLink></MudTd>
+                    <MudTd DataLabel="Next Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{(long)context.NextHeight}")>@context.NextHeight</MudLink> </MudTd>
+                    <MudTd DataLabel="Freeze When Same Balance"><MudText Typo="Typo.caption">@context.FreezeWhenSameBalance</MudText></MudTd>
+                    <MudTd DataLabel="Min Activation Amount"><MudText Typo="Typo.caption">@context.MinActivateAmount</MudText></MudTd>
+                    <MudTd DataLabel="Previous Balance"><MudText Typo="Typo.caption">@context.PrevBalance</MudText></MudTd>
+                    <MudTd DataLabel="Previous Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{(long)context.PrevHeight}")>@context.PrevHeight</MudLink></MudTd>
+                    <MudTd DataLabel="Latest"><MudText Typo="Typo.caption">@context.Latest</MudText></MudTd>
+                    <MudTd DataLabel="Sleep Between"><MudText Typo="Typo.caption">@context.SleepBetween</MudText></MudTd>
+                    <MudTd DataLabel="State"><MudButton Size="Size.Small" OnClick="@((e) => OpenDialog(typeof(IAtState).GetProperty(nameof(IAtState.StateString)), context))" Variant="Variant.Filled" Color="Color.Primary">Details</MudButton></MudTd>
+                  
+               
+        
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager  />
+        </PagerContent>
+            </MudTable>
+            </MudItem>
+
+        }
+
+   
+
+    </MudTabPanel>
+
+    <MudTabPanel Icon="@Icons.Material.Filled.TransitEnterexit" ToolTip="Transactions"  BadgeData=@($"{counts.AtTransactions}") BadgeColor="Color.Secondary">
+
+        @if (AtTransactions == null || AtDetails == null)
+        {
+            <p><em>Loading ...</em></p>
+        }
+        else
+        {  
+
+  
+            <MudItem xs="12">
+          <MudTable RowsPerPage="25" Items="@AtTransactions"  HorizontalScrollbar="false" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Transactions</MudText>
+             
+        </ToolBarContent>
+                          <HeaderContent>
+                                <MudTh>Transaction ID</MudTh>
+                                <MudTh>Height  </MudTh>   
+                                <MudTh>Date/Time</MudTh>
+                                <MudTh>Type </MudTh>
+                                <MudTh>Amount</MudTh>
+                                <MudTh>Fee</MudTh>
+                                <MudTh> Sender</MudTh>
+                                <MudTh></MudTh>
+                                <MudTh> Recipient </MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+		
+                                <MudTd DataLabel="Transaction ID"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/transactions/{context.Id}")>@context.Id.ToString().Truncate(10,true)</MudLink></MudTd>
+                                <MudTd DataLabel="Block Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.Height</MudLink></MudTd>
+                                <MudTd DataLabel="Date/Time"><MudText Typo="Typo.caption">@context.Time</MudText></MudTd>
+                                <MudTd DataLabel="Type"><MudText Typo="Typo.caption">@context.TransactionType </MudText></MudTd>        
+                                <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
+                                <MudTd DataLabel="Fee"><MudText Typo="Typo.caption">@context.Fee </MudText></MudTd>
+
+                                @if(@context.SenderId == AtDetails.Id)
+                                        {
+                                            <MudTd DataLabel="Sender"><MudText Typo="Typo.caption">(Contract)</MudText></MudTd>
+                                            <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Error" /></MudTd>
+                                            <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
+
+                                        }
+                                        else
+                                        {
+                                                <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>
+                                               <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Success" /></MudTd>
+                                            <MudTd DataLabel="Recipient"><MudText Typo="Typo.caption">(Contract)</MudText></MudTd>                                              
+
+                                        }
+
+
+                            </RowTemplate> 
+        <PagerContent>
+            <MudTablePager  />
+        </PagerContent>
+            </MudTable>
+            </MudItem>
+
+        }
+
+   
+
+    </MudTabPanel>
+    </MudTabs>
+
+    }
+</MudContainer>
+
+
+
+
+@code {
+
+    private IAt? AtDetails;
+    private AtCounts? counts;
+    private IEnumerable<IAtState>? AtStatesList;
+    private IAtState? LatestAtState;
+    private IEnumerable<ITransaction>? AtTransactions;
+
+
+
+    [Parameter]
+    public string? Atid { get; set; }
+
+
+
+    async Task OpenDialog(PropertyInfo info, object InputObject)
+    {
+        if(InputObject != null)
+        {
+           // var info = typeof(IAtState).GetProperty(nameof(IAtState.StateString));
+
+            var parameters = new DialogParameters { ["propinfo"]=info, ["inputobject"] = InputObject };
+
+
+            var result = await DialogService.Show<CodeDialog>(info.Name, parameters).Result;          
+
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        await base.OnParametersSetAsync();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(!string.IsNullOrEmpty(Atid))
+        {
+            AtDetails = await SignumService.GetSingleAt((long)UInt64.Parse(Atid));
+            counts = await SignumService.AtCounts((long)UInt64.Parse(Atid));
+            AtStatesList = await SignumService.GetAllAtState((long)UInt64.Parse(Atid));
+            LatestAtState = await SignumService.GetLatestAtState((long)UInt64.Parse(Atid));
+            AtTransactions = await SignumService.GetAtTransactions((long)UInt64.Parse(Atid));
+
+            
+
+        }
+
+
+    }
+
+
+
+}
