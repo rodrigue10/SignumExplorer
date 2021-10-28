@@ -3,6 +3,7 @@
 @page "/blocks"
 
 @inject ISignumDataService SignumService
+@inject IStringLocalizer<App> L
 
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
 
@@ -15,10 +16,10 @@ else
  
     <MudGrid>
         <MudItem xs="12">
-            <MudTable RowsPerPage="50" ServerData="@(new Func<TableState, Task<TableData<IBlock>>>(ServerReload))" 
+            <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" RowsPerPage="50" ServerData="@(new Func<TableState, Task<TableData<IBlock>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h3">Blocks</MudText>
+                    <MudText Typo="Typo.h6">Blocks</MudText>
                      <MudSpacer /> 
                      <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search: Height, Id or Generator Id" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>

@@ -2,6 +2,7 @@
 @inject IJSRuntime JS
 @inject ISignumDataService SignumService
 @inject ISignumAPIService API
+@inject IStringLocalizer<App> L
 
 
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
@@ -15,55 +16,65 @@
             
             @if(unconfirmedTransAPI == null)
             {
-               <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">No Pending Transactions...</MudPaper>
+               <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
             }
             else
             {           
               
-       <MudTable Height="200px"  Items="unconfirmedTransAPI.UnconfirmedTransactions" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+       <MudTable Height="@($"{unconfirmedTransAPI.UnconfirmedTransactions.Count() * 20 + 100}px")"  Breakpoint="Breakpoint.None"  Items="unconfirmedTransAPI.UnconfirmedTransactions" FixedHeader="true" Dense="true" Hover="true"  HorizontalScrollbar="true" Bordered="false" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h6">Unconfirmed Transactions</MudText>
+                    <MudText Typo="Typo.h6">@L["UnconfirmedTransactions"]</MudText>
                 </ToolBarContent>
 
 
                 <HeaderContent>
-                    <MudTh>Timestamp</MudTh>          
-                    <MudTh>Height</MudTh>
-                    <MudTh>Amount</MudTh>
-                      <MudTh>Fee</MudTh>
-                    <MudTh>Sender</MudTh>
-                    <MudTh>Recipient</MudTh>
-                    <MudTh>Type</MudTh>
-                    <MudTh>Subtype</MudTh>   
+                    <MudTh>@L["DateTime"]</MudTh>          
+                    <MudTh>@L["Height"]</MudTh>
+                    <MudTh>@L["Type"]</MudTh>
+                    <MudTh>@L["Sender"]</MudTh>
+                    <MudTh>@L["Recipient"]</MudTh>
+                    <MudTh>@L["Amount"]</MudTh>
+                    <MudTh>@L["Fee"]</MudTh>
 
 
 
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd>
-                        <MudText Typo="Typo.caption">@(context.Timestamp)</MudText>
+                        <MudText Typo="Typo.caption">@(context.Time)</MudText>
                     </MudTd>
                     <MudTd>
                         <MudText Typo="Typo.caption">@(context.Height)</MudText>
                     </MudTd>
-                    <MudTd>
-                        <MudText Typo="Typo.caption">@(context.AmountNQT)</MudText>
-                    </MudTd>
-                    <MudTd>
-                        <MudText Typo="Typo.caption">@(context.FeeNQT)</MudText>
-                    </MudTd>
-                    <MudTd>
-                        <MudText Style="word-break:keep-all" Typo="Typo.caption">@(context.SenderRS)</MudText>
-                    </MudTd>
                         <MudTd>
-                        <MudText Style="word-break:keep-all" Typo="Typo.caption">@(context.RecipientRS)</MudText>
+                        <MudText Typo="Typo.caption">@(L[context.TransactionType])</MudText>
                     </MudTd>
-                        <MudTd>
-                        <MudText Typo="Typo.caption">@(context.Type)</MudText>
+                     <MudTd>
+                        <MudText Style="word-break:keep-all" Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@(($"{context.SenderRS}").RSTrim())</MudLink> </MudText>
+
                     </MudTd>
-                        <MudTd>
-                        <MudText Typo="Typo.caption">@(context.Subtype)</MudText>
+
+                    <MudTd>
+                        @if(context.RecipientId == 0)
+                            {                                                    
+                                   <MudText Typo="Typo.caption">@(L[context.TransactionType])</MudText>                      
+
+                            }
+                            else
+                            {
+                              <MudText Style="word-break:keep-all" Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@(($"{context.RecipientRS}").RSTrim())</MudLink> </MudText>
+                     
+                            }
+                          
                     </MudTd>
+
+                    <MudTd>
+                        <MudText Typo="Typo.caption">@(context.AmountSigna)</MudText>
+                    </MudTd>
+                    <MudTd>
+                        <MudText Typo="Typo.caption">@(context.FeeSigna)</MudText>
+                    </MudTd>
+
                 </RowTemplate>
          </MudTable>
 
@@ -75,33 +86,33 @@
 
         @if(blocks == null)
             {
-                <p><em>Loading Recent Blocks...</em></p>
+                <p><em>@L["Loading"] @L["LatestBlocks"]...</em></p>
             }
             else
             {
                 
             
-            <MudTable Height="400px" Items="@blocks" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+            <MudTable  HorizontalScrollbar="true" Breakpoint="Breakpoint.None" Height="400px" Items="@blocks" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h6">Latest Blocks</MudText>
+                    <MudText Typo="Typo.h6">@L["LatestBlocks"]</MudText>
              
                 </ToolBarContent>
                 <HeaderContent>
-                    <MudTh>Created</MudTh>
+                    <MudTh>@L["Created"]</MudTh>
                     
-                        <MudTh><MudBadge Left="true" Content="@("Tx")" Color="Color.Primary" Overlap="false" Class="mx-6 my-4" >Height</MudBadge></MudTh>
+                        <MudTh><MudBadge Left="true" Content="@("Tx")" Color="Color.Primary" Overlap="false" Class="mx-6 my-4" >@L["Height"]</MudBadge></MudTh>
                        
 
-                    <MudTh>Forger</MudTh>
-                    <MudTh>Pool</MudTh>
-                    <MudTh>Reward</MudTh>
-                    <MudTh>Total Amount</MudTh>
-                    <MudTh>Fee</MudTh>
+                    <MudTh>@L["Forger"]</MudTh>
+                    <MudTh>@L["Pool"]</MudTh>
+                    <MudTh>@L["Reward"]</MudTh>
+                    <MudTh>@L["TotalAmount"]</MudTh>
+                    <MudTh>@L["Fee"]</MudTh>
 
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Created">
-                        <MudText Typo="Typo.caption">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " minutes ago")</MudText>
+                        <MudText Typo="Typo.caption">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " " + L["MinutesAgo"])</MudText>
                     </MudTd>
                     <MudTd> 
                         <MudBadge Left="true" Content="@context.TransactionCount.ToString()" Color="Color.Primary" Overlap="false" Class="mx-6 my-4">
@@ -134,7 +145,7 @@
                 </RowTemplate>
                 </MudTable>
                   <MudTFootRow>
-                     <MudNavLink  Href="/blocks" Icon="@Icons.Material.Filled.Layers">All Blocks  </MudNavLink>
+                     <MudNavLink  Href="/blocks" Icon="@Icons.Material.Filled.Layers">@L["AllBlocks"]  </MudNavLink>
                 </MudTFootRow>
                 }
         </MudItem>
@@ -142,25 +153,25 @@
         <MudItem xs="12" >
             @if(transactions == null)
             {
-                <p><em>Loading Recent Transactions...</em></p>
+                <p><em>@L["Loading"] @L["LatestTransactions"]...</em></p>
             }
             else
             {
             
-                  <MudTable Height="400px" Items="@transactions" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                  <MudTable  HorizontalScrollbar="true" Breakpoint="Breakpoint.None" Height="400px" Items="@transactions" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h6">Latest Transactions</MudText>
+                    <MudText Typo="Typo.h6">@L["LatestTransactions"]</MudText>
                 </ToolBarContent>
 
 
                 <HeaderContent>
-                    <MudTh>Created</MudTh>          
-                    <MudTh>Height</MudTh>
-                    <MudTh>Id</MudTh>
-                    <MudTh>Sender</MudTh>
-                    <MudTh>Recipient</MudTh>
-                    <MudTh>Amount</MudTh>
-                    <MudTh>Fee</MudTh>     
+                    <MudTh>@L["Created"]</MudTh>          
+                    <MudTh>@L["Height"]</MudTh>
+                    <MudTh>@L["Id"]</MudTh>
+                    <MudTh>@L["Sender"]</MudTh>
+                    <MudTh>@L["Recipient"]</MudTh>
+                    <MudTh>@L["Amount"]</MudTh>
+                    <MudTh>@L["Fee"]</MudTh>     
 
 
 
@@ -168,7 +179,7 @@
                 <RowTemplate>
 
                     <MudTd>
-                        <MudText Typo="Typo.caption">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " minutes ago")</MudText>
+                        <MudText Typo="Typo.caption">@((int)(DateTime.UtcNow - context.Time).TotalMinutes + " " + L["MinutesAgo"])</MudText>
                     </MudTd>
 
                     <MudTd>
@@ -177,7 +188,7 @@
                     <MudTd>
                         <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/transactions/{context.Id}")>@context.Id</MudLink>
                         <MudSpacer></MudSpacer>
-                        <MudText Typo="Typo.caption">@context.TransactionType</MudText>
+                        <MudText Typo="Typo.caption">@L[context.TransactionType]</MudText>
 
                     </MudTd>
 
@@ -192,7 +203,7 @@
                     <MudTd>
                     @if(context.RecipientId == 0)
                         {
-                        <MudText Typo="Typo.caption">@context.TransactionType</MudText>
+                        <MudText Typo="Typo.caption">@L[context.TransactionType]</MudText>
 
                         }
                         else
@@ -226,7 +237,7 @@
                 </RowTemplate>
                 </MudTable>
                 <MudTFootRow>
-                     <MudNavLink  Href="/transactions" Icon="@Icons.Material.Filled.DoubleArrow">  All Transactions  </MudNavLink>
+                     <MudNavLink  Href="/transactions" Icon="@Icons.Material.Filled.DoubleArrow"> @L["AllTransactions"]  </MudNavLink>
                 </MudTFootRow>
                 }
         </MudItem>
@@ -241,7 +252,7 @@
 
     IEnumerable<IBlock>? blocks;
     IEnumerable<ITransaction>? transactions;
-    UnconfirmedTransAPI? unconfirmedTransAPI;
+    IUnconfirmedTransAPI? unconfirmedTransAPI;
 
 
     protected override async Task OnInitializedAsync()
@@ -250,15 +261,6 @@
         transactions = await SignumService.GetLatestTransactions(20);
         unconfirmedTransAPI = await API.getUnconfirmedTransactions();
     }
-
-
-
-
-
-
-
-
-
      
 
 }

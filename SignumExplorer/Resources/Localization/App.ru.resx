@@ -118,111 +118,111 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountId" xml:space="preserve">
-    <value>Account ID</value>
+    <value>Идентификатор аккаунта</value>
     <comment>IAccount</comment>
   </data>
   <data name="AccountInfo" xml:space="preserve">
-    <value>Account Info</value>
+    <value>Информация об аккаунте</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AccountRS" xml:space="preserve">
-    <value>Account RS</value>
+    <value>Учетная запись RS.</value>
     <comment>IAsset</comment>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value>Accounts</value>
+    <value>учетные записи</value>
     <comment>Global Use</comment>
   </data>
   <data name="AddCommitment" xml:space="preserve">
-    <value>Add Commitment</value>
+    <value>Добавить приверженность</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AliasAssignment" xml:space="preserve">
-    <value>Assign Alias</value>
+    <value>Назначить псевдоним</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AliasBuy" xml:space="preserve">
-    <value>Buy Alias</value>
+    <value>Купить псевдоним</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Aliases" xml:space="preserve">
-    <value>Aliases</value>
+    <value>Псевдонимы</value>
     <comment>Global Use</comment>
   </data>
   <data name="AliasName" xml:space="preserve">
-    <value>Alias Name</value>
+    <value>Псевдоним</value>
     <comment>IAlias</comment>
   </data>
   <data name="AliasNameLower" xml:space="preserve">
-    <value>Lowercase Alias Name</value>
+    <value>Строчные псевдоним псевдоним</value>
     <comment>IAlias</comment>
   </data>
   <data name="AliasSell" xml:space="preserve">
-    <value>Sell Alias</value>
+    <value>Продавать псевдоним</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AliasUri" xml:space="preserve">
-    <value>Alias URI</value>
+    <value>Алиас Ури</value>
     <comment>IAlias</comment>
   </data>
   <data name="AllBlocks" xml:space="preserve">
-    <value>All Blocks</value>
+    <value>Все блоки</value>
     <comment>Index Page</comment>
   </data>
   <data name="AllTransactions" xml:space="preserve">
-    <value>All Transactions</value>
+    <value>Все транзакции</value>
     <comment>Global Use</comment>
   </data>
   <data name="Amount" xml:space="preserve">
-    <value>Amount</value>
+    <value>Количество</value>
     <comment>Global Use</comment>
   </data>
   <data name="ApCodeHashId" xml:space="preserve">
-    <value>Ap Code Hash ID</value>
+    <value>Ap код hash id id</value>
     <comment>IAt</comment>
   </data>
   <data name="ApCodeString" xml:space="preserve">
-    <value>Ap Code String</value>
+    <value>Ap кодовая строка</value>
     <comment>IAt</comment>
   </data>
   <data name="ArbitraryMessage" xml:space="preserve">
-    <value>Message</value>
+    <value>Сообщение</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AskOrderCancellation" xml:space="preserve">
-    <value>Token Ask Cancel</value>
+    <value>Токен спросить Отмена</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AskOrderHeight" xml:space="preserve">
-    <value>Ask Order Height</value>
+    <value>Спроси порядок высоты</value>
     <comment>ITrade</comment>
   </data>
   <data name="AskOrderId" xml:space="preserve">
-    <value>Ask Order ID</value>
+    <value>Спросите заказа ID</value>
     <comment>ITrade</comment>
   </data>
   <data name="AskOrderPlacement" xml:space="preserve">
-    <value>Token Ask Order</value>
+    <value>Токен спросить заказа</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AssetId" xml:space="preserve">
-    <value>Asset ID</value>
+    <value>Актив ID.</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="AssetIssuance" xml:space="preserve">
-    <value>Create Token</value>
+    <value>Создать токен</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AssetName" xml:space="preserve">
-    <value>Asset Name</value>
+    <value>Имя актива</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="AssetQuantity" xml:space="preserve">
-    <value>Asset Quantity</value>
+    <value>Количество активов</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="Assets" xml:space="preserve">
-    <value>Assets</value>
+    <value>Ресурсы</value>
     <comment>Global Use</comment>
   </data>
   <data name="AssetTransfer" xml:space="preserve">
@@ -230,414 +230,415 @@
     <comment>Transaction Types</comment>
   </data>
   <data name="AtIdRS" xml:space="preserve">
-    <value>Smart Contract RS</value>
+    <value>Умный контракт RS.</value>
     <comment>IAt</comment>
   </data>
   <data name="AtsString" xml:space="preserve">
-    <value>Smart Contract String</value>
+    <value>Smart Contract String.</value>
     <comment>IBlock</comment>
   </data>
   <data name="AttachmentBytes" xml:space="preserve">
-    <value>Attachment Bytes</value>
+    <value>Байты вложения</value>
     <comment>ITransaction</comment>
   </data>
   <data name="AT_Creation" xml:space="preserve">
-    <value>Create Smart Contract</value>
+    <value>Создать умный контракт</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AT_Payment" xml:space="preserve">
-    <value>Smart Contract Payment</value>
+    <value>Умный договор платеж</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Balance</value>
+    <value>Остаток средств</value>
     <comment>IAccount</comment>
   </data>
   <data name="BaseTarget" xml:space="preserve">
-    <value>Base Target</value>
+    <value>Базовая цель</value>
     <comment>IBlock</comment>
   </data>
   <data name="BidOrderCancellation" xml:space="preserve">
-    <value>Token Bid Cancel</value>
+    <value>Token Bid Отмена</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="BidOrderHeight" xml:space="preserve">
-    <value>Bid Order Height</value>
+    <value>Высота ставки заказа</value>
     <comment>ITrade</comment>
   </data>
   <data name="BidOrderId" xml:space="preserve">
-    <value>Bid Order ID</value>
+    <value>Идентификатор заказа</value>
     <comment>ITrade</comment>
   </data>
   <data name="BidOrderPlacement" xml:space="preserve">
-    <value>Token Bid Order</value>
+    <value>Заказ заявок на токен</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Block" xml:space="preserve">
-    <value>Block</value>
+    <value>Блокировать</value>
     <comment>ITransaction</comment>
   </data>
   <data name="BlockId" xml:space="preserve">
-    <value>Block ID</value>
+    <value>Блок ID.</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Blocks" xml:space="preserve">
-    <value>Blocks</value>
+    <value>Блоки</value>
     <comment>Global Use</comment>
   </data>
   <data name="BlockSignatureString" xml:space="preserve">
-    <value>Block Signature</value>
+    <value>Блок подписи</value>
     <comment>IBlock</comment>
   </data>
   <data name="BlockTimestamp" xml:space="preserve">
-    <value>Block Timestamp</value>
+    <value>Заблокировать меток времени</value>
     <comment>ITransaction</comment>
   </data>
   <data name="BuyerId" xml:space="preserve">
-    <value>Buyer ID</value>
+    <value>Покупатель ID</value>
     <comment>ITrade</comment>
   </data>
   <data name="BuyerRS" xml:space="preserve">
-    <value>Buyer RS</value>
+    <value>Покупатель RS.</value>
     <comment>ITrade</comment>
   </data>
   <data name="CCallStackBytes" xml:space="preserve">
-    <value>C Call Stack Bytes</value>
+    <value>C байты стека вызовов</value>
     <comment>IAt</comment>
   </data>
   <data name="Created" xml:space="preserve">
-    <value>Created</value>
+    <value>Созданный</value>
     <comment>Global Use</comment>
   </data>
   <data name="CreationHeight" xml:space="preserve">
-    <value>Creation Height</value>
+    <value>Высота создания</value>
     <comment>IAccount</comment>
   </data>
   <data name="CreatorId" xml:space="preserve">
-    <value>Creator ID</value>
+    <value>Создатель ID.</value>
     <comment>IAt</comment>
   </data>
   <data name="CreatorRS" xml:space="preserve">
-    <value>Creator RS</value>
+    <value>Создатель рупий</value>
     <comment>IAt</comment>
   </data>
   <data name="Csize" xml:space="preserve">
-    <value>C Size</value>
+    <value>C размер</value>
     <comment>IAt</comment>
   </data>
   <data name="CultureExample" xml:space="preserve">
-    <value>Culture Example</value>
+    <value>Пример культуры</value>
     <comment>Nav Menu</comment>
   </data>
   <data name="CumulativeDifficultyString" xml:space="preserve">
-    <value>Cumulative Difficulty</value>
+    <value>Кумулятивная трудность</value>
     <comment>IBlock</comment>
   </data>
   <data name="CUserStackBytes" xml:space="preserve">
-    <value>C User Stack Bytes</value>
+    <value>C байты стека пользователя</value>
     <comment>IAt</comment>
   </data>
   <data name="Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Щиток приборов</value>
     <comment>Global Use</comment>
   </data>
   <data name="Date" xml:space="preserve">
-    <value>Date</value>
+    <value>Дата</value>
     <comment>ITrade</comment>
   </data>
   <data name="DateTime" xml:space="preserve">
-    <value>Date/Time</value>
+    <value>Дата / время</value>
     <comment>Global Use</comment>
   </data>
   <data name="Deadline" xml:space="preserve">
-    <value>Deadline</value>
+    <value>Крайний срок</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Decimals" xml:space="preserve">
-    <value>Decimals</value>
+    <value>Дебилицы</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="DeListing" xml:space="preserve">
-    <value>Remove Digital Good</value>
+    <value>Удалить цифровой добр</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Delivery" xml:space="preserve">
-    <value>Deliver Good</value>
+    <value>Доставлять договор</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Description</value>
+    <value>Описание</value>
     <comment>IAccount</comment>
   </data>
   <data name="Dsize" xml:space="preserve">
-    <value>D Size</value>
+    <value>D Размер</value>
     <comment>IAt</comment>
   </data>
   <data name="EcBlockHeight" xml:space="preserve">
-    <value>Eff. Cap. Block Height</value>
+    <value>Эфф Шапка. Высота блока</value>
     <comment>ITransaction</comment>
   </data>
   <data name="EcBlockId" xml:space="preserve">
-    <value>Eff. Cap. Block ID</value>
+    <value>Эфф Шапка. Блок ID.</value>
     <comment>ITransaction</comment>
   </data>
   <data name="EffectiveBalanceLeasing" xml:space="preserve">
-    <value>Balance Leasing</value>
+    <value>Баланс лизинга</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="EscrowCreation" xml:space="preserve">
-    <value>Create Escrow</value>
+    <value>Создать сделки</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Fee" xml:space="preserve">
-    <value>Fee</value>
+    <value>Платеж</value>
     <comment>Global Use</comment>
   </data>
   <data name="ForgedBalance" xml:space="preserve">
-    <value>Forged Balance</value>
+    <value>Кованый баланс</value>
     <comment>IAccount</comment>
   </data>
   <data name="Forger" xml:space="preserve">
-    <value>Forger</value>
+    <value>Минерал</value>
     <comment>Global Use</comment>
   </data>
   <data name="FullHash" xml:space="preserve">
-    <value>Full Hash</value>
+    <value>Полный хэш</value>
     <comment>ITransaction</comment>
   </data>
   <data name="GenerationSignatureString" xml:space="preserve">
-    <value>Generation Signature</value>
+    <value>Подпись поколения</value>
     <comment>IBlock</comment>
   </data>
   <data name="GeneratorId" xml:space="preserve">
-    <value>Generator ID</value>
+    <value>Идентификатор генератора</value>
     <comment>IBlock</comment>
   </data>
   <data name="GeneratorPublicKeyString" xml:space="preserve">
-    <value>Generator Public Key</value>
+    <value>Генератор открытый ключ</value>
     <comment>IBlock</comment>
   </data>
   <data name="GeneratorRS" xml:space="preserve">
-    <value>Generator RS</value>
+    <value>Генератор RS.</value>
     <comment>IBlock</comment>
   </data>
   <data name="Greeting" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Привет!</value>
+    <comment>Not Avail</comment>
   </data>
   <data name="HasEncryptedMessage" xml:space="preserve">
-    <value>Has Encrypted Message</value>
+    <value>Зашифровано сообщение</value>
     <comment>ITransaction</comment>
   </data>
   <data name="HasMessage" xml:space="preserve">
-    <value>Has Message</value>
+    <value>Имеет сообщение</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Рост</value>
     <comment>Global Use</comment>
   </data>
   <data name="Id" xml:space="preserve">
-    <value>Id</value>
+    <value>Идентификатор</value>
     <comment>Global Use</comment>
   </data>
   <data name="IdRS" xml:space="preserve">
-    <value>Account RS</value>
+    <value>Учетная запись RS.</value>
     <comment>IAccount</comment>
   </data>
   <data name="KeyHeight" xml:space="preserve">
-    <value>Key Height</value>
+    <value>Высота ключа</value>
     <comment>IAccount</comment>
   </data>
   <data name="Latest" xml:space="preserve">
-    <value>Latest</value>
+    <value>Последний</value>
     <comment>IAccount</comment>
   </data>
   <data name="LatestBlocks" xml:space="preserve">
-    <value>Latest Blocks</value>
+    <value>Последние блоки</value>
     <comment>Index Page</comment>
   </data>
   <data name="LatestTransactions" xml:space="preserve">
-    <value>Latest Transactions</value>
+    <value>Последние транзакции</value>
     <comment>Index Page</comment>
   </data>
   <data name="Listing" xml:space="preserve">
-    <value>Add Digital Good</value>
+    <value>Добавить цифровое хорошо</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading</value>
+    <value>Загрузка</value>
     <comment>Global Use</comment>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>minutes ago</value>
+    <value>минут назад</value>
     <comment>Index Page</comment>
   </data>
   <data name="MultiOutPayment" xml:space="preserve">
-    <value>Multi-Out</value>
+    <value>Многоуровневый</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="MultiOutSame" xml:space="preserve">
-    <value>Multi-Out Same</value>
+    <value>Многоугодный</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Имя</value>
     <comment>IAccount</comment>
   </data>
   <data name="NextBlockId" xml:space="preserve">
-    <value>Next Block ID</value>
+    <value>Следующий блок ID.</value>
     <comment>IBlock</comment>
   </data>
   <data name="Nonce" xml:space="preserve">
-    <value>Nonce</value>
+    <value>Неисполнительно</value>
     <comment>IBlock</comment>
   </data>
   <data name="NothingPending" xml:space="preserve">
-    <value>No Pending Transactions</value>
+    <value>Нет ожидающих транзакций</value>
     <comment>Index Page</comment>
   </data>
   <data name="OrdinaryPayment" xml:space="preserve">
-    <value>Payment</value>
+    <value>Оплата</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="PayloadHashString" xml:space="preserve">
-    <value>Payload Hash</value>
+    <value>Полезная нагрузка хэш</value>
     <comment>IBlock</comment>
   </data>
   <data name="PayloadLength" xml:space="preserve">
-    <value>Payload Length</value>
+    <value>Длина полезной нагрузки</value>
     <comment>IBlock</comment>
   </data>
   <data name="Pool" xml:space="preserve">
-    <value>Pool</value>
+    <value>Бассейн</value>
     <comment>Global Use</comment>
   </data>
   <data name="PreviousBlockHashString" xml:space="preserve">
-    <value>Previous Block Hash</value>
+    <value>Предыдущий блок хэш</value>
     <comment>IBlock</comment>
   </data>
   <data name="PreviousBlockId" xml:space="preserve">
-    <value>Previous Block ID</value>
+    <value>Предыдущий блок ID.</value>
     <comment>IBlock</comment>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Price</value>
+    <value>Цена</value>
     <comment>ITrade</comment>
   </data>
   <data name="PriceChange" xml:space="preserve">
-    <value>Price Change</value>
+    <value>Смена цены</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="PublicKeyString" xml:space="preserve">
-    <value>Public Key</value>
+    <value>Открытый ключ</value>
     <comment>IAccount</comment>
   </data>
   <data name="Purchase" xml:space="preserve">
-    <value>Purchase Good</value>
+    <value>Покупка добра</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Quantity" xml:space="preserve">
-    <value>Quantity</value>
+    <value>Количество</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="QuantityChange" xml:space="preserve">
-    <value>Quantity Change</value>
+    <value>Изменение количества</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="RecipId" xml:space="preserve">
-    <value>Recipient ID</value>
+    <value>Реципиент ID.</value>
     <comment>IBlock</comment>
   </data>
   <data name="Recipient" xml:space="preserve">
-    <value>Recipient</value>
+    <value>Получатель</value>
     <comment>Global Use</comment>
   </data>
   <data name="RecipientId" xml:space="preserve">
-    <value>Recipient ID</value>
+    <value>Реципиент ID.</value>
     <comment>ITransaction</comment>
   </data>
   <data name="RecipientRS" xml:space="preserve">
-    <value>Recipient RS</value>
+    <value>Получатель RS.</value>
     <comment>ITransaction</comment>
   </data>
   <data name="RecipName" xml:space="preserve">
-    <value>Recipient Name</value>
+    <value>Имя получателя</value>
     <comment>IBlock</comment>
   </data>
   <data name="ReferencedTransactionFullhash" xml:space="preserve">
-    <value>Ref. Trans. Full Hash</value>
+    <value>Реф. Транс. Полный хэш</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Refund" xml:space="preserve">
-    <value>Refund Good</value>
+    <value>Возврат добра</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="RemoveCommitment" xml:space="preserve">
-    <value>Remove Commitment</value>
+    <value>Удалить приверженность</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Reward" xml:space="preserve">
-    <value>Reward</value>
+    <value>Награда</value>
     <comment>Global Use</comment>
   </data>
   <data name="RewardRecipientAssignment" xml:space="preserve">
-    <value>Set Reward Recipient</value>
+    <value>Установить вознаграждение получателя</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="SellerId" xml:space="preserve">
-    <value>Seller ID</value>
+    <value>Продавец идентификатор</value>
     <comment>ITrade</comment>
   </data>
   <data name="SellerRS" xml:space="preserve">
-    <value>Seller RS</value>
+    <value>Продавец RS.</value>
     <comment>ITrade</comment>
   </data>
   <data name="Sender" xml:space="preserve">
-    <value>Sender</value>
+    <value>Отправитель</value>
     <comment>Global Use</comment>
   </data>
   <data name="SenderId" xml:space="preserve">
-    <value>Sender ID</value>
+    <value>Удостоверение личности отправителя</value>
     <comment>ITransaction</comment>
   </data>
   <data name="SenderName" xml:space="preserve">
-    <value>Sender Name</value>
+    <value>Имя отправителя</value>
     <comment>IMultiOut</comment>
   </data>
   <data name="SenderPublicKey" xml:space="preserve">
-    <value>Sender Public Key</value>
+    <value>Отправитель открытый ключ</value>
     <comment>ITransaction</comment>
   </data>
   <data name="SenderRS" xml:space="preserve">
-    <value>Sender RS</value>
+    <value>Отправитель RS.</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Signature" xml:space="preserve">
-    <value>Signature</value>
+    <value>Подпись</value>
     <comment>ITransaction</comment>
   </data>
   <data name="SmartContracts" xml:space="preserve">
-    <value>Smart Contracts</value>
+    <value>Умные контракты</value>
     <comment>Global Use</comment>
   </data>
   <data name="SubscriptionCancel" xml:space="preserve">
-    <value>Cancel Subscription</value>
+    <value>Отписаться от рассылки</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="SubscriptionPayment" xml:space="preserve">
-    <value>Subscription Payment</value>
+    <value>Оплата подписки</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="SubscriptionSubscribe" xml:space="preserve">
-    <value>Subscribe Subscription</value>
+    <value>Подписаться подписка</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Subtype" xml:space="preserve">
-    <value>Sub Type</value>
+    <value>Sub тип</value>
     <comment>ITtransaction</comment>
   </data>
   <data name="Time" xml:space="preserve">
-    <value>Time</value>
+    <value>Время</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Timestamp" xml:space="preserve">
@@ -645,43 +646,43 @@
     <comment>ITransaction</comment>
   </data>
   <data name="TotalAmount" xml:space="preserve">
-    <value>Total Amount</value>
+    <value>Итого</value>
     <comment>Global Use</comment>
   </data>
   <data name="TotalFee" xml:space="preserve">
-    <value>Total Fee</value>
+    <value>Общая плата</value>
     <comment>IBlock</comment>
   </data>
   <data name="TransactionCount" xml:space="preserve">
-    <value>Transaction Count</value>
+    <value>Количество транзакций</value>
     <comment>IBlock</comment>
   </data>
   <data name="Transactions" xml:space="preserve">
-    <value>Transactions</value>
+    <value>Транзакции</value>
     <comment>Global Use</comment>
   </data>
   <data name="TransactionType" xml:space="preserve">
-    <value>Transaction Type</value>
+    <value>Тип операции</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type</value>
+    <value>Тип</value>
     <comment>Global Use</comment>
   </data>
   <data name="UnconfirmedBalance" xml:space="preserve">
-    <value>Unconfirmed Balance</value>
+    <value>Неподтвержденный баланс</value>
     <comment>IAccount</comment>
   </data>
   <data name="UnconfirmedQuantity" xml:space="preserve">
-    <value>Unconfirmed Quantity</value>
+    <value>Неподтвержденное количество</value>
     <comment>IAccountAsset</comment>
   </data>
   <data name="UnconfirmedTransactions" xml:space="preserve">
-    <value>Unconfirmed Transactions</value>
+    <value>Неподтвержденные транзакции</value>
     <comment>Index Page</comment>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>Version</value>
+    <value>Версия</value>
     <comment>ITransaction</comment>
   </data>
 </root>

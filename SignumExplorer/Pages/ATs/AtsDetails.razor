@@ -126,7 +126,7 @@
                                         {
                                             <MudTd DataLabel="Sender"><MudText Typo="Typo.caption">(Contract)</MudText></MudTd>
                                             <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Error" /></MudTd>
-                                            <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
+                                            <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId)</MudLink></MudTd>
 
                                         }
                                         else

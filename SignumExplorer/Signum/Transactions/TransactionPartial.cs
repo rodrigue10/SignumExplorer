@@ -13,14 +13,13 @@ namespace SignumExplorer.Models
 
         ulong ITransaction.Id => (ulong)Id;
 
-        ulong? ITransaction.RecipientId
+        ulong ITransaction.RecipientId
         {
+
             get
             {
-                if (RecipientId != null)
-                { return (ulong)RecipientId; }
-                else
-                    return new ulong();
+                return (RecipientId != null) ? (ulong)RecipientId : ulong.MinValue;
+
             }
         }
 

@@ -65,7 +65,7 @@ else
  
                 <MudGrid>
                     <MudItem xs="12">
-                        <MudTable RowsPerPage="20" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReload))" 
+                        <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" RowsPerPage="20" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReload))" 
                                 @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                             <ToolBarContent>
                                 <MudText Typo="Typo.h6">Transactions</MudText>
@@ -117,8 +117,8 @@ else
                                         {
                                             <MudTd DataLabel="Sender"><MudText Typo="Typo.caption">(Account)</MudText></MudTd>
                                             <MudTd> <MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.ArrowForward" Color="Color.Error" /></MudTd>
-                                            if(context.RecipientId != null && context.RecipientId.Value != 0 ){
-                                                  <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
+                                            if(context.RecipientId != null && context.RecipientId != 0 ){
+                                                  <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId)</MudLink></MudTd>
                                             }
                                             else
                                             {
@@ -186,7 +186,7 @@ else
  
                 <MudGrid>
                     <MudItem xs="12">
-                        <MudTable RowsPerPage="20" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReloadMulti))" 
+                        <MudTable  HorizontalScrollbar="true" Breakpoint="Breakpoint.None"   RowsPerPage="20" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReloadMulti))" 
                                 @ref="multitable" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                             <ToolBarContent>
                                 <MudText Typo="Typo.h6">Transactions</MudText>
@@ -290,7 +290,7 @@ else
 
   
             <MudItem xs="12">
-          <MudTable RowsPerPage="50" Items="@AccountAssets" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+          <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"  RowsPerPage="50" Items="@AccountAssets" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Asset Holdings</MudText>
              
@@ -336,7 +336,7 @@ else
 
   
             <MudItem xs="12">
-          <MudTable RowsPerPage="50" Items="@AccountTrades" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+          <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"  RowsPerPage="50" Items="@AccountTrades" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Asset Trades</MudText>
              
@@ -386,7 +386,7 @@ else
 
   
             <MudItem xs="12">
-          <MudTable RowsPerPage="50" Items="@AccountAssetTransfers" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+          <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"  RowsPerPage="50" Items="@AccountAssetTransfers" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Asset Transfers</MudText>
              
@@ -453,7 +453,7 @@ else
 
                           <MudItem xs="12" sm="6">
 
-                         <MudTable Items="@AccountAsks" FixedHeader="true" Dense="true" Height="350px" Hover="true" Bordered="false" Striped="true">
+                         <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"  Items="@AccountAsks" FixedHeader="true" Dense="true" Height="350px" Hover="true" Bordered="false" Striped="true">
                         <ToolBarContent>
                             <MudText Typo="Typo.h6">Ask Orders (@AccountAsks.Count())</MudText>
              
@@ -501,7 +501,7 @@ else
                     {   
                             <MudItem xs="12" sm="6">
 
-                        <MudTable Items="@AccountBids" FixedHeader="true" Height="350px" Dense="true" Hover="true" Bordered="false" Striped="true">
+                        <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"  Items="@AccountBids" FixedHeader="true" Height="350px" Dense="true" Hover="true" Bordered="false" Striped="true">
                         <ToolBarContent>
                             <MudText Typo="Typo.h6">Bid Orders (@AccountBids.Count())</MudText>
              
@@ -561,7 +561,7 @@ else
 
   
             <MudItem xs="12">
-          <MudTable RowsPerPage="50" Items="@AccountAliases" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+          <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"  RowsPerPage="50" Items="@AccountAliases" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Asset Trades</MudText>
              
@@ -609,7 +609,7 @@ else
                         {
                             <MudGrid>                                                    
                                 <MudItem xs="12">
-                                        <MudTable Items="@poolMembers" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                                        <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" Items="@poolMembers" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
                                         <ToolBarContent>
                                             <MudText Typo="Typo.h6">Pool Members</MudText>
                                         </ToolBarContent>
@@ -646,7 +646,7 @@ else
                         {
                             <MudGrid>                                                    
                                 <MudItem xs="12">
-                                        <MudTable Items="@AccountAts" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                                        <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"  Items="@AccountAts" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
                                         <ToolBarContent>
                                             <MudText Typo="Typo.h6">Pool Members</MudText>
                                         </ToolBarContent>

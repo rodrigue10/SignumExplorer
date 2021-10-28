@@ -3,6 +3,7 @@
 @page "/transactions"
 
 @inject ISignumDataService SignumService
+@inject IStringLocalizer<App> L
 
 
 
@@ -17,10 +18,10 @@ else
  
     <MudGrid>
         <MudItem xs="12">
-            <MudTable RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReload))" 
+            <MudTable  HorizontalScrollbar="true" Breakpoint="Breakpoint.None" RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h3">Transactions</MudText>
+                    <MudText Typo="Typo.h6">Transactions</MudText>
                      <MudSpacer /> 
                      <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search: Id, Height, Sender Id, Recipient Id" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
@@ -64,7 +65,7 @@ else
                     <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
                     <MudTd DataLabel="Fee"><MudText Typo="Typo.caption">@context.Fee </MudText></MudTd>
                     <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>
-                    <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
+                    <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId)</MudLink></MudTd>
 
                 </RowTemplate>                     
                 <NoRecordsContent>

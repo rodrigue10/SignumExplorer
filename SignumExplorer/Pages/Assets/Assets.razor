@@ -15,15 +15,15 @@ else
 {   
  
     <MudGrid>
-        <MudItem xs="12">                            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+        <MudItem xs="12">                            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="@L["Search"]" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField></MudItem>
         <MudItem xs="12">
-            <MudTable RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<IAsset>>>(ServerReload))" 
+            <MudTable  HorizontalScrollbar="true" Breakpoint="Breakpoint.None" RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<IAsset>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h3">Assets</MudText>
+                    <MudText Typo="Typo.h6">@L["Assets"]</MudText>
                     <MudSpacer></MudSpacer>
-                            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="@L["Search"]" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
            
                                                       
@@ -32,24 +32,24 @@ else
                 <HeaderContent>
                     <MudTh>
                         <MudTableSortLabel SortLabel="height_field" T="IAsset">
-                            Creation Height
+                            @L["CreationHeight"]
                         </MudTableSortLabel>
                         </MudTh>
                     <MudTh>
                         <MudTableSortLabel SortLabel="name_field" T="IAsset">
-                        <MudBadge Left="true" Icon="@Icons.Material.Filled.Help" Class="mx-6 my-4">Name</MudBadge>
+                        <MudBadge Left="true" Icon="@Icons.Material.Filled.Help" Class="mx-6 my-4">@L["Name"]</MudBadge>
                         </MudTableSortLabel></MudTh>
                         
                     <MudTh><MudTableSortLabel SortLabel="assetid_field" T="IAsset">
-                            Asset ID
+                            @L["AssetId"]
                         </MudTableSortLabel></MudTh>
                                         <MudTh><MudTableSortLabel SortLabel="quantity_field" T="IAsset">
-                            Quantity
+                            @L["Quantity"]
                         </MudTableSortLabel></MudTh>
                                                             <MudTh><MudTableSortLabel SortLabel="created_field" T="IAsset">
-                            Created By
+                            @L["CreatorId"]
                         </MudTableSortLabel></MudTh>
-                    <MudTh>Decimals</MudTh>
+                    <MudTh>@L["Decimals"]</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Creation Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.Height</MudLink></MudTd>
@@ -75,7 +75,7 @@ else
                     <MudText>No matching records found</MudText>
                 </NoRecordsContent>
                 <LoadingContent>
-                    <MudText>Loading...</MudText>
+                    <MudText>@L["Loading"]...</MudText>
                 </LoadingContent>
                 <PagerContent>
                     <MudTablePager />

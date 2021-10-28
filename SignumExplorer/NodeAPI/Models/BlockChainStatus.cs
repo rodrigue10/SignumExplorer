@@ -3,7 +3,7 @@
 namespace SignumExplorer.Models
 {
 
-    public class BlockChainStatus
+    public class BlockChainStatus : IBlockChainStatus
     {
         [JsonPropertyName("application")]
         public string Application { get; set; }

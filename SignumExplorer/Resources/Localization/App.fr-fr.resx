@@ -118,227 +118,227 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountId" xml:space="preserve">
-    <value>Account ID</value>
+    <value>identifiant de compte</value>
     <comment>IAccount</comment>
   </data>
   <data name="AccountInfo" xml:space="preserve">
-    <value>Account Info</value>
+    <value>Informations de compte</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AccountRS" xml:space="preserve">
-    <value>Account RS</value>
+    <value>Compte rs</value>
     <comment>IAsset</comment>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value>Accounts</value>
+    <value>Comptes</value>
     <comment>Global Use</comment>
   </data>
   <data name="AddCommitment" xml:space="preserve">
-    <value>Add Commitment</value>
+    <value>Ajouter un engagement</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AliasAssignment" xml:space="preserve">
-    <value>Assign Alias</value>
+    <value>Attribuer des alias</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AliasBuy" xml:space="preserve">
-    <value>Buy Alias</value>
+    <value>Acheter alias</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Aliases" xml:space="preserve">
-    <value>Aliases</value>
+    <value>Alias</value>
     <comment>Global Use</comment>
   </data>
   <data name="AliasName" xml:space="preserve">
-    <value>Alias Name</value>
+    <value>Alias</value>
     <comment>IAlias</comment>
   </data>
   <data name="AliasNameLower" xml:space="preserve">
-    <value>Lowercase Alias Name</value>
+    <value>Nom d'alias minuscule</value>
     <comment>IAlias</comment>
   </data>
   <data name="AliasSell" xml:space="preserve">
-    <value>Sell Alias</value>
+    <value>Vendre alias</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AliasUri" xml:space="preserve">
-    <value>Alias URI</value>
+    <value>Alias ​​uri</value>
     <comment>IAlias</comment>
   </data>
   <data name="AllBlocks" xml:space="preserve">
-    <value>All Blocks</value>
+    <value>Tous les blocs</value>
     <comment>Index Page</comment>
   </data>
   <data name="AllTransactions" xml:space="preserve">
-    <value>All Transactions</value>
+    <value>toutes transactions</value>
     <comment>Global Use</comment>
   </data>
   <data name="Amount" xml:space="preserve">
-    <value>Amount</value>
+    <value>Montant</value>
     <comment>Global Use</comment>
   </data>
   <data name="ApCodeHashId" xml:space="preserve">
-    <value>Ap Code Hash ID</value>
+    <value>ID de code AP code</value>
     <comment>IAt</comment>
   </data>
   <data name="ApCodeString" xml:space="preserve">
-    <value>Ap Code String</value>
+    <value>Chaîne de code AP</value>
     <comment>IAt</comment>
   </data>
   <data name="ArbitraryMessage" xml:space="preserve">
-    <value>Message</value>
+    <value>Un message</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AskOrderCancellation" xml:space="preserve">
-    <value>Token Ask Cancel</value>
+    <value>Jeton demander annuler</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AskOrderHeight" xml:space="preserve">
-    <value>Ask Order Height</value>
+    <value>Demander la hauteur de la commande</value>
     <comment>ITrade</comment>
   </data>
   <data name="AskOrderId" xml:space="preserve">
-    <value>Ask Order ID</value>
+    <value>Demander à la commande</value>
     <comment>ITrade</comment>
   </data>
   <data name="AskOrderPlacement" xml:space="preserve">
-    <value>Token Ask Order</value>
+    <value>Jeton demander la commande</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AssetId" xml:space="preserve">
-    <value>Asset ID</value>
+    <value>ID d'actif</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="AssetIssuance" xml:space="preserve">
-    <value>Create Token</value>
+    <value>Créer un jeton</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AssetName" xml:space="preserve">
-    <value>Asset Name</value>
+    <value>Nom d'actif</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="AssetQuantity" xml:space="preserve">
-    <value>Asset Quantity</value>
+    <value>Quantité d'actif</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="Assets" xml:space="preserve">
-    <value>Assets</value>
+    <value>Les atouts</value>
     <comment>Global Use</comment>
   </data>
   <data name="AssetTransfer" xml:space="preserve">
-    <value>Token Transfer</value>
+    <value>Transfert de jeton</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AtIdRS" xml:space="preserve">
-    <value>Smart Contract RS</value>
+    <value>Contrat intelligent Rs</value>
     <comment>IAt</comment>
   </data>
   <data name="AtsString" xml:space="preserve">
-    <value>Smart Contract String</value>
+    <value>Chaîne de contrat intelligente</value>
     <comment>IBlock</comment>
   </data>
   <data name="AttachmentBytes" xml:space="preserve">
-    <value>Attachment Bytes</value>
+    <value>Attachment d'octets</value>
     <comment>ITransaction</comment>
   </data>
   <data name="AT_Creation" xml:space="preserve">
-    <value>Create Smart Contract</value>
+    <value>Créer un contrat intelligent</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="AT_Payment" xml:space="preserve">
-    <value>Smart Contract Payment</value>
+    <value>Paiement de contrat intelligent</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Balance" xml:space="preserve">
-    <value>Balance</value>
+    <value>Équilibre</value>
     <comment>IAccount</comment>
   </data>
   <data name="BaseTarget" xml:space="preserve">
-    <value>Base Target</value>
+    <value>Cible de base</value>
     <comment>IBlock</comment>
   </data>
   <data name="BidOrderCancellation" xml:space="preserve">
-    <value>Token Bid Cancel</value>
+    <value>Jeton annuler</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="BidOrderHeight" xml:space="preserve">
-    <value>Bid Order Height</value>
+    <value>Hauteur de commande de soumission</value>
     <comment>ITrade</comment>
   </data>
   <data name="BidOrderId" xml:space="preserve">
-    <value>Bid Order ID</value>
+    <value>ID de commande de soumission</value>
     <comment>ITrade</comment>
   </data>
   <data name="BidOrderPlacement" xml:space="preserve">
-    <value>Token Bid Order</value>
+    <value>Ordonnance de jeton</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Block" xml:space="preserve">
-    <value>Block</value>
+    <value>Bloquer</value>
     <comment>ITransaction</comment>
   </data>
   <data name="BlockId" xml:space="preserve">
-    <value>Block ID</value>
+    <value>Bloc d'identité</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Blocks" xml:space="preserve">
-    <value>Blocks</value>
+    <value>Blocs</value>
     <comment>Global Use</comment>
   </data>
   <data name="BlockSignatureString" xml:space="preserve">
-    <value>Block Signature</value>
+    <value>Signature du bloc</value>
     <comment>IBlock</comment>
   </data>
   <data name="BlockTimestamp" xml:space="preserve">
-    <value>Block Timestamp</value>
+    <value>Hyestamp Block</value>
     <comment>ITransaction</comment>
   </data>
   <data name="BuyerId" xml:space="preserve">
-    <value>Buyer ID</value>
+    <value>ID de l'acheteur</value>
     <comment>ITrade</comment>
   </data>
   <data name="BuyerRS" xml:space="preserve">
-    <value>Buyer RS</value>
+    <value>Acheteur Rs</value>
     <comment>ITrade</comment>
   </data>
   <data name="CCallStackBytes" xml:space="preserve">
-    <value>C Call Stack Bytes</value>
+    <value>C Call Stack octets</value>
     <comment>IAt</comment>
   </data>
   <data name="Created" xml:space="preserve">
-    <value>Created</value>
+    <value>Créé</value>
     <comment>Global Use</comment>
   </data>
   <data name="CreationHeight" xml:space="preserve">
-    <value>Creation Height</value>
+    <value>Hauteur de création</value>
     <comment>IAccount</comment>
   </data>
   <data name="CreatorId" xml:space="preserve">
-    <value>Creator ID</value>
+    <value>Créateur ID</value>
     <comment>IAt</comment>
   </data>
   <data name="CreatorRS" xml:space="preserve">
-    <value>Creator RS</value>
+    <value>Créateur Rs</value>
     <comment>IAt</comment>
   </data>
   <data name="Csize" xml:space="preserve">
-    <value>C Size</value>
+    <value>Taille C</value>
     <comment>IAt</comment>
   </data>
   <data name="CultureExample" xml:space="preserve">
-    <value>Culture Example</value>
+    <value>Exemple de culture</value>
     <comment>Nav Menu</comment>
   </data>
   <data name="CumulativeDifficultyString" xml:space="preserve">
-    <value>Cumulative Difficulty</value>
+    <value>Difficulté cumulée</value>
     <comment>IBlock</comment>
   </data>
   <data name="CUserStackBytes" xml:space="preserve">
-    <value>C User Stack Bytes</value>
+    <value>C Pile d'utilisateurs octets</value>
     <comment>IAt</comment>
   </data>
   <data name="Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+    <value>Tableau de bord</value>
     <comment>Global Use</comment>
   </data>
   <data name="Date" xml:space="preserve">
@@ -346,254 +346,255 @@
     <comment>ITrade</comment>
   </data>
   <data name="DateTime" xml:space="preserve">
-    <value>Date/Time</value>
+    <value>Date / heure</value>
     <comment>Global Use</comment>
   </data>
   <data name="Deadline" xml:space="preserve">
-    <value>Deadline</value>
+    <value>Date limite</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Decimals" xml:space="preserve">
-    <value>Decimals</value>
+    <value>Nombres décimaux</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="DeListing" xml:space="preserve">
-    <value>Remove Digital Good</value>
+    <value>Enlever le bien numérique</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Delivery" xml:space="preserve">
-    <value>Deliver Good</value>
+    <value>Faire du bien</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Description</value>
+    <value>La description</value>
     <comment>IAccount</comment>
   </data>
   <data name="Dsize" xml:space="preserve">
-    <value>D Size</value>
+    <value>Taille D</value>
     <comment>IAt</comment>
   </data>
   <data name="EcBlockHeight" xml:space="preserve">
-    <value>Eff. Cap. Block Height</value>
+    <value>Efface. Casquette. Hauteur de bloc</value>
     <comment>ITransaction</comment>
   </data>
   <data name="EcBlockId" xml:space="preserve">
-    <value>Eff. Cap. Block ID</value>
+    <value>Efface. Casquette. Bloc d'identité</value>
     <comment>ITransaction</comment>
   </data>
   <data name="EffectiveBalanceLeasing" xml:space="preserve">
-    <value>Balance Leasing</value>
+    <value>Balance leasing</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="EscrowCreation" xml:space="preserve">
-    <value>Create Escrow</value>
+    <value>Créer des escrocs</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Fee" xml:space="preserve">
-    <value>Fee</value>
+    <value>Frais</value>
     <comment>Global Use</comment>
   </data>
   <data name="ForgedBalance" xml:space="preserve">
-    <value>Forged Balance</value>
+    <value>Solde forgé</value>
     <comment>IAccount</comment>
   </data>
   <data name="Forger" xml:space="preserve">
-    <value>Forger</value>
+    <value>Mineur</value>
     <comment>Global Use</comment>
   </data>
   <data name="FullHash" xml:space="preserve">
-    <value>Full Hash</value>
+    <value>Hachage complet</value>
     <comment>ITransaction</comment>
   </data>
   <data name="GenerationSignatureString" xml:space="preserve">
-    <value>Generation Signature</value>
+    <value>Signature de génération</value>
     <comment>IBlock</comment>
   </data>
   <data name="GeneratorId" xml:space="preserve">
-    <value>Generator ID</value>
+    <value>ID de générateur</value>
     <comment>IBlock</comment>
   </data>
   <data name="GeneratorPublicKeyString" xml:space="preserve">
-    <value>Generator Public Key</value>
+    <value>Clé publique génératrice</value>
     <comment>IBlock</comment>
   </data>
   <data name="GeneratorRS" xml:space="preserve">
-    <value>Generator RS</value>
+    <value>Générateur Rs</value>
     <comment>IBlock</comment>
   </data>
   <data name="Greeting" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Salut!</value>
+    <comment>Not Avail</comment>
   </data>
   <data name="HasEncryptedMessage" xml:space="preserve">
-    <value>Has Encrypted Message</value>
+    <value>A un message crypté</value>
     <comment>ITransaction</comment>
   </data>
   <data name="HasMessage" xml:space="preserve">
-    <value>Has Message</value>
+    <value>A un message</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Height</value>
+    <value>Hauteur</value>
     <comment>Global Use</comment>
   </data>
   <data name="Id" xml:space="preserve">
-    <value>Id</value>
+    <value>Identifiant</value>
     <comment>Global Use</comment>
   </data>
   <data name="IdRS" xml:space="preserve">
-    <value>Account RS</value>
+    <value>Compte rs</value>
     <comment>IAccount</comment>
   </data>
   <data name="KeyHeight" xml:space="preserve">
-    <value>Key Height</value>
+    <value>Hauteur de clé</value>
     <comment>IAccount</comment>
   </data>
   <data name="Latest" xml:space="preserve">
-    <value>Latest</value>
+    <value>Dernier</value>
     <comment>IAccount</comment>
   </data>
   <data name="LatestBlocks" xml:space="preserve">
-    <value>Latest Blocks</value>
+    <value>Derniers blocs</value>
     <comment>Index Page</comment>
   </data>
   <data name="LatestTransactions" xml:space="preserve">
-    <value>Latest Transactions</value>
+    <value>Dernières transactions</value>
     <comment>Index Page</comment>
   </data>
   <data name="Listing" xml:space="preserve">
-    <value>Add Digital Good</value>
+    <value>Ajouter du bien numérique</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>Loading</value>
+    <value>Chargement</value>
     <comment>Global Use</comment>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>minutes ago</value>
+    <value>il y a quelques minutes</value>
     <comment>Index Page</comment>
   </data>
   <data name="MultiOutPayment" xml:space="preserve">
-    <value>Multi-Out</value>
+    <value>Multi-sorti</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="MultiOutSame" xml:space="preserve">
-    <value>Multi-Out Same</value>
+    <value>Même multi-sorti</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Nom</value>
     <comment>IAccount</comment>
   </data>
   <data name="NextBlockId" xml:space="preserve">
-    <value>Next Block ID</value>
+    <value>ID de bloc suivant</value>
     <comment>IBlock</comment>
   </data>
   <data name="Nonce" xml:space="preserve">
-    <value>Nonce</value>
+    <value>Nece</value>
     <comment>IBlock</comment>
   </data>
   <data name="NothingPending" xml:space="preserve">
-    <value>No Pending Transactions</value>
+    <value>Pas de transactions en attente</value>
     <comment>Index Page</comment>
   </data>
   <data name="OrdinaryPayment" xml:space="preserve">
-    <value>Payment</value>
+    <value>Paiement</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="PayloadHashString" xml:space="preserve">
-    <value>Payload Hash</value>
+    <value>Hachage de charge utile</value>
     <comment>IBlock</comment>
   </data>
   <data name="PayloadLength" xml:space="preserve">
-    <value>Payload Length</value>
+    <value>Longueur de la charge utile</value>
     <comment>IBlock</comment>
   </data>
   <data name="Pool" xml:space="preserve">
-    <value>Pool</value>
+    <value>Piscine</value>
     <comment>Global Use</comment>
   </data>
   <data name="PreviousBlockHashString" xml:space="preserve">
-    <value>Previous Block Hash</value>
+    <value>Block antérieur hachage</value>
     <comment>IBlock</comment>
   </data>
   <data name="PreviousBlockId" xml:space="preserve">
-    <value>Previous Block ID</value>
+    <value>ID de bloc précédent</value>
     <comment>IBlock</comment>
   </data>
   <data name="Price" xml:space="preserve">
-    <value>Price</value>
+    <value>Prix</value>
     <comment>ITrade</comment>
   </data>
   <data name="PriceChange" xml:space="preserve">
-    <value>Price Change</value>
+    <value>Changement de prix</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="PublicKeyString" xml:space="preserve">
-    <value>Public Key</value>
+    <value>Clé publique</value>
     <comment>IAccount</comment>
   </data>
   <data name="Purchase" xml:space="preserve">
-    <value>Purchase Good</value>
+    <value>Achat bon</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Quantity" xml:space="preserve">
-    <value>Quantity</value>
+    <value>Quantité</value>
     <comment>IAssetTransfer</comment>
   </data>
   <data name="QuantityChange" xml:space="preserve">
-    <value>Quantity Change</value>
+    <value>Changement de quantité</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="RecipId" xml:space="preserve">
-    <value>Recipient ID</value>
+    <value>ID de destinataire</value>
     <comment>IBlock</comment>
   </data>
   <data name="Recipient" xml:space="preserve">
-    <value>Recipient</value>
+    <value>Destinataire</value>
     <comment>Global Use</comment>
   </data>
   <data name="RecipientId" xml:space="preserve">
-    <value>Recipient ID</value>
+    <value>ID de destinataire</value>
     <comment>ITransaction</comment>
   </data>
   <data name="RecipientRS" xml:space="preserve">
-    <value>Recipient RS</value>
+    <value>Destinataire Rs</value>
     <comment>ITransaction</comment>
   </data>
   <data name="RecipName" xml:space="preserve">
-    <value>Recipient Name</value>
+    <value>Nom du destinataire</value>
     <comment>IBlock</comment>
   </data>
   <data name="ReferencedTransactionFullhash" xml:space="preserve">
-    <value>Ref. Trans. Full Hash</value>
+    <value>Réf. Trans. Hachage complet</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Refund" xml:space="preserve">
-    <value>Refund Good</value>
+    <value>Remboursement bien</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="RemoveCommitment" xml:space="preserve">
-    <value>Remove Commitment</value>
+    <value>Enlever l'engagement</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Reward" xml:space="preserve">
-    <value>Reward</value>
+    <value>Récompense</value>
     <comment>Global Use</comment>
   </data>
   <data name="RewardRecipientAssignment" xml:space="preserve">
-    <value>Set Reward Recipient</value>
+    <value>Définir la récompense</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="SellerId" xml:space="preserve">
-    <value>Seller ID</value>
+    <value>Vendeur ID</value>
     <comment>ITrade</comment>
   </data>
   <data name="SellerRS" xml:space="preserve">
-    <value>Seller RS</value>
+    <value>Vendeur Rs</value>
     <comment>ITrade</comment>
   </data>
   <data name="Sender" xml:space="preserve">
-    <value>Sender</value>
+    <value>Expéditeur</value>
     <comment>Global Use</comment>
   </data>
   <data name="SenderId" xml:space="preserve">
@@ -601,15 +602,15 @@
     <comment>ITransaction</comment>
   </data>
   <data name="SenderName" xml:space="preserve">
-    <value>Sender Name</value>
+    <value>Nom de l'expéditeur</value>
     <comment>IMultiOut</comment>
   </data>
   <data name="SenderPublicKey" xml:space="preserve">
-    <value>Sender Public Key</value>
+    <value>Clé publique de l'expéditeur</value>
     <comment>ITransaction</comment>
   </data>
   <data name="SenderRS" xml:space="preserve">
-    <value>Sender RS</value>
+    <value>Expéditeur Rs</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Signature" xml:space="preserve">
@@ -617,43 +618,43 @@
     <comment>ITransaction</comment>
   </data>
   <data name="SmartContracts" xml:space="preserve">
-    <value>Smart Contracts</value>
+    <value>Contrats intelligents</value>
     <comment>Global Use</comment>
   </data>
   <data name="SubscriptionCancel" xml:space="preserve">
-    <value>Cancel Subscription</value>
+    <value>Annuler l'abonnement</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="SubscriptionPayment" xml:space="preserve">
-    <value>Subscription Payment</value>
+    <value>Paiement de souscription</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="SubscriptionSubscribe" xml:space="preserve">
-    <value>Subscribe Subscription</value>
+    <value>Abonnez-vous abonnement</value>
     <comment>Transaction Types</comment>
   </data>
   <data name="Subtype" xml:space="preserve">
-    <value>Sub Type</value>
+    <value>Sous-type</value>
     <comment>ITtransaction</comment>
   </data>
   <data name="Time" xml:space="preserve">
-    <value>Time</value>
+    <value>Temps</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Timestamp" xml:space="preserve">
-    <value>Timestamp</value>
+    <value>Horodatage</value>
     <comment>ITransaction</comment>
   </data>
   <data name="TotalAmount" xml:space="preserve">
-    <value>Total Amount</value>
+    <value>Montant total</value>
     <comment>Global Use</comment>
   </data>
   <data name="TotalFee" xml:space="preserve">
-    <value>Total Fee</value>
+    <value>Montant total</value>
     <comment>IBlock</comment>
   </data>
   <data name="TransactionCount" xml:space="preserve">
-    <value>Transaction Count</value>
+    <value>Compte de transaction</value>
     <comment>IBlock</comment>
   </data>
   <data name="Transactions" xml:space="preserve">
@@ -661,23 +662,23 @@
     <comment>Global Use</comment>
   </data>
   <data name="TransactionType" xml:space="preserve">
-    <value>Transaction Type</value>
+    <value>Type de transaction</value>
     <comment>ITransaction</comment>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type</value>
+    <value>Taper</value>
     <comment>Global Use</comment>
   </data>
   <data name="UnconfirmedBalance" xml:space="preserve">
-    <value>Unconfirmed Balance</value>
+    <value>Solde non confirmé</value>
     <comment>IAccount</comment>
   </data>
   <data name="UnconfirmedQuantity" xml:space="preserve">
-    <value>Unconfirmed Quantity</value>
+    <value>Quantité non confirmée</value>
     <comment>IAccountAsset</comment>
   </data>
   <data name="UnconfirmedTransactions" xml:space="preserve">
-    <value>Unconfirmed Transactions</value>
+    <value>Transactions non confirmées</value>
     <comment>Index Page</comment>
   </data>
   <data name="Version" xml:space="preserve">

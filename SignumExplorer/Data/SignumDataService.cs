@@ -951,21 +951,41 @@ public class SignumDataService : ISignumDataService
     public async Task<IEnumerable<IAccount>> GetFilteredSortedPagedAccounts(string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0)
 
     {
+
+        List<IAccount> accounts = new List<IAccount>();
+        //Try to convert to account id
+        var accountSuccess = ulong.TryParse(searchString, out ulong accountString);
+
+
+        //Search for name or Exact ID
+
         using (var context = _contextFactory.CreateDbContext())
         {
             IQueryable<IAccount>? query;
 
+
+
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                query = context.Accounts.AsQueryable<IAccount>().Where(element => element.Latest.Value && (
-                    //element.CreationHeight.ToString().ToLower().Contains(searchString.ToLower())
-                    //|| element.AccountId.ToString().ToLower().Contains(searchString.ToLower())
-                    //||
-                    element.Name.ToString().ToLower().Contains(searchString.ToLower())
-                       //|| element.Description.ToString().ToLower().Contains(searchString.ToLower())
-                       ))
-                        .AsQueryable();
+                //Search for exact account ID and add to the result list
+                if (accountSuccess)
+                {
+                    var result = await context.Accounts.Where(m => m.Latest.Value && m.Id == (long)accountString).FirstOrDefaultAsync<IAccount>();
+                    if(result != null) accounts.Add(result);
+
+                }
+
+                //search on other text fields base on text even if numbers
+                
+                
+                    query = context.Accounts.AsQueryable<IAccount>().Where(element => element.Latest.Value 
+                            && (element.Name.Contains(searchString)
+                            || element.Description.Contains(searchString)))
+                            .AsQueryable();
+                
+
             }
+            //Grab everything available
             else
             {
                 query = context.Accounts.Where(element => element.Latest.Value).AsQueryable<IAccount>();
@@ -990,8 +1010,12 @@ public class SignumDataService : ISignumDataService
             {
                 query = query.OrderByDescending(m => m.CreationHeight);
             }
-            return await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
 
+
+            var secondResult = await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
+
+
+            return accounts.Concat(secondResult);
 
         }
 
@@ -1252,7 +1276,7 @@ public class SignumDataService : ISignumDataService
             {
                 query = context.Aliases.AsQueryable<IAlias>().Where(element => element.Latest.Value && (
 
-                    element.AliasNameLower.ToString().ToLower().Contains(searchString.ToLower())
+                    element.AliasNameLower.Contains(searchString.ToLower())
                    
                        ))
                         .AsQueryable();

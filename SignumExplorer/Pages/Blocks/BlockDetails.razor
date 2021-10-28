@@ -22,17 +22,19 @@
         </MudItem>
     </MudGrid>
 
-
-
-<MudTabs  Elevation="2" Rounded="true" Centered="true">
-    <MudTabPanel Icon="@Icons.Material.Filled.TransitEnterexit" ToolTip="Transactions"  BadgeData=@($"{BlockDet.Transactions.Count}") BadgeColor="Color.Secondary">
-
         @if (BlockDet.Transactions  == null )
         {
             <p><em>Loading ...</em></p>
         }
         else
         {  
+
+<MudTabs  Elevation="2" Rounded="true" Centered="true">
+
+
+    <MudTabPanel Icon="@Icons.Material.Filled.TransitEnterexit" ToolTip="Transactions"  BadgeData=@($"{BlockDet.Transactions.Count}") BadgeColor="Color.Secondary">
+
+
 
   
             <MudItem xs="12">
@@ -61,8 +63,14 @@
                     <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
                     <MudTd DataLabel="Fee"><MudText Typo="Typo.caption">@context.Fee </MudText></MudTd>
                     <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>
-                    <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId.Value)</MudLink></MudTd>
-        
+
+                    @if(context.RecipientId == 0)
+                        {
+                         <MudTd DataLabel="Type"><MudText Typo="Typo.caption">@context.TransactionType </MudText></MudTd>  
+                        }
+                        else{
+                            <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId)</MudLink></MudTd>
+                        }
         </RowTemplate>
         <PagerContent>
             <MudTablePager  />
@@ -70,12 +78,13 @@
             </MudTable>
             </MudItem>
 
-        }
+        
 
    
 
     </MudTabPanel>
     </MudTabs>
+    }
 </MudContainer>
 
 }

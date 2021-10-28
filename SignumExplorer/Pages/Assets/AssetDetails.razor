@@ -11,7 +11,7 @@
 
 @if (AssetDet == null || assetCounts == null)
 {
-    <p><em>Loading Asset Details...</em></p>
+    <p><em>@L["Loading"] Asset Details...</em></p>
 }
 else
 {  
@@ -23,7 +23,7 @@ else
     </MudGrid>
 
     <MudTabs>
-        <MudTabPanel  OnClick="()=>RenderTradeGraph()" Icon="@Icons.Material.Filled.Sell" ToolTip="Open Orders" BadgeData="@assetCounts.TotalOpenOrders.ToString()" BadgeColor="Color.Secondary">
+        <MudTabPanel  OnClick="()=>RenderTradeGraph()" Icon="@Icons.Material.Filled.Sell" ToolTip="@L["OpenOrders"]" BadgeData="@assetCounts.TotalOpenOrders.ToString()" BadgeColor="Color.Secondary">
             <MudGrid>
                 <MudItem xs="12">
                     <div id="stockcontrols"></div>
@@ -33,21 +33,21 @@ else
 
             @if (AssetAsks == null)
             {
-                <p><em>Loading...</em></p>
+                <p><em>@L["Loading"]...</em></p>
             }
             else
             {   
   
                 <MudItem xs="12" sm="6">
-                    <MudTable Items="@AssetAsks" FixedHeader="true" Dense="true" Height="350px" Hover="true" Bordered="false" Striped="true">
+                    <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" Items="@AssetAsks" FixedHeader="true" Dense="true" Height="350px" Hover="true" Bordered="false" Striped="true">
                         <ToolBarContent>
-                        <MudText Typo="Typo.h6">Ask Orders (@AssetAsks.Count())</MudText>             
+                        <MudText Typo="Typo.h6">@L["AskOrders"] (@AssetAsks.Count())</MudText>             
                         </ToolBarContent>
                         <HeaderContent>
-                            <MudTh>Seller</MudTh>
-                            <MudTh>Total</MudTh>
-                            <MudTh>Quantity</MudTh>
-                            <MudTh>Price</MudTh>
+                            <MudTh>@L["Seller"]</MudTh>
+                            <MudTh>@L["Total"]</MudTh>
+                            <MudTh>@L["Quantity"]</MudTh>
+                            <MudTh>@L["Price"]</MudTh>
                         </HeaderContent>
                         <RowTemplate >
                             <MudTd DataLabel="Seller"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.AccountId}")>@context.AccountRS</MudLink></MudTd>
@@ -62,20 +62,20 @@ else
     
             @if (AssetBids == null)
             {
-                <p><em>Loading...</em></p>
+                <p><em>@L["Loading"]...</em></p>
             }
             else
             {   
                 <MudItem xs="12" sm="6">
-                    <MudTable Items="@AssetBids" FixedHeader="true" Height="350px" Dense="true" Hover="true" Bordered="false" Striped="true">
+                    <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" Items="@AssetBids" FixedHeader="true" Height="350px" Dense="true" Hover="true" Bordered="false" Striped="true">
                         <ToolBarContent>
-                          <MudText Typo="Typo.h6">Bid Orders (@AssetBids.Count())</MudText>             
+                          <MudText Typo="Typo.h6">@L["BidOrders"] (@AssetBids.Count())</MudText>             
                         </ToolBarContent>
                         <HeaderContent>
-                            <MudTh>Price</MudTh>
-                            <MudTh>Quantity</MudTh>
-                            <MudTh>Total</MudTh>
-                            <MudTh>Buyer</MudTh>
+                            <MudTh>@L["Price"]</MudTh>
+                            <MudTh>@L["Quantity"]</MudTh>
+                            <MudTh>@L["Total"]</MudTh>
+                            <MudTh>@L["Buyer"]</MudTh>
                         </HeaderContent>
                         <RowTemplate >
                             <MudTd DataLabel="Price"><MudText Typo="Typo.caption">  @(context.Price / Math.Pow(10,(8 - context.Decimals.Value)))</MudText></MudTd>
@@ -92,7 +92,7 @@ else
 
                 </MudTabPanel>
 
-                <MudTabPanel Icon="@Icons.Material.Filled.AlignVerticalCenter" ToolTip="Trades" BadgeData="@assetCounts.Trades.ToString()" BadgeColor="Color.Secondary">
+                <MudTabPanel Icon="@Icons.Material.Filled.AlignVerticalCenter" ToolTip="@L["Trades"]" BadgeData="@assetCounts.Trades.ToString()" BadgeColor="Color.Secondary">
                     
 
 
@@ -102,7 +102,7 @@ else
 
                                 @if (AssetTrades == null)
                                 {
-                                <p><em>Loading...</em></p>
+                                <p><em>@L["Loading"]...</em></p>
                                 }
                                 else
                                 {    
@@ -112,18 +112,18 @@ else
 
                                     <MudTable Items="@AssetTrades" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
                                 <ToolBarContent>
-                                    <MudText Typo="Typo.h6">Asset Trades</MudText>
+                                    <MudText Typo="Typo.h6">@L["Asset"] @L["Trades"]</MudText>
              
                                 </ToolBarContent>
                                 <HeaderContent>
-                                    <MudTh>Height</MudTh>
-                                    <MudTh>Date/Time</MudTh>
-                                    <MudTh>Quantity</MudTh>
-                                    <MudTh>Price</MudTh>
-                                    <MudTh>Seller ID</MudTh>
-                                    <MudTh>Buyer ID</MudTh>
-                                    <MudTh>Ask Order ID</MudTh>
-                                    <MudTh>Bid Order ID</MudTh>
+                                    <MudTh>@L["Height"]</MudTh>
+                                    <MudTh>@L["DateTime"]</MudTh>
+                                    <MudTh>@L["Quantity"]</MudTh>
+                                    <MudTh>@L["Price"]</MudTh>
+                                    <MudTh>@L["SellerId"]</MudTh>
+                                    <MudTh>@L["BuyerId"]</MudTh>
+                                    <MudTh>@L["AskOrderId"]</MudTh>
+                                    <MudTh>@L["BidOrderId"]</MudTh>
 
                                 </HeaderContent>
                                 <RowTemplate>
@@ -147,27 +147,27 @@ else
 
                                 }
                 </MudTabPanel>
-                <MudTabPanel Icon="@Icons.Material.Filled.ReadMore" ToolTip="Transfers" BadgeData="@assetCounts.Transfers.ToString()" BadgeColor="Color.Secondary">
+                <MudTabPanel Icon="@Icons.Material.Filled.ReadMore" ToolTip="@L["Transfers"]" BadgeData="@assetCounts.Transfers.ToString()" BadgeColor="Color.Secondary">
             
                     @if (AssetTransfers == null ) 
                     {
-                        <p><em>Loading...</em></p>
+                        <p><em>@L["Loading"]...</em></p>
                     }
                     else
                     {
 
                         <MudGrid>                                                    
                             <MudItem xs="12">
-                                <MudTable Items="@AssetTransfers" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                                <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" Items="@AssetTransfers" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
                                     <ToolBarContent>
-                                        <MudText Typo="Typo.h6"> Asset Transfers</MudText>             
+                                        <MudText Typo="Typo.h6"> @L["Asset"] @L["Transfers"]</MudText>             
                                     </ToolBarContent>
                                     <HeaderContent>
-                                        <MudTh>Height</MudTh>
-                                        <MudTh>Date/Time</MudTh>
-                                        <MudTh>Quantity</MudTh>
-                                        <MudTh>Sender</MudTh>
-                                        <MudTh>Recipient</MudTh>
+                                        <MudTh>@L["Height"]</MudTh>
+                                        <MudTh>@L["DateTime"]</MudTh>
+                                        <MudTh>@L["Quantity"]</MudTh>
+                                        <MudTh>@L["Sender"]</MudTh>
+                                        <MudTh>@L["Recipient"]</MudTh>
                                     </HeaderContent>
                                     <RowTemplate>
                                         <MudTd DataLabel="Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.Height</MudLink></MudTd>
@@ -184,25 +184,25 @@ else
                         </MudGrid>
                     }
                 </MudTabPanel>
-                <MudTabPanel Icon="@Icons.Material.Filled.People" ToolTip="Holders" BadgeData="@assetCounts.Holders.ToString()" BadgeColor="Color.Secondary">
+                <MudTabPanel Icon="@Icons.Material.Filled.People" ToolTip="@L["Holders"]" BadgeData="@assetCounts.Holders.ToString()" BadgeColor="Color.Secondary">
               
                          @if (AssetHolders == null || AssetDet == null) 
                         {
-                            <p><em>Loading...</em></p>
+                            <p><em>@L["Loading"]...</em></p>
                         }
                         else
                         {
                             <MudGrid>                                                    
                                 <MudItem xs="12">
-                                        <MudTable Items="@AssetHolders" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
+                                        <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" Items="@AssetHolders" FixedHeader="true" Dense="true" Hover="true" Bordered="false" Striped="true">
                                         <ToolBarContent>
-                                            <MudText Typo="Typo.h6"> Asset Holders</MudText>
+                                            <MudText Typo="Typo.h6"> @L["Asset"] @L["Holders"]</MudText>
                                         </ToolBarContent>
                                             <HeaderContent>
-                                            <MudTh>Height</MudTh>
-                                            <MudTh>Account</MudTh>
-                                            <MudTh>Quantity</MudTh>
-                                            <MudTh>Unconfirmed Quantity</MudTh>
+                                            <MudTh>@L["Height"]</MudTh>
+                                            <MudTh>@L["Account"]</MudTh>
+                                            <MudTh>@L["Quantity"]</MudTh>
+                                            <MudTh>@L["UnconfirmedQuantity"]</MudTh>
                                             </HeaderContent>
                                             <RowTemplate>
                                             <MudTd DataLabel="Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{context.Height}")>@context.Height</MudLink></MudTd>

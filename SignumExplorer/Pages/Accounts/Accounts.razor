@@ -3,6 +3,7 @@
 @page "/accounts"
 
 @inject ISignumDataService SignumService
+@inject IStringLocalizer<App> L
 
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
 
@@ -15,20 +16,24 @@ else
  
     <MudGrid>
         <MudItem xs="12">
-            <MudTable  RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<IAccount>>>(ServerReload))" 
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search for name or ID" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </MudItem>
+        <MudItem xs="12">
+            <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"   RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<IAccount>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h3">Accounts</MudText>
-                     <MudSpacer /> 
-                     <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search: Height, Id or Generator Id" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                    <MudText Typo="Typo.h5">Accounts</MudText>
                                          
                 </ToolBarContent>
                 <HeaderContent>
                   
                     <MudTh>
-
+                    <MudTableSortLabel SortLabel="accountid_field" T="IAccount">
                     Account Id
+                    </MudTableSortLabel>
+
+
 
                     </MudTh>
 
@@ -61,7 +66,7 @@ else
 
                     <MudTd DataLabel="Account Id"><MudLink Typo="Typo.overline" Underline="Underline.None" Href=@($"/accounts/{context.AccountId}")>@context.AccountId</MudLink> </MudTd>
                     <MudTd DataLabel="Account RS">   <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.AccountId}")>@context.IdRS</MudLink> </MudTd>
-                    <MudTd DataLabel="Name"><MudText Typo="Typo.caption">@context.Name</MudText></MudTd>
+                    <MudTd DataLabel="Name"><MudText Style="overflow-wrap:anywhere"  Typo="Typo.caption">@context.Name</MudText></MudTd>
                     <MudTd DataLabel="Balance"><MudText Typo="Typo.caption">@context.Balance.ToString("N0")</MudText></MudTd>
                     <MudTd DataLabel="Unconfirmed Balance"><MudText Typo="Typo.caption">@context.UnconfirmedBalance.ToString("N0")</MudText></MudTd>
                     <MudTd DataLabel="Forged Balance"><MudText Typo="Typo.caption">@context.ForgedBalance.ToString("N0")</MudText></MudTd>
@@ -107,7 +112,7 @@ else
     private async Task<TableData<IAccount>> ServerReload(TableState state)
     {
 
-        totalItems = count.Value;
+        //totalItems = count.Value;
 
         var sortDir = (int)state.SortDirection;
         string? sortLabel = null;
@@ -118,30 +123,33 @@ else
             case "height_field":
                 sortLabel = nameof(IAccount.CreationHeight);
                 break;
-                            case "accountid_field":
+            case "accountid_field":
                 sortLabel = nameof(IAccount.AccountId);
                 break;
-                                            case "name_field":
+            case "name_field":
                 sortLabel = nameof(IAccount.Name);
                 break;
-                                            case "balance_field":
+            case "balance_field":
                 sortLabel = nameof(IAccount.Balance);
                 break;
 
             default:
                 sortLabel = "";
-            break;
+                break;
 
         }        
-         data = await SignumService.GetFilteredSortedPagedAccounts(searchString, sortLabel, state.Page, state.PageSize, sortDir );
+        data = await SignumService.GetFilteredSortedPagedAccounts(searchString, sortLabel, state.Page, state.PageSize, sortDir );
 
+        totalItems = data.Count();
         return new TableData<IAccount>() {TotalItems = totalItems, Items = data};
     }
 
     private void OnSearch(string text)
     {
         searchString = text;
+
         table.ReloadServerData();
+
     }
 
 

@@ -1,13 +1,15 @@
-﻿    <MudNavMenu Class="mud-width-full">
+﻿@inject IStringLocalizer<App> L    
+
+<MudNavMenu Class="mud-width-full">
 
         <MudDivider Class="my-2" />
-        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Filled.Dashboard">Dashboard</MudNavLink>
-        <MudNavLink Href="/blocks" Icon="@Icons.Material.Filled.Layers">Blocks</MudNavLink>
-        <MudNavLink Href="/transactions" Icon="@Icons.Material.Filled.DoubleArrow" >Transactions</MudNavLink>
-        <MudNavLink Href="/assets" Icon="@Icons.Material.Filled.GeneratingTokens" >Assets</MudNavLink>
-        <MudNavLink Href="/accounts" Icon="@Icons.Filled.AccountBalanceWallet" >Accounts</MudNavLink>
-        <MudNavLink Href="/ats" Icon="@Icons.Filled.Receipt" >Smart Contracts</MudNavLink>
-        <MudNavLink Href="/aliases" Icon="@Icons.Filled.Link" >Aliases</MudNavLink>
-        <MudNavLink Href="/culture-example-1" Icon="@Icons.Filled.Receipt" >Culture Example</MudNavLink>
+        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Filled.Dashboard">@L["Dashboard"]</MudNavLink>
+        <MudNavLink Href="/blocks" Icon="@Icons.Material.Filled.Layers">@L["Blocks"]</MudNavLink>
+        <MudNavLink Href="/transactions" Icon="@Icons.Material.Filled.DoubleArrow" >@L["Transactions"]</MudNavLink>
+        <MudNavLink Href="/assets" Icon="@Icons.Material.Filled.GeneratingTokens" >@L["Assets"]</MudNavLink>
+        <MudNavLink Href="/accounts" Icon="@Icons.Filled.AccountBalanceWallet" >@L["Accounts"]</MudNavLink>
+        <MudNavLink Href="/ats" Icon="@Icons.Filled.Receipt" >@L["SmartContracts"]</MudNavLink>
+        <MudNavLink Href="/aliases" Icon="@Icons.Filled.Link" >@L["Aliases"]</MudNavLink>
+        <MudNavLink Href="/culture-example-1" Icon="@Icons.Filled.Receipt" >@L["CultureExample"]</MudNavLink>
 
     </MudNavMenu>

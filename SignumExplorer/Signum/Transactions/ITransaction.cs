@@ -16,7 +16,7 @@ namespace SignumExplorer.Models
         public ulong Id { get; }
         public short Deadline { get;  }
         public string SenderPublicKey { get; }
-        public ulong? RecipientId { get;  }
+        public ulong RecipientId { get;  }
         public double Amount { get;  }
         public double Fee { get;  }
         public int Height { get;  }
@@ -43,7 +43,7 @@ namespace SignumExplorer.Models
         public DateTime Time {  get; }
 
         public string SenderRS => ReedSolomon.encode(SenderId);
-        public string RecipientRS => ReedSolomon.encode(RecipientId.Value);
+        public string RecipientRS => ReedSolomon.encode(RecipientId);
 
 
     }
