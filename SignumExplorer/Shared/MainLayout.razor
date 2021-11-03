@@ -4,16 +4,18 @@
 
 
 <MudLayout>
+        
+    <MudAppBar Dense="true"  Elevation="1">
+               <MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="true">
+	       <MudIconButton Icon="@Icons.Material.Filled.Menu"  Size="Size.Large" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => OpenDrawer(Anchor.Top))" />
+        </MudHidden>
+  
+        <NavMenuTop></NavMenuTop>
+             <MudSpacer></MudSpacer>  
+   
 
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-            <MudSpacer></MudSpacer>
-                <MudAutocomplete T="string" HelperText="@("Account, Block, Asset ID")" Class="docs-search-bar" HelperTextOnFocus="true" @bind-Value="value2" SearchFunc="@Search2"
-                         ResetValueOnEmptyText="false" Variant="Variant.Outlined"
-                         CoerceText="false" CoerceValue="true" Dense="true" Adornment="Adornment.Start"
-                         AdornmentIcon="@Icons.Material.Outlined.Search" AdornmentColor="Color.Secondary" />
-            
-                 <MudSpacer />
+    
+
 
 
         <DarkMode></DarkMode>
@@ -21,19 +23,23 @@
                 <MudTooltip Text="GitHub repository)">
                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Edge="Edge.End" Color="Color.Inherit" Link="https://github.com/rodrigue10/SignumExplorer" Target="_blank" />
                 </MudTooltip>
-                     <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Color="Color.Inherit" Edge="Edge.End" />
-                    <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Inherit" Edge="Edge.Start" />
-                    <MudText>S-TGS2-BU2Q-DBFR-DNATE</MudText>
+@*                     <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Color="Color.Inherit" Edge="Edge.End" />*@
+                     <MudTooltip Text="S-TGS2-BU2Q-DBFR-DNATE">
+                         <MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Inherit" Edge="Edge.Start" />
+                     </MudTooltip>
+                                        
 
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="5">
+    <MudDrawer @bind-Open="open" Variant="@DrawerVariant.Temporary" Anchor="Anchor.Top" ClipMode="DrawerClipMode.Docked" Elevation="5">
         <MudDrawerHeader>
             <MudText Typo="Typo.h5" Class="mt-1">Signum Explorer</MudText>
         </MudDrawerHeader>
                 <NavMenu />
   
     </MudDrawer>
-    <MudMainContent>   
+
+
+    <MudMainContent>
         <MudContainer Class="content px-4">
                         @Body
         </MudContainer>
@@ -42,6 +48,15 @@
 </MudLayout>
 
 @code {
+
+     bool open;
+    Anchor anchor;
+    
+    void OpenDrawer(Anchor anchor)
+    {
+        open = true;
+        this.anchor = anchor;
+    }
     bool _drawerOpen = true;
 
     void DrawerToggle()
@@ -54,51 +69,6 @@
 
     }
 
-
-
-    private string value2;
-
-    private string[] states =
-    {
-        "Alabama", "Alaska", "American Samoa", "Arizona",
-        "Arkansas", "California", "Colorado", "Connecticut",
-        "Delaware", "District of Columbia", "Federated States of Micronesia",
-        "Florida", "Georgia", "Guam", "Hawaii", "Idaho",
-        "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
-        "Louisiana", "Maine", "Marshall Islands", "Maryland",
-        "Massachusetts", "Michigan", "Minnesota", "Mississippi",
-        "Missouri", "Montana", "Nebraska", "Nevada",
-        "New Hampshire", "New Jersey", "New Mexico", "New York",
-        "North Carolina", "North Dakota", "Northern Mariana Islands", "Ohio",
-        "Oklahoma", "Oregon", "Palau", "Pennsylvania", "Puerto Rico",
-        "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
-        "Texas", "Utah", "Vermont", "Virgin Island", "Virginia",
-        "Washington", "West Virginia", "Wisconsin", "Wyoming",
-    };
-
-    private async Task<IEnumerable<string>> Search1(string value)
-    {
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, show complete list
-        if (string.IsNullOrEmpty(value))
-            return states;
-        return states.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
-    }
-
-    private async Task<IEnumerable<string>> Search2(string value)
-    {
-        var listed = new List<(string, string)>();
-
-        // In real life use an asynchronous function for fetching data from an api.
-        await Task.Delay(5);
-
-        // if text is null or empty, don't return values (drop-down will not open)
-        if (string.IsNullOrEmpty(value))
-            return new string[0];
-        return states.Where(x => x.Contains(value, StringComparison.InvariantCultureIgnoreCase));
-    }
 
 }
 

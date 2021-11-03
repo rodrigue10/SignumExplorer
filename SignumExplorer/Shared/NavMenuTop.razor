@@ -1,0 +1,111 @@
+﻿@inject IConfiguration Configuration
+@inject IStringLocalizer<App> L 
+@inject NavigationManager Nav
+
+
+
+   <MudItem Class="d-none d-md-flex align-center">   
+
+       
+                    <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true"> 
+        <MudMenu  FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Material.Filled.Dashboard"></MudIcon> Home</MudText>
+            </ActivatorContent>
+            <ChildContent>
+                <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Filled.Dashboard"> @L["Dashboard"]</MudNavLink>
+
+            </ChildContent>
+             </MudMenu>
+              <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+       </MudHidden>
+                          <MudHidden Breakpoint="Breakpoint.SmAndUp" Invert="true"> 
+           <MudMenu  FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Material.Filled.Layers"></MudIcon> @L["Blocks"]</MudText>
+            </ActivatorContent>
+            <ChildContent>
+        <MudNavLink Href="/blocks" Icon="@Icons.Material.Filled.Layers">@L["Blocks"]</MudNavLink>
+            </ChildContent>
+             </MudMenu>
+                           <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+             </MudHidden>
+
+             <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">    
+                 <MudMenu  FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Material.Filled.DoubleArrow"></MudIcon> @L["Transactions"]</MudText>
+            </ActivatorContent>
+            <ChildContent>
+              <MudNavLink Href="/transactions" Icon="@Icons.Material.Filled.DoubleArrow" >@L["Transactions"]</MudNavLink>
+            </ChildContent>
+             </MudMenu>
+                           <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+             </MudHidden>
+
+
+             
+             <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                              <MudMenu  FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Material.Filled.GeneratingTokens"></MudIcon> @L["Assets"]</MudText>
+            </ActivatorContent>
+            <ChildContent>
+        <MudNavLink Href="/assets" Icon="@Icons.Material.Filled.GeneratingTokens" >@L["Assets"]</MudNavLink>
+            </ChildContent>
+             </MudMenu>
+                           <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+             </MudHidden>
+
+             
+
+             <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert="true">
+                              <MudMenu  FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Filled.Receipt"></MudIcon> @L["SmartContracts"]</MudText>
+            </ActivatorContent>
+            <ChildContent>
+        <MudNavLink Href="/ats" Icon="@Icons.Filled.Receipt" >@L["SmartContracts"]</MudNavLink>
+            </ChildContent>
+             </MudMenu>
+
+                           <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+             </MudHidden>
+
+
+
+             <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert="true">
+               <MudMenu  FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Filled.AccountBalanceWallet"></MudIcon> @L["Accounts"]</MudText>
+            </ActivatorContent>
+            <ChildContent>
+        <MudNavLink Href="/accounts" Icon="@Icons.Filled.AccountBalanceWallet" >@L["Accounts"]</MudNavLink>
+            </ChildContent>
+             </MudMenu>
+
+                           <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+             </MudHidden>
+
+
+             <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert="true">   
+                 <MudMenu FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Filled.Link"></MudIcon> @L["Aliases"]</MudText>
+            </ActivatorContent>
+            <ChildContent>
+        <MudNavLink Href="/aliases" Icon="@Icons.Filled.Link" >@L["Aliases"]</MudNavLink>
+            </ChildContent>
+             </MudMenu>
+                           <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+             </MudHidden>
+
+   
+        </MudItem>
+
+
+
+
+@code
+{
+}

@@ -18,6 +18,11 @@ else
  
     <MudGrid>
         <MudItem xs="12">
+             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="@L["Search"]" Adornment="Adornment.Start"
+              AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0">
+                  </MudTextField>
+          </MudItem>
+        <MudItem xs="12">
             <MudTable  HorizontalScrollbar="true" Breakpoint="Breakpoint.None" RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<ITransaction>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
