@@ -9,6 +9,7 @@ using SignumExplorer.Data;
 using MudBlazor.Services;
 using System.Linq;
 using System.Net.Http.Headers;
+using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources/Localization");
-
+builder.Services.AddSyncfusionBlazor();
 
 builder.Services.AddDbContextFactory<ExplorerContext>(opt =>
         opt.UseMySql(explorer, ServerVersion.Parse(maria)));
@@ -50,6 +51,9 @@ var app = builder.Build();
 
 
 UpdateDatabase(app);
+
+//Register Syncfusion license
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NTI2NDUzQDMxMzkyZTMzMmUzMEJQeTJVNm81aXRQeE5UNkdwZHVCbVNGRkVDWlNzS2RLUkVvaDZIMjZrYWc9;NTI2NDU0QDMxMzkyZTMzMmUzMFRmTSsvSGZyTWtQUDVORVlueXdIMVo0bmk5OGMxWmIzTVhsWmdrL3J2ckk9;NTI2NDU1QDMxMzkyZTMzMmUzMFU3NWlLeVg4WmpzNWtITXVWZ2dlaHRJYWxSdFgyL3Y2bVhyUjJoMDVLUkE9;NTI2NDU2QDMxMzkyZTMzMmUzMEdVaFBRVXFlNFhzWGVpVG1rbHFScGw5TWhGRzFSOGdJS3M3YmpXRUxVOFk9;NTI2NDU3QDMxMzkyZTMzMmUzMFZGTlFzaG9zMkMvblFPQk9HWkx3bllkdHR2TzhVR1NNTkd0VitVQWtKWms9;NTI2NDU4QDMxMzkyZTMzMmUzMFg5cFdNR1BEc2F0YTE1TDNSOHJsSXpXQzV3dmxZVUkwY245Z1hkWkRhTXc9;NTI2NDU5QDMxMzkyZTMzMmUzMG9HekJpNUlDYm5NOVpvaTdlbkp5YjB3U3VCVmwyaFZ6U3J6R1hndkZtTG89;NTI2NDYwQDMxMzkyZTMzMmUzMFE5U09RWnVwL2htMkxmZ2FSUTNjTnVGbzBLTWF5ME5SaXdsWDhpcXUrRHM9;NTI2NDYxQDMxMzkyZTMzMmUzMFYxdHdNclg0YWNhdnV1bENjeWowU2U4eTR0ZDJWUGtpK1J4anIxUm4yN0E9;NTI2NDYyQDMxMzkyZTMzMmUzMG9oN0l6c056MGRqTWdSTXVraVpXT2ZhMWJtYU9sMVJMSXlRWU52K3JRa2c9;NTI2NDYzQDMxMzkyZTMzMmUzMG85MURwaWo5b2FFdHpOYldwWmM3bjF6OEpuMXFKOXZld2djRnZFSDJZeTg9");
 
 
 

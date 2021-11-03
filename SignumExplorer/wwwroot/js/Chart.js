@@ -436,7 +436,7 @@ function GenerateLineBarChart(tradeInfo) {
     }); // end am4core.ready()
 }
 
-function GenerateStockChart(tradeInfo) {
+export function GenerateStockChart(tradeInfo) {
 
 
     am4core.ready(function () {

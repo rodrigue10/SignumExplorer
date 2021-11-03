@@ -1399,6 +1399,25 @@ public class SignumDataService : ISignumDataService
 
     #region Ats
 
+    #region View Dependency
+
+    /// <summary>
+    /// Used for showing the details of a Smart Contract.  Uses View as source to resolve missing ApCodeString data for Carbon Contracts.
+    /// </summary>
+    /// <param name="atId"></param>
+    /// <returns></returns>
+    public async Task<IAt> GetSingleAt(long atId)
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            return await context.AtsViews.Where(m => m.Id == atId).FirstAsync();
+
+        }
+    }
+
+
+    #endregion
+
     public async Task<IEnumerable<ITransaction>> GetAtTransactions(long atId)
     {
         using (var context = _contextFactory.CreateDbContext())
@@ -1408,15 +1427,13 @@ public class SignumDataService : ISignumDataService
         }
     }
 
-    public async Task<IAt> GetSingleAt(long atId)
-    {
-        using (var context = _contextFactory.CreateDbContext())
-        {
-            return await context.Ats.Where(m =>m.Id == atId).FirstAsync();
 
-        }
-    }
 
+    /// <summary>
+    /// Uses DB At Table, Carbon Contracts will be missing ApCode String Data.  
+    /// </summary>
+    /// <param name="taken"></param>
+    /// <returns></returns>
     public async Task<IEnumerable<IAt>> GetAts(int taken)
     {
         using (var context = _contextFactory.CreateDbContext())

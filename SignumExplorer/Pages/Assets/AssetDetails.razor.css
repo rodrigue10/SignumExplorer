@@ -1,0 +1,11 @@
+﻿
+#chartstockbasic {
+    width: 100%;
+    height: 500px;
+    max-width: 100%;
+}
+
+#stockcontrols {
+    overflow: hidden;
+    padding-bottom: 3px;
+}

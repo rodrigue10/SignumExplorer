@@ -52,6 +52,7 @@ namespace SignumExplorer.Context
         public virtual DbSet<AssetTransferAssetDetail> AssetTransferAssetDetails { get; set; } = null!;
         public virtual DbSet<At> Ats { get; set; } = null!;
         public virtual DbSet<AtState> AtStates { get; set; } = null!;
+        public virtual DbSet<AtsView> AtsViews { get; set; } = null!;
         public virtual DbSet<BidOrder> BidOrders { get; set; } = null!;
         public virtual DbSet<Block> Blocks { get; set; } = null!;
         public virtual DbSet<BlockRewardRecipDesc> BlockRewardRecipDescs { get; set; } = null!;
@@ -677,6 +678,76 @@ namespace SignumExplorer.Context
                 entity.Property(e => e.State)
                     .HasColumnType("blob")
                     .HasColumnName("state");
+            });
+
+            modelBuilder.Entity<AtsView>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("ats_view");
+
+                entity.Property(e => e.ApCode)
+                    .HasColumnType("blob")
+                    .HasColumnName("ap_code");
+
+                entity.Property(e => e.ApCodeHashId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("ap_code_hash_id");
+
+                entity.Property(e => e.CCallStackBytes)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("c_call_stack_bytes");
+
+                entity.Property(e => e.CUserStackBytes)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("c_user_stack_bytes");
+
+                entity.Property(e => e.CreationHeight)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("creation_height");
+
+                entity.Property(e => e.CreatorId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("creator_id");
+
+                entity.Property(e => e.Csize)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("csize");
+
+                entity.Property(e => e.DbId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("db_id");
+
+                entity.Property(e => e.Description)
+                    .HasColumnType("text")
+                    .HasColumnName("description")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.Property(e => e.Dsize)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("dsize");
+
+                entity.Property(e => e.Height)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("height");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Latest)
+                    .IsRequired()
+                    .HasColumnName("latest")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(30)
+                    .HasColumnName("name")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.Property(e => e.Version)
+                    .HasColumnType("smallint(6)")
+                    .HasColumnName("version");
             });
 
             modelBuilder.Entity<BidOrder>(entity =>

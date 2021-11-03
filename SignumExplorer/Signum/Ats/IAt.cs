@@ -22,6 +22,9 @@ namespace SignumExplorer.Models
         public ulong? ApCodeHashId { get;  }
         public string ApCodeString { get; }
 
+        //Assumption that this being empty tells that it's a Carbon Contract
+        public bool CarbonContract => Csize == 0;
+
 
     }
 }

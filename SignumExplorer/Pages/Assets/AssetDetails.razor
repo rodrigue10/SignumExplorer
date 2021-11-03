@@ -6,6 +6,8 @@
 @inject IJSRuntime JS
 @inject IStringLocalizer<App> L
 
+@implements IAsyncDisposable
+
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
 
 
@@ -239,21 +241,32 @@ else
     private IEnumerable<IAccountAsset>? AssetHolders;
     private AssetCounts? assetCounts;
 
+    private IJSObjectReference _jsModule;
+
+    private Task<IJSObjectReference> _moduleLoad;
+    private Task<IJSObjectReference> ModuleLoad => _moduleLoad ??= JS.InvokeAsync<IJSObjectReference>("import", "./js/StockChart.js").AsTask();
+
+    private List<TradeData> tradeData;
+
+
 
     [Parameter]
     public string? Assetid { get; set; }
 
-        protected override async Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
-               await OnInitializedAsync();
-       // await base.OnParametersSetAsync();
- 
+        await OnInitializedAsync();
+        await base.OnParametersSetAsync();
+
     }
 
     protected override async Task OnInitializedAsync()
     {
+
+
         if (Assetid != null)
         {
+
             AssetDet = await SignumService.GetAsset(Assetid);
             AssetBids = await SignumService.GetBidOrders((long)UInt64.Parse(Assetid));
             AssetAsks = await SignumService.GetAskOrders((long)UInt64.Parse(Assetid));
@@ -264,105 +277,60 @@ else
             assetCounts = await SignumService.AssetCounts((long)UInt64.Parse(Assetid));
             AssetHolders = await SignumService.GetAssetHolders((long)UInt64.Parse(Assetid));
 
+            tradeData = RenderTradeGraph();
 
         }
 
     }
 
 
-    private void RenderTradeGraph()
+    private List<TradeData> RenderTradeGraph()
     {
 
-                var aggregation = new List<TradeData>();
+        var aggregation = new List<TradeData>();
 
-        if(AssetTrades != null && AssetDet != null)
+        if (AssetTrades != null && AssetDet != null)
         {
-            aggregation = AssetTrades                    
+            return AssetTrades
                         .GroupBy(z => z.Date)
                         .Select(g => new TradeData()
-                        {
-                            Date = g.First().Date,
-                            Height = g.First().Height,
-                            Volume = g.Sum(x => x.Quantity/Math.Pow(10,AssetDet.Decimals)),
-                            Average = g.Average(x => x.Price/Math.Pow(10, 8 - AssetDet.Decimals)),
-                            Findcount = g.Count(),
-                            Minprice = g.Min(x => x.Price),
-                            Maxprice = g.Max(x => x.Price)
-                        
+                            {
+                                Date = g.First().Date,
+                                Height = g.First().Height,
+                                Volume = g.Sum(x => x.Quantity / Math.Pow(10, AssetDet.Decimals)),
+                                Average = g.Average(x => x.Price / Math.Pow(10, 8 - AssetDet.Decimals)),
+                                Findcount = g.Count(),
+                                Minprice = g.Min(x => x.Price),
+                                Maxprice = g.Max(x => x.Price)
 
-                        }).ToList<TradeData>();
 
-                        JS.InvokeVoidAsync("GenerateStockChart", aggregation);
+                            }).ToList<TradeData>();
+
+
 
 
         }
+
+        else return new List<TradeData>();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            var module = await ModuleLoad;
+            await module.InvokeVoidAsync("StockChart", tradeData);
+            await base.OnAfterRenderAsync(firstRender);    
 
+        }
 
-    protected override  void OnAfterRender(bool firstRender)
-    {
+        public async ValueTask DisposeAsync()
+            {
 
-        RenderTradeGraph();
-
-
-        //var aggregation = new List<TradeData>();
-
-        //if(AssetTrades != null && AssetDet != null)
-        //{
-        //    aggregation = AssetTrades                    
-        //                .GroupBy(z => z.Date)
-        //                .Select(g => new TradeData()
-        //                {
-        //                    Date = g.First().Date,
-        //                    Height = g.First().Height,
-        //                    Volume = g.Sum(x => x.Quantity/Math.Pow(10,AssetDet.Decimals)),
-        //                    Average = g.Average(x => x.Price/Math.Pow(10, 8 - AssetDet.Decimals)),
-        //                    Findcount = g.Count(),
-        //                    Minprice = g.Min(x => x.Price),
-        //                    Maxprice = g.Max(x => x.Price)
-                        
-
-        //                }).ToList<TradeData>();
-
-        //                JS.InvokeVoidAsync("GenerateStockChart", aggregation);
-
-
-        //}
-
-
-
-        //foreach(var item in AssetTrades)
-        //{
-            
-
-        //    if(stock.Any(o => o.Height == item.Height))
-        //    {
-        //        stock.Find(o => o.Height == item.Height).Average 
-        //        stock.Find(o => o.Height == item.Height).Volume += item.Quantity;
-
-        //    }
-        //    else
-        //    {
-        //        stock.Add(new TradeData()
-        //            {
-        //                Average = item.Price,
-        //                Height = item.Height,
-        //                Volume = item.Quantity,
-        //                FindCount = 1
-
-
-        //            });
-        //    }
-        //}
-
-        //List<ITradeTrunc> items = AssetTrades.ToList<ITradeTrunc>();
-
-         
-
-        base.OnAfterRender(firstRender);
-    }
-
+                        if (_moduleLoad != null)
+                {
+                    var moduleLoad = await _moduleLoad;
+                    await moduleLoad.DisposeAsync();
+                }
+            }
 
 
 }
