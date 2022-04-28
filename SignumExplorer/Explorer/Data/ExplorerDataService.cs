@@ -2,6 +2,7 @@
 using SignumExplorer.Context;
 using SignumExplorer.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SignumExplorer.Data
@@ -52,6 +53,28 @@ namespace SignumExplorer.Data
             }
 
         }
+        public async Task<CoinGecko> GetLatestCoinGeckoData()
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+
+                var coinGecko = await context.CoinGeckos.OrderBy(e => e.DbId).LastAsync();
+
+                if (coinGecko != null)
+                {
+                    return coinGecko;
+                }
+                else
+                {
+                    return new CoinGecko();
+                }
+
+
+
+            }
+
+        }
+
 
         public async Task<CoinGecko> UpdateCoinGeckoAsync(CoinGecko coinGecko)
         {

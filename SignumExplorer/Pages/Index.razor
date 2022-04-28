@@ -2,35 +2,115 @@
 @inject IJSRuntime JS
 @inject ISignumDataService SignumService
 @inject ISignumAPIService API
-@inject ICoinGeckoAPIService GeckoAPI
 @inject IStringLocalizer<App> L
+@inject IExplorerDataService ExplorerService
 
 
 <MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
 
     <MudGrid>
-        <MudItem xs="12">
+                
+            <MudItem xs="12" sm="6">                      
 
-            @if (CoinGeckoAPI == null)
+            @if (ChainStatus == null)
+            {
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
+            }
+            else
+            {                                
+                
+                <ErrorBoundary>
+                    <MudCard>
+                            <MudCardContent>
+                                <MudText>Latest Block</MudText>
+                                <MudText Typo="Typo.body2">@ChainStatus.LastBlockchainFeederHeight</MudText>
+                                
+                            </MudCardContent>
+                        </MudCard>
+
+                     </ErrorBoundary>
+                
+                
+
+
+            }
+             
+        </MudItem>
+                    <MudItem xs="12" sm="6">                      
+
+            @if (ChainStatus == null)
+            {
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
+            }
+            else
+            {                                
+                
+                <ErrorBoundary>
+                    <MudCard>
+                            <MudCardContent>
+                                <MudText>Network Status</MudText>
+                                <MudText Typo="Typo.body2">@($"{ChainStatus.CumulativeDifficulty} + {ChainStatus.AverageCommitmentSigna}")</MudText>
+                            </MudCardContent>
+
+                        </MudCard>
+
+              
+                     </ErrorBoundary>
+                
+                
+
+
+            }
+             
+        </MudItem>
+        <MudItem xs="12" sm="6">
+
+            @if (CoinGecko == null)
             {
                 <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
             }
             else
             {
-                if(CoinGeckoAPI.Signum == null)
-                {
-                    <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
-                }
-                else
-                {                    
+                 
                 
                 <ErrorBoundary>
-                     <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@CoinGeckoAPI.Signum.Btc.ToString(), @CoinGeckoAPI.Signum.Btc24hChange,
-                         @CoinGeckoAPI.Signum.Btc24hVol, @CoinGeckoAPI.Signum.BtcMarketCap, @CoinGeckoAPI.Signum.LastUpdatedAt, 
-                         @CoinGeckoAPI.Signum.Usd, @CoinGeckoAPI.Signum.Usd24hChange, @CoinGeckoAPI.Signum.Usd24hVol, @CoinGeckoAPI.Signum.UsdMarketCap</MudPaper>
+
+                         <MudCard>
+                            <MudCardContent>
+                                <MudText>Price Stats</MudText>
+                                <MudText Typo="Typo.body2">@(String.Format("${0:0.0000}",CoinGecko.Usd) + String.Format("({0:0.000}%) @ ", CoinGecko.Usd24hChange) + String.Format("{0:0.000000000} BTC", CoinGecko.Btc))</MudText>
+                            </MudCardContent>
+                        </MudCard>
+
                 </ErrorBoundary>
                 
-                }
+
+
+            }
+             
+        </MudItem>
+                <MudItem xs="12" sm="6">
+
+            @if (CoinGecko == null)
+            {
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
+            }
+            else
+            {
+                  
+                
+                <ErrorBoundary>
+
+                         <MudCard>
+                            <MudCardContent>
+                                <MudText>Market Cap (USD - BTC)</MudText>
+                                <MudText Typo="Typo.body2">@(String.Format("${0:n0}",CoinGecko.UsdMarketCap) + " - " + String.Format("{0:n0} BTC", CoinGecko.BtcMarketCap))</MudText>
+                            </MudCardContent>
+                        </MudCard>
+
+                </ErrorBoundary>
+                
+                
 
 
             }
@@ -66,7 +146,7 @@
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd>
-                        <MudText Typo="Typo.caption">@(context.Time)</MudText>
+                        <MudText Typo="Typo.caption">@(context.Time.ToLocalTime().ToString("G"))</MudText>
                     </MudTd>
                     <MudTd>
                         <MudText Typo="Typo.caption">@(context.Height)</MudText>
@@ -278,8 +358,8 @@
     IEnumerable<IBlock>? blocks;
     IEnumerable<ITransaction>? transactions;
     IUnconfirmedTransAPI? unconfirmedTransAPI;
-    SimplePrice? CoinGeckoAPI;
-    ISimplePriceSignum? geck;
+    IBlockChainStatus? ChainStatus;
+    ICoinGecko? CoinGecko;
 
 
     protected override async Task OnInitializedAsync()
@@ -287,9 +367,8 @@
         blocks = await SignumService.GetLatestBlocks(20);
         transactions = await SignumService.GetLatestTransactions(20);
         unconfirmedTransAPI = await API.getUnconfirmedTransactions();
-        CoinGeckoAPI = await GeckoAPI.GetSimplePrice();
-
-       // geck = CoinGeckoAPI.Signum;
+        ChainStatus = await API.getBlockChainStats();
+        CoinGecko = await ExplorerService.GetLatestCoinGeckoData();
 
     }
      

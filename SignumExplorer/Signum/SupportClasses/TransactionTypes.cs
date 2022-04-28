@@ -6,7 +6,7 @@ namespace SignumExplorer.Models
     public static class TransactionTypes
     {   
 
-        public static string? TransactionDescription(int PrimaryType, int SubType)
+        public static string TransactionDescription(int PrimaryType, int SubType)
         {            
 
             if (TransactionSubTypes.TryGetValue((PrimaryType, SubType), out string? result))
