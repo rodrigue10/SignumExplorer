@@ -55,7 +55,7 @@ The project is in active development so bugs/issues are to be expected.  I'm ope
 ### Pre-Requisites for development
   - Current development is being done with Pre-Release versions of .NET Core, EF Core, and [Pomelo.EnittyFramework](https://github.com/PomeloFoundation). 
   - The most recent Visual Studio 2022 is recommended and may be required to help with ease of development.
-  - (DO NOT TRY TO GO BEYOND .NET `6.0.0-rc1*`).  The Pomelo.EntityFramework packages are not able to support recent .NET RC2 release.
+  - Pomelo EF Core should be compatible with .NET Core 6
   
 
 
