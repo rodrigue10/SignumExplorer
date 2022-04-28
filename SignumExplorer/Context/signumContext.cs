@@ -79,6 +79,8 @@ namespace SignumExplorer.Context
         public virtual DbSet<TransactionAccountName> TransactionAccountNames { get; set; } = null!;
         public virtual DbSet<UnconfirmedTransaction> UnconfirmedTransactions { get; set; } = null!;
 
+        public virtual DbSet<BlockPoolWon> BlockPoolWons { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -923,6 +925,27 @@ namespace SignumExplorer.Context
                     .HasForeignKey(d => d.PreviousBlockId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("constraint_3c");
+            });
+
+            modelBuilder.Entity<BlockPoolWon>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("block_pool_won");
+
+                entity.Property(e => e.Height)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("height");
+
+                entity.Property(e => e.GeneratorId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("generator_id");
+                
+                entity.Property(e => e.PoolId)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("pool_id");
+
+
             });
 
             modelBuilder.Entity<BlockRewardRecipDesc>(entity =>

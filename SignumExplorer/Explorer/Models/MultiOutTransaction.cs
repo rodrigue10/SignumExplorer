@@ -1,6 +1,6 @@
 ﻿namespace SignumExplorer.Models
 {
-    public partial class MultiOutTransaction
+    public  class MultiOutTransaction
     {
 
 

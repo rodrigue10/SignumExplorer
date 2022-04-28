@@ -1,0 +1,1 @@
+﻿CREATE OR REPLACE INDEX transaction_height_recip_sender_idx ON `transaction`(height, `type`, subtype, recipient_id, sender_id);

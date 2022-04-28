@@ -1,0 +1,1 @@
+﻿CREATE OR REPLACE INDEX transaction_subtype_idx ON `transaction`(subtype);

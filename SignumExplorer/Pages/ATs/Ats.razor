@@ -24,7 +24,7 @@ else
             <MudTable  HorizontalScrollbar="true" Breakpoint="Breakpoint.None" RowsPerPage="50" ServerData="@(new Func<TableState, Task<TableData<IAt>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
-                    <MudText Typo="Typo.h6">Smart Contracts</MudText>
+                    <MudText Typo="Typo.h6">@L["SmartContracts"]</MudText>
                      <MudSpacer /> 
 
                                          
@@ -32,18 +32,18 @@ else
                 <HeaderContent>
                     <MudTh>
                         <MudTableSortLabel SortLabel="height_field" T="IAt">
-                         Height
+                         @L["Height"]
                         </MudTableSortLabel>
                     </MudTh>
-                    <MudTh>Creator</MudTh> 
+                    <MudTh>@L["Creator"]</MudTh> 
 
                     <MudTh>
                     <MudTableSortLabel SortLabel="name_field" T="IAt">
-                       Name
+                       @L["Name"]
                     </MudTableSortLabel>
                     </MudTh>
-                       <MudTh>Smart Contract</MudTh>
-                    <MudTh>Latest</MudTh>
+                       <MudTh>@L["SmartContract"]</MudTh>
+
 
 
                 </HeaderContent>
@@ -52,14 +52,14 @@ else
                     <MudTd DataLabel="Creator RS">   <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.CreatorId}")>@context.CreatorRS</MudLink> </MudTd>
                     <MudTd DataLabel="Name"><MudText Typo="Typo.caption">@context.Name</MudText></MudTd>
                     <MudTd DataLabel="At RS"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/ats/{context.Id}")>@context.AtIdRS</MudLink></MudTd>
-                    <MudTd DataLabel="Latest"><MudText Typo="Typo.caption">@context.Latest</MudText></MudTd>
+
                   
                 </RowTemplate>                     
                 <NoRecordsContent>
                     <MudText>No matching records found</MudText>
                 </NoRecordsContent>
                 <LoadingContent>
-                    <MudText>Loading...</MudText>
+                    <MudText>@L["Loading"]...</MudText>
                 </LoadingContent>
                 <PagerContent>
                     <MudTablePager />

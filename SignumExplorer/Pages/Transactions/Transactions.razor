@@ -28,9 +28,7 @@ else
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Transactions</MudText>
                      <MudSpacer /> 
-                     <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search: Id, Height, Sender Id, Recipient Id" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-                                         
+                                        
                 </ToolBarContent>
                 <HeaderContent>
                     <MudTh>
@@ -38,27 +36,18 @@ else
                          Transaction ID
                      </MudTableSortLabel></MudTh>
 
-                      <MudTh>
-                             <MudTableSortLabel SortLabel="height_field" T="ITransaction">
-                            Height
-                     </MudTableSortLabel>  </MudTh>   
-                     
-                    <MudTh>Date/Time</MudTh>
-
-                    <MudTh>
-                      
-                        Type
-                      
-                    </MudTh>
-
-                    <MudTh>Amount</MudTh>
-                    <MudTh>Fee</MudTh>
+                      <MudTh><MudTableSortLabel SortLabel="height_field" T="ITransaction">@L["Height"]</MudTableSortLabel></MudTh>                     
+                    <MudTh>@L["DateTime"]</MudTh>                
+                    <MudTh>@L["Type"]</MudTh>
+                    <MudTh>@L["Amount"]</MudTh>
+                    <MudTh>@L["Fee"]</MudTh>
                     <MudTh>
                     <MudTableSortLabel SortLabel="sender_field" T="ITransaction">
-                    Sender
+                  @L["Sender"]
+                   
                     </MudTableSortLabel></MudTh>
                     <MudTh><MudTableSortLabel SortLabel="recipient_field" T="ITransaction">
-                    Recipient
+                  @L["Recipient"]
                     </MudTableSortLabel></MudTh>
                 </HeaderContent>
                 <RowTemplate>
@@ -70,7 +59,20 @@ else
                     <MudTd DataLabel="Amount"><MudText Typo="Typo.caption">@context.Amount</MudText></MudTd>
                     <MudTd DataLabel="Fee"><MudText Typo="Typo.caption">@context.Fee </MudText></MudTd>
                     <MudTd DataLabel="Sender"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.SenderId}")>@ReedSolomon.encode(context.SenderId)</MudLink></MudTd>
-                    <MudTd DataLabel="Recipient"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@ReedSolomon.encode(context.RecipientId)</MudLink></MudTd>
+
+                                        <MudTd>
+                        @if(context.RecipientId == 0)
+                            {                                                    
+                                   <MudText Typo="Typo.caption">@(L[context.TransactionType])</MudText>                      
+
+                            }
+                            else
+                            {
+                              <MudText Style="word-break:keep-all" Typo="Typo.caption"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.RecipientId}")>@(($"{context.RecipientRS}").RSTrim())</MudLink> </MudText>
+                     
+                            }
+                          
+                    </MudTd>
 
                 </RowTemplate>                     
                 <NoRecordsContent>
@@ -119,23 +121,24 @@ else
             case "height_field":
                 sortLabel = nameof(ITransaction.Height);
                 break;
-                            case "transid_field":
+            case "transid_field":
                 sortLabel = nameof(ITransaction.Id);
                 break;
-                                           case "sender_field":
+            case "sender_field":
                 sortLabel = nameof(ITransaction.SenderId);
                 break;
-                                            case "recipient_field":
+            case "recipient_field":
                 sortLabel = nameof(ITransaction.RecipientId);
                 break;
 
             default:
                 sortLabel = "";
-            break;
+                break;
 
         }        
-         data = await SignumService.GetFilteredSortedPagedTransactions(searchString, sortLabel, state.Page, state.PageSize, sortDir );
+        data = await SignumService.GetFilteredSortedPagedTransactions(searchString, sortLabel, state.Page, state.PageSize, sortDir );
 
+        //totalItems = data.Count();
         return new TableData<ITransaction>() {TotalItems = totalItems, Items = data};
     }
 

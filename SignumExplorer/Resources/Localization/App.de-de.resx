@@ -178,11 +178,11 @@
     <comment>Global Use</comment>
   </data>
   <data name="ApCodeHashId" xml:space="preserve">
-    <value>AP-Code-Hash-ID</value>
+    <value>Maschinencode-Hash.</value>
     <comment>IAt</comment>
   </data>
   <data name="ApCodeString" xml:space="preserve">
-    <value>AP-Code-Zeichenfolge.</value>
+    <value>Maschinensprache</value>
     <comment>IAt</comment>
   </data>
   <data name="ArbitraryMessage" xml:space="preserve">
@@ -234,7 +234,7 @@
     <comment>IAt</comment>
   </data>
   <data name="AtsString" xml:space="preserve">
-    <value>Smart Contract-Zeichenfolge.</value>
+    <value>Intelligente Vertragszeichenfolge.</value>
     <comment>IBlock</comment>
   </data>
   <data name="AttachmentBytes" xml:space="preserve">
@@ -302,7 +302,7 @@
     <comment>ITrade</comment>
   </data>
   <data name="CCallStackBytes" xml:space="preserve">
-    <value>C Call Stack Bytes</value>
+    <value>Code-Stapelgröße.</value>
     <comment>IAt</comment>
   </data>
   <data name="Created" xml:space="preserve">
@@ -322,7 +322,7 @@
     <comment>IAt</comment>
   </data>
   <data name="Csize" xml:space="preserve">
-    <value>C Größe</value>
+    <value>Maschinencode-Größe.</value>
     <comment>IAt</comment>
   </data>
   <data name="CultureExample" xml:space="preserve">
@@ -334,7 +334,7 @@
     <comment>IBlock</comment>
   </data>
   <data name="CUserStackBytes" xml:space="preserve">
-    <value>C Benutzerstapel Bytes</value>
+    <value>Benutzerstapelgröße</value>
     <comment>IAt</comment>
   </data>
   <data name="Dashboard" xml:space="preserve">
@@ -370,7 +370,7 @@
     <comment>IAccount</comment>
   </data>
   <data name="Dsize" xml:space="preserve">
-    <value>Dgröße</value>
+    <value>Speichergröße</value>
     <comment>IAt</comment>
   </data>
   <data name="EcBlockHeight" xml:space="preserve">
@@ -584,6 +584,10 @@
   <data name="RewardRecipientAssignment" xml:space="preserve">
     <value>Belohnungsempfänger einstellen</value>
     <comment>Transaction Types</comment>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Suche</value>
+    <comment>Global Use</comment>
   </data>
   <data name="SellerId" xml:space="preserve">
     <value>Verkäufer-ID.</value>

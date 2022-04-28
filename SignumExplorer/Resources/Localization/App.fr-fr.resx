@@ -178,11 +178,11 @@
     <comment>Global Use</comment>
   </data>
   <data name="ApCodeHashId" xml:space="preserve">
-    <value>ID de code AP code</value>
+    <value>Code machine hachage</value>
     <comment>IAt</comment>
   </data>
   <data name="ApCodeString" xml:space="preserve">
-    <value>Chaîne de code AP</value>
+    <value>Langage machine</value>
     <comment>IAt</comment>
   </data>
   <data name="ArbitraryMessage" xml:space="preserve">
@@ -302,7 +302,7 @@
     <comment>ITrade</comment>
   </data>
   <data name="CCallStackBytes" xml:space="preserve">
-    <value>C Call Stack octets</value>
+    <value>Taille de la pile de code</value>
     <comment>IAt</comment>
   </data>
   <data name="Created" xml:space="preserve">
@@ -322,7 +322,7 @@
     <comment>IAt</comment>
   </data>
   <data name="Csize" xml:space="preserve">
-    <value>Taille C</value>
+    <value>Taille de code machine</value>
     <comment>IAt</comment>
   </data>
   <data name="CultureExample" xml:space="preserve">
@@ -334,7 +334,7 @@
     <comment>IBlock</comment>
   </data>
   <data name="CUserStackBytes" xml:space="preserve">
-    <value>C Pile d'utilisateurs octets</value>
+    <value>Taille de la pile d'utilisateurs</value>
     <comment>IAt</comment>
   </data>
   <data name="Dashboard" xml:space="preserve">
@@ -370,7 +370,7 @@
     <comment>IAccount</comment>
   </data>
   <data name="Dsize" xml:space="preserve">
-    <value>Taille D</value>
+    <value>Taille mémoire</value>
     <comment>IAt</comment>
   </data>
   <data name="EcBlockHeight" xml:space="preserve">
@@ -584,6 +584,10 @@
   <data name="RewardRecipientAssignment" xml:space="preserve">
     <value>Définir la récompense</value>
     <comment>Transaction Types</comment>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Chercher</value>
+    <comment>Global Use</comment>
   </data>
   <data name="SellerId" xml:space="preserve">
     <value>Vendeur ID</value>

@@ -15,14 +15,18 @@ else
 {   
  
     <MudGrid>
+        <MudItem xs="12"> 
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search Name or ID" Adornment="Adornment.Start"
+                   AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0">
+                   </MudTextField>
+                   </MudItem>
         <MudItem xs="12">
             <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None" RowsPerPage="10" ServerData="@(new Func<TableState, Task<TableData<IAlias>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Aliases</MudText>
                      <MudSpacer /> 
-                     <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
                                          
                 </ToolBarContent>
                 <HeaderContent>

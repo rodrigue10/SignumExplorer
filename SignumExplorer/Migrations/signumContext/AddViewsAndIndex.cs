@@ -18,9 +18,10 @@ namespace SignumExplorer.Migrations
         {
             #region Indexes
             //Add Indexes
-            migrationBuilder.Sql(@"  CREATE OR REPLACE INDEX asset_height ON asset(height); ");
-
-            migrationBuilder.Sql(@"  CREATE OR REPLACE INDEX transaction_height_timestamp ON `transaction`(height, timestamp); ");
+            migrationBuilder.Sql(@"CREATE OR REPLACE INDEX asset_height_idx ON asset(height);");
+            migrationBuilder.Sql(@"CREATE OR REPLACE INDEX transaction_height_timestamp_idx ON `transaction`(height, timestamp);");
+            migrationBuilder.Sql(@"CREATE OR REPLACE INDEX transaction_height_recip_sender_idx ON `transaction`(height, `type`, subtype, recipient_id, sender_id);");
+            migrationBuilder.Sql(@"CREATE OR REPLACE INDEX transaction_subtype_idx ON `transaction`(subtype);");
 
             #endregion
 
@@ -325,6 +326,24 @@ where
     and `a`.`latest` = 1
 ");
 
+            migrationBuilder.Sql(@"CREATE OR REPLACE
+ALGORITHM = UNDEFINED VIEW `block_pool_won` AS
+select
+    `sl`.`height` AS `height`,
+    `sl`.`generator_id` AS `generator_id`,
+    ifnull(`sl`.`pool`, `sl`.`generator_id`) AS `pool_id`,
+    if(`sl`.`pool` is null,
+    1,
+    0) AS `solo`
+from
+    (
+    select
+        `b`.`height` AS `height`,
+        `b`.`generator_id` AS `generator_id`,
+        cast((select `t`.`recipient_id` from `signum`.`transaction` `t` where `t`.`type` = 20 and `t`.`subtype` = 0 and `t`.`sender_id` = `b`.`generator_id` and `t`.`height` + 4 <= `b`.`height` order by `t`.`height` desc limit 1) as signed) AS `pool`
+    from
+        `signum`.`block` `b`) `sl`");
+
 
 
             #endregion
@@ -334,8 +353,10 @@ where
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             ////Drop Indexes
-            migrationBuilder.Sql(@"  DROP INDEX asset_height ON asset; ");
-            migrationBuilder.Sql(@"  DROP INDEX transaction_height_timestamp ON `transaction`; ");
+            migrationBuilder.Sql(@"  DROP INDEX asset_height_idx ON asset; ");
+            migrationBuilder.Sql(@"  DROP INDEX transaction_height_timestamp_idx ON `transaction`; ");
+            migrationBuilder.Sql(@"  DROP INDEX transaction_height_recip_sender_idx ON `transaction`; ");
+            migrationBuilder.Sql(@"  DROP INDEX transaction_subtype_idx ON `transaction`; ");
             migrationBuilder.Sql(@" DROP VIEW account_asset_asset_details; ");
             migrationBuilder.Sql(@" DROP VIEW asset_transfer_asset_detail; ");
             migrationBuilder.Sql(@" DROP VIEW block_reward_recip_name; ");
@@ -344,6 +365,7 @@ where
             migrationBuilder.Sql(@" DROP VIEW latest_bid_order; ");
             migrationBuilder.Sql(@" DROP VIEW reward_recip_name_desc; ");
             migrationBuilder.Sql(@" DROP VIEW trade_asset_detail; ");
+            migrationBuilder.Sql(@" DROP VIEW block_pool_won; ");
 
 
         }

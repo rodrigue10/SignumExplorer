@@ -27,10 +27,10 @@ else
     <MudTabs>
         <MudTabPanel  OnClick="()=>RenderTradeGraph()" Icon="@Icons.Material.Filled.Sell" ToolTip="@L["OpenOrders"]" BadgeData="@assetCounts.TotalOpenOrders.ToString()" BadgeColor="Color.Secondary">
             <MudGrid>
-                <MudItem xs="12">
+@*                <MudItem xs="12">
                     <div id="stockcontrols"></div>
                     <div id="chartstockbasic"></div> 
-                </MudItem>
+                </MudItem>*@
 
 
             @if (AssetAsks == null)
@@ -241,12 +241,12 @@ else
     private IEnumerable<IAccountAsset>? AssetHolders;
     private AssetCounts? assetCounts;
 
-    private IJSObjectReference _jsModule;
+  //  private IJSObjectReference _jsModule;
 
-    private Task<IJSObjectReference> _moduleLoad;
-    private Task<IJSObjectReference> ModuleLoad => _moduleLoad ??= JS.InvokeAsync<IJSObjectReference>("import", "./js/StockChart.js").AsTask();
+   private Task<IJSObjectReference> _moduleLoad;
+   // private Task<IJSObjectReference> ModuleLoad => _moduleLoad ??= JS.InvokeAsync<IJSObjectReference>("import", "./js/StockChart.js").AsTask();
 
-    private List<TradeData> tradeData;
+    //private List<TradeData> tradeData;
 
 
 
@@ -277,7 +277,7 @@ else
             assetCounts = await SignumService.AssetCounts((long)UInt64.Parse(Assetid));
             AssetHolders = await SignumService.GetAssetHolders((long)UInt64.Parse(Assetid));
 
-            tradeData = RenderTradeGraph();
+           // tradeData = RenderTradeGraph();
 
         }
 
@@ -316,8 +316,8 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            var module = await ModuleLoad;
-            await module.InvokeVoidAsync("StockChart", tradeData);
+          //  var module = await ModuleLoad;
+          //  await module.InvokeVoidAsync("StockChart", tradeData);
             await base.OnAfterRenderAsync(firstRender);    
 
         }

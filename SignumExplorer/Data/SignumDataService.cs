@@ -14,6 +14,8 @@ namespace SignumExplorer.Data;
 public interface ISignumDataService
 {
 
+    
+
     #region Counting Functions
     public Task<AccountCounts> AccountCountItems(long account);
 
@@ -198,10 +200,12 @@ public class SignumDataService : ISignumDataService
     }
 
 
+
+
     #region Count Functions
 
-        #region Aggregated Counts
-        public async Task<NodeCounts> NodeCountItems()
+    #region Aggregated Counts
+    public async Task<NodeCounts> NodeCountItems()
         {
             using (var context = _contextFactory.CreateDbContext())
             {
@@ -442,20 +446,43 @@ public class SignumDataService : ISignumDataService
     public async Task<IEnumerable<IAsset>> GetFilteredSortedPagedAssets(string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0)
 
     {
+
+        List<IAsset> assets = new List<IAsset>();
+     
+        //Try to convert to asset id
+        var assetSuccess = ulong.TryParse(searchString, out ulong assetString);
+
+
+        //Search for name or Exact ID
+
         using (var context = _contextFactory.CreateDbContext())
         {
-            IQueryable<Asset>? query;
+            IQueryable<IAsset>? query;
+
+
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                query = context.Assets.Where(element =>
-                    element.Name.ToLower().Contains(searchString.ToLower())
-                       || element.Description.ToLower().Contains(searchString.ToLower()))
-                        .AsQueryable<Asset>();
+                //Search for exact account ID and add to the result list
+                if (assetSuccess)
+                {
+                    var result = await context.Assets.Where(m => m.Id == (long)assetString).FirstOrDefaultAsync<IAsset>();
+                    if (result != null) assets.Add(result);
+
+                }
+
+                //search on other text fields base on text even if numbers
+
+                query = context.Assets.AsQueryable<IAsset>().Where(element =>  (element.Name.Contains(searchString)
+                        || element.Description.Contains(searchString)))
+                        .AsQueryable();
+
+
             }
+            //Grab everything available
             else
             {
-                query = context.Assets.AsQueryable<Asset>();
+                query = context.Assets.AsQueryable<IAsset>();
             }
 
             if (!string.IsNullOrWhiteSpace(sortLabel) && sortOrder != 0)
@@ -470,17 +497,23 @@ public class SignumDataService : ISignumDataService
                 {
                     query = query.OrderBy(sortLabel, false);
                 }
-                
-                
+
+
             }
             else
             {
                 query = query.OrderByDescending(m => m.Height);
             }
-            return await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
 
+
+            var secondResult = await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
+
+
+            return assets.Concat(secondResult);
 
         }
+
+
 
     }
 
@@ -1145,20 +1178,55 @@ public class SignumDataService : ISignumDataService
     public async Task<IEnumerable<ITransaction>> GetFilteredSortedPagedTransactions(string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0)
 
     {
+        List<ITransaction> data = new List<ITransaction>();
+
+        //Try to convert to asset id
+        var success = ulong.TryParse(searchString, out ulong dataString);
+        var succesInt = int.TryParse(searchString, out int intString);
+
+
+        //Search for name or Exact ID
+
         using (var context = _contextFactory.CreateDbContext())
         {
             IQueryable<ITransaction>? query;
 
+
+
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                query = context.Transactions.AsQueryable<ITransaction>().Where(element =>
-                    element.Height.ToString().ToLower().Contains(searchString.ToLower())
-                    || element.RecipientId.ToString().ToLower().Contains(searchString.ToLower())
-                    || element.SenderId.ToString().ToLower().Contains(searchString.ToLower())
-                       || element.Id.ToString().ToLower().Contains(searchString.ToLower())
-                       )
-                        .AsQueryable();
+                //Search for exact account ID and add to the result list
+                if (success)
+                {
+                    var dataStringLong = (long)dataString; 
+
+                    var result = await context.Transactions.Where(m => m.Id == dataStringLong).FirstOrDefaultAsync<ITransaction>();
+                    var  result2 =  await context.Transactions.Where(m => m.SenderId == dataStringLong || m.RecipientId == dataStringLong).ToListAsync<ITransaction>();
+                    
+                    
+                    if (result2 != null) data.Concat(result2);
+                    if (result != null) data.Add(result);
+
+                }
+
+                //search on other text fields base on text even if numbers
+
+                //query = context.Transactions.Where(element => element.Height.ToString().Contains(searchString))
+
+                //        .AsQueryable();
+
+                if (succesInt)
+                {
+                    query = context.Transactions.Where(m => m.Height == intString).AsQueryable<ITransaction>();
+                }
+                else
+                {
+                    query = context.Transactions.Where(m => m.Height == null).AsQueryable<ITransaction>();
+                }
+
+
             }
+            //Grab everything available
             else
             {
                 query = context.Transactions.AsQueryable<ITransaction>();
@@ -1183,10 +1251,58 @@ public class SignumDataService : ISignumDataService
             {
                 query = query.OrderByDescending(m => m.Height);
             }
-            return await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
 
+
+            var secondResult = await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
+
+
+            return data.Concat(secondResult);
 
         }
+
+
+        //using (var context = _contextFactory.CreateDbContext())
+        //{
+        //    IQueryable<ITransaction>? query;
+
+        //    if (!string.IsNullOrWhiteSpace(searchString))
+        //    {
+        //        query = context.Transactions.AsQueryable<ITransaction>().Where(element =>
+        //            element.Height.ToString().ToLower().Contains(searchString.ToLower())
+        //            || element.RecipientId.ToString().ToLower().Contains(searchString.ToLower())
+        //            || element.SenderId.ToString().ToLower().Contains(searchString.ToLower())
+        //               || element.Id.ToString().ToLower().Contains(searchString.ToLower())
+        //               )
+        //                .AsQueryable();
+        //    }
+        //    else
+        //    {
+        //        query = context.Transactions.AsQueryable<ITransaction>();
+        //    }
+
+        //    if (!string.IsNullOrWhiteSpace(sortLabel) && sortOrder != 0)
+        //    {
+        //        if (sortOrder == 2)
+        //        {
+
+        //            query = query.OrderBy(sortLabel, true);
+
+        //        }
+        //        else if (sortOrder == 1)
+        //        {
+        //            query = query.OrderBy(sortLabel, false);
+        //        }
+
+
+        //    }
+        //    else
+        //    {
+        //        query = query.OrderByDescending(m => m.Height);
+        //    }
+        //    return await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
+
+
+        //}
 
     }
 

@@ -2,6 +2,7 @@
 @inject IJSRuntime JS
 @inject ISignumDataService SignumService
 @inject ISignumAPIService API
+@inject ICoinGeckoAPIService GeckoAPI
 @inject IStringLocalizer<App> L
 
 
@@ -9,7 +10,31 @@
 
     <MudGrid>
         <MudItem xs="12">
-            <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;"> Put some Price stats?/latest Block</MudPaper>
+
+            @if (CoinGeckoAPI == null)
+            {
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
+            }
+            else
+            {
+                if(CoinGeckoAPI.Signum == null)
+                {
+                    <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@L["NothingPending"]...</MudPaper>
+                }
+                else
+                {                    
+                
+                <ErrorBoundary>
+                     <MudPaper Elevation="2" Class="pa-4" Style="height: 50px;">@CoinGeckoAPI.Signum.Btc.ToString(), @CoinGeckoAPI.Signum.Btc24hChange,
+                         @CoinGeckoAPI.Signum.Btc24hVol, @CoinGeckoAPI.Signum.BtcMarketCap, @CoinGeckoAPI.Signum.LastUpdatedAt, 
+                         @CoinGeckoAPI.Signum.Usd, @CoinGeckoAPI.Signum.Usd24hChange, @CoinGeckoAPI.Signum.Usd24hVol, @CoinGeckoAPI.Signum.UsdMarketCap</MudPaper>
+                </ErrorBoundary>
+                
+                }
+
+
+            }
+             
         </MudItem>
         <MudItem xs="12" >
 
@@ -253,6 +278,8 @@
     IEnumerable<IBlock>? blocks;
     IEnumerable<ITransaction>? transactions;
     IUnconfirmedTransAPI? unconfirmedTransAPI;
+    SimplePrice? CoinGeckoAPI;
+    ISimplePriceSignum? geck;
 
 
     protected override async Task OnInitializedAsync()
@@ -260,6 +287,10 @@
         blocks = await SignumService.GetLatestBlocks(20);
         transactions = await SignumService.GetLatestTransactions(20);
         unconfirmedTransAPI = await API.getUnconfirmedTransactions();
+        CoinGeckoAPI = await GeckoAPI.GetSimplePrice();
+
+       // geck = CoinGeckoAPI.Signum;
+
     }
      
 

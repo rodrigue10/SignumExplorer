@@ -178,11 +178,11 @@
     <comment>Global Use</comment>
   </data>
   <data name="ApCodeHashId" xml:space="preserve">
-    <value>AP代码哈希ID</value>
+    <value>机器代码哈希</value>
     <comment>IAt</comment>
   </data>
   <data name="ApCodeString" xml:space="preserve">
-    <value>AP代码字符串</value>
+    <value>机器代码</value>
     <comment>IAt</comment>
   </data>
   <data name="ArbitraryMessage" xml:space="preserve">
@@ -302,7 +302,7 @@
     <comment>ITrade</comment>
   </data>
   <data name="CCallStackBytes" xml:space="preserve">
-    <value>C调用堆栈字节</value>
+    <value>代码堆栈大小</value>
     <comment>IAt</comment>
   </data>
   <data name="Created" xml:space="preserve">
@@ -322,7 +322,7 @@
     <comment>IAt</comment>
   </data>
   <data name="Csize" xml:space="preserve">
-    <value>C尺寸</value>
+    <value>机器代码大小</value>
     <comment>IAt</comment>
   </data>
   <data name="CultureExample" xml:space="preserve">
@@ -334,7 +334,7 @@
     <comment>IBlock</comment>
   </data>
   <data name="CUserStackBytes" xml:space="preserve">
-    <value>C用户堆栈字节</value>
+    <value>用户堆栈大小</value>
     <comment>IAt</comment>
   </data>
   <data name="Dashboard" xml:space="preserve">
@@ -370,7 +370,7 @@
     <comment>IAccount</comment>
   </data>
   <data name="Dsize" xml:space="preserve">
-    <value>D尺寸</value>
+    <value>内存大小</value>
     <comment>IAt</comment>
   </data>
   <data name="EcBlockHeight" xml:space="preserve">
@@ -584,6 +584,10 @@
   <data name="RewardRecipientAssignment" xml:space="preserve">
     <value>设置奖励收件人</value>
     <comment>Transaction Types</comment>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>搜索</value>
+    <comment>Global Use</comment>
   </data>
   <data name="SellerId" xml:space="preserve">
     <value>卖家ID.</value>

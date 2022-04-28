@@ -32,6 +32,8 @@ public partial class ExplorerContext : DbContext
     }
 
     public virtual DbSet<MultiOutTransaction> MultiOutTransactions { get; set; } = null!;
+    public virtual DbSet<PoolWonBlock> PoolWonBlocks { get; set; } = null!;
+    public virtual DbSet<CoinGecko> CoinGeckos { get; set; } = null!;
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -101,6 +103,57 @@ public partial class ExplorerContext : DbContext
                 .HasColumnName("type");
 
         });
+        modelBuilder.Entity<PoolWonBlock>(entity =>
+        {
+            entity.HasKey(e => e.Height)
+                .HasName("PRIMARY");
+
+            entity.ToTable("pool_won_block");
+
+            entity.UseCollation("utf8mb4_unicode_ci");
+              
+            entity.HasIndex(e => e.Height, "poolwonblock_id_idx")
+                .IsUnique();
+
+            entity.Property(e => e.Height)
+                .HasColumnType("int(11)")
+                .HasColumnName("height")
+                .ValueGeneratedNever(); 
+
+            entity.Property(e => e.GeneratorId)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("generator_id");
+
+            entity.Property(e => e.PoolId)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("pool_id");
+              
+
+        });
+        modelBuilder.Entity<CoinGecko>(entity =>
+        {
+            entity.HasKey(e => e.DbId)
+                .HasName("PRIMARY");
+
+            entity.ToTable("coin_gecko");
+
+            entity.UseCollation("utf8mb4_unicode_ci");
+
+            entity.HasIndex(e => e.DbId, "coin_gecko_id_idx")
+                .IsUnique();
+
+        entity.Property(e => e.Btc).HasColumnType("double").HasColumnName("btc");
+        entity.Property(e => e.BtcMarketCap).HasColumnType("double").HasColumnName("btc_market_cap");
+        entity.Property(e => e.Btc24hChange).HasColumnType("double").HasColumnName("btc_24h_change");
+        entity.Property(e => e.Usd).HasColumnType("double").HasColumnName("usd");
+        entity.Property(e => e.UsdMarketCap).HasColumnType("double").HasColumnName("usd_market_cap");
+        entity.Property(e => e.Usd24hChange).HasColumnType("double").HasColumnName("usd_24h_change");
+        entity.Property(e => e.Btc24hVol).HasColumnType("double").HasColumnName("btc_24h_vol");
+        entity.Property(e => e.Usd24hVol).HasColumnType("double").HasColumnName("usd_24h_vol");
+        entity.Property(e => e.LastUpdatedAt).HasColumnType("int(11)").HasColumnName("last_updated_at");
+
+        });
+
 
 
         OnModelCreatingPartial(modelBuilder);

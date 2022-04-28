@@ -29,7 +29,7 @@ namespace SignumExplorer.Data
         public SignumAPIService(HttpClient client, IConfiguration configuration)
         {
             _configuraton = configuration;
-            client.BaseAddress = new Uri(_configuraton["SignumNodeUri"]);
+            //client.BaseAddress = new Uri(_configuraton["SignumNodeUri"]);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
            
             //_options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true};

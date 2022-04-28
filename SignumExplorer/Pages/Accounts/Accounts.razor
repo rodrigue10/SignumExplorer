@@ -16,7 +16,7 @@ else
  
     <MudGrid>
         <MudItem xs="12">
-            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search for name or ID" Adornment="Adornment.Start"
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search for Name or ID" Adornment="Adornment.Start"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
             </MudItem>
         <MudItem xs="12">
@@ -112,7 +112,7 @@ else
     private async Task<TableData<IAccount>> ServerReload(TableState state)
     {
 
-        //totalItems = count.Value;
+        totalItems = count.Value;
 
         var sortDir = (int)state.SortDirection;
         string? sortLabel = null;
@@ -140,7 +140,7 @@ else
         }        
         data = await SignumService.GetFilteredSortedPagedAccounts(searchString, sortLabel, state.Page, state.PageSize, sortDir );
 
-        totalItems = data.Count();
+       // totalItems = data.Count();
         return new TableData<IAccount>() {TotalItems = totalItems, Items = data};
     }
 

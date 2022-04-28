@@ -150,7 +150,7 @@
     <comment>Global Use</comment>
   </data>
   <data name="AliasName" xml:space="preserve">
-    <value>Nome do alias.</value>
+    <value>Nome do alias</value>
     <comment>IAlias</comment>
   </data>
   <data name="AliasNameLower" xml:space="preserve">
@@ -178,11 +178,11 @@
     <comment>Global Use</comment>
   </data>
   <data name="ApCodeHashId" xml:space="preserve">
-    <value>ID de hash de código AP</value>
+    <value>Hash de código de máquina</value>
     <comment>IAt</comment>
   </data>
   <data name="ApCodeString" xml:space="preserve">
-    <value>String de código AP.</value>
+    <value>Código da máquina</value>
     <comment>IAt</comment>
   </data>
   <data name="ArbitraryMessage" xml:space="preserve">
@@ -302,7 +302,7 @@
     <comment>ITrade</comment>
   </data>
   <data name="CCallStackBytes" xml:space="preserve">
-    <value>C chamam bytes de pilha</value>
+    <value>Tamanho da pilha de código</value>
     <comment>IAt</comment>
   </data>
   <data name="Created" xml:space="preserve">
@@ -322,7 +322,7 @@
     <comment>IAt</comment>
   </data>
   <data name="Csize" xml:space="preserve">
-    <value>C tamanho</value>
+    <value>Tamanho do código da máquina</value>
     <comment>IAt</comment>
   </data>
   <data name="CultureExample" xml:space="preserve">
@@ -334,7 +334,7 @@
     <comment>IBlock</comment>
   </data>
   <data name="CUserStackBytes" xml:space="preserve">
-    <value>Catilhas de Usuário C</value>
+    <value>Tamanho da pilha do usuário</value>
     <comment>IAt</comment>
   </data>
   <data name="Dashboard" xml:space="preserve">
@@ -370,7 +370,7 @@
     <comment>IAccount</comment>
   </data>
   <data name="Dsize" xml:space="preserve">
-    <value>D tamanho</value>
+    <value>Tamanho da memória</value>
     <comment>IAt</comment>
   </data>
   <data name="EcBlockHeight" xml:space="preserve">
@@ -585,6 +585,10 @@
     <value>Definir o destinatário da recompensa</value>
     <comment>Transaction Types</comment>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Procurar</value>
+    <comment>Global Use</comment>
+  </data>
   <data name="SellerId" xml:space="preserve">
     <value>ID do vendedor</value>
     <comment>ITrade</comment>
@@ -654,7 +658,7 @@
     <comment>IBlock</comment>
   </data>
   <data name="TransactionCount" xml:space="preserve">
-    <value>Contagem de transações</value>
+    <value>Contagem de transações.</value>
     <comment>IBlock</comment>
   </data>
   <data name="Transactions" xml:space="preserve">
