@@ -8,9 +8,6 @@ namespace SignumExplorer.Models
         public ulong AccountId { get; }
         public string? Name { get;}
         public string? Description { get; }
-        public double Balance { get;  }
-        public double UnconfirmedBalance { get;  }
-        public double ForgedBalance { get; }
         public int CreationHeight { get; }        
         public int? KeyHeight { get;  }
         public int Height { get; }

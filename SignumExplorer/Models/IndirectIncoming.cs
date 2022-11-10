@@ -9,5 +9,7 @@ namespace SignumExplorer.Models
         public long AccountId { get; set; }
         public long TransactionId { get; set; }
         public int Height { get; set; }
+        public long? Amount { get; set; }
+        public long? Quantity { get; set; }
     }
 }

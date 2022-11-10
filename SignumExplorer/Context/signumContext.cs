@@ -31,19 +31,10 @@ namespace SignumExplorer.Context
 
         }
 
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-
-                optionsBuilder.UseMySql(ConnectionString, ServerVersion.Parse(ServerVers));
-            }
-        }
-
         public virtual DbSet<Account> Accounts { get; set; } = null!;
         public virtual DbSet<AccountAsset> AccountAssets { get; set; } = null!;
         public virtual DbSet<AccountAssetAssetDetail> AccountAssetAssetDetails { get; set; } = null!;
+        public virtual DbSet<AccountBalance> AccountBalances { get; set; } = null!;
         public virtual DbSet<Alias> Aliases { get; set; } = null!;
         public virtual DbSet<AliasOffer> AliasOffers { get; set; } = null!;
         public virtual DbSet<AskOrder> AskOrders { get; set; } = null!;
@@ -51,10 +42,12 @@ namespace SignumExplorer.Context
         public virtual DbSet<AssetTransfer> AssetTransfers { get; set; } = null!;
         public virtual DbSet<AssetTransferAssetDetail> AssetTransferAssetDetails { get; set; } = null!;
         public virtual DbSet<At> Ats { get; set; } = null!;
+        public virtual DbSet<AtMap> AtMaps { get; set; } = null!;
         public virtual DbSet<AtState> AtStates { get; set; } = null!;
         public virtual DbSet<AtsView> AtsViews { get; set; } = null!;
         public virtual DbSet<BidOrder> BidOrders { get; set; } = null!;
         public virtual DbSet<Block> Blocks { get; set; } = null!;
+        public virtual DbSet<BlockPoolWon> BlockPoolWons { get; set; } = null!;
         public virtual DbSet<BlockRewardRecipDesc> BlockRewardRecipDescs { get; set; } = null!;
         public virtual DbSet<EfmigrationsHistory> EfmigrationsHistories { get; set; } = null!;
         public virtual DbSet<Escrow> Escrows { get; set; } = null!;
@@ -62,6 +55,7 @@ namespace SignumExplorer.Context
         public virtual DbSet<FlywaySchemaHistory> FlywaySchemaHistories { get; set; } = null!;
         public virtual DbSet<Good> Goods { get; set; } = null!;
         public virtual DbSet<IndirectIncoming> IndirectIncomings { get; set; } = null!;
+        public virtual DbSet<LatestAccountBalance> LatestAccountBalances { get; set; } = null!;
         public virtual DbSet<LatestAccountRewardRecip> LatestAccountRewardRecips { get; set; } = null!;
         public virtual DbSet<LatestAskOrder> LatestAskOrders { get; set; } = null!;
         public virtual DbSet<LatestBidOrder> LatestBidOrders { get; set; } = null!;
@@ -79,8 +73,6 @@ namespace SignumExplorer.Context
         public virtual DbSet<TransactionAccountName> TransactionAccountNames { get; set; } = null!;
         public virtual DbSet<UnconfirmedTransaction> UnconfirmedTransactions { get; set; } = null!;
 
-        public virtual DbSet<BlockPoolWon> BlockPoolWons { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -96,8 +88,6 @@ namespace SignumExplorer.Context
 
                 entity.UseCollation("utf8mb4_unicode_ci");
 
-                entity.HasIndex(e => new { e.Id, e.Balance, e.Height }, "account_id_balance_height_idx");
-
                 entity.HasIndex(e => new { e.Id, e.Height }, "account_id_height_idx")
                     .IsUnique();
 
@@ -107,10 +97,6 @@ namespace SignumExplorer.Context
                     .HasColumnType("bigint(20)")
                     .HasColumnName("db_id");
 
-                entity.Property(e => e.Balance)
-                    .HasColumnType("bigint(20)")
-                    .HasColumnName("balance");
-
                 entity.Property(e => e.CreationHeight)
                     .HasColumnType("int(11)")
                     .HasColumnName("creation_height");
@@ -118,10 +104,6 @@ namespace SignumExplorer.Context
                 entity.Property(e => e.Description)
                     .HasColumnType("text")
                     .HasColumnName("description");
-
-                entity.Property(e => e.ForgedBalance)
-                    .HasColumnType("bigint(20)")
-                    .HasColumnName("forged_balance");
 
                 entity.Property(e => e.Height)
                     .HasColumnType("int(11)")
@@ -147,10 +129,6 @@ namespace SignumExplorer.Context
                 entity.Property(e => e.PublicKey)
                     .HasMaxLength(32)
                     .HasColumnName("public_key");
-
-                entity.Property(e => e.UnconfirmedBalance)
-                    .HasColumnType("bigint(20)")
-                    .HasColumnName("unconfirmed_balance");
             });
 
             modelBuilder.Entity<AccountAsset>(entity =>
@@ -244,6 +222,45 @@ namespace SignumExplorer.Context
                 entity.Property(e => e.UnconfirmedQuantity)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("unconfirmed_quantity");
+            });
+
+            modelBuilder.Entity<AccountBalance>(entity =>
+            {
+                entity.HasKey(e => e.DbId)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("account_balance");
+
+                entity.HasIndex(e => new { e.Id, e.Latest }, "account_balance_id_latest_idx");
+
+                entity.Property(e => e.DbId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("db_id");
+
+                entity.Property(e => e.Balance)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("balance");
+
+                entity.Property(e => e.ForgedBalance)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("forged_balance");
+
+                entity.Property(e => e.Height)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("height");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Latest)
+                    .IsRequired()
+                    .HasColumnName("latest")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.UnconfirmedBalance)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("unconfirmed_balance");
             });
 
             modelBuilder.Entity<Alias>(entity =>
@@ -434,6 +451,8 @@ namespace SignumExplorer.Context
                     .HasColumnType("bigint(20)")
                     .HasColumnName("id");
 
+                entity.Property(e => e.Mintable).HasColumnName("mintable");
+
                 entity.Property(e => e.Name)
                     .HasMaxLength(10)
                     .HasColumnName("name");
@@ -454,8 +473,7 @@ namespace SignumExplorer.Context
 
                 entity.HasIndex(e => new { e.AssetId, e.Height }, "asset_transfer_asset_id_idx");
 
-                entity.HasIndex(e => e.Id, "asset_transfer_id_idx")
-                    .IsUnique();
+                entity.HasIndex(e => e.Id, "asset_transfer_id_idx");
 
                 entity.HasIndex(e => new { e.RecipientId, e.Height }, "asset_transfer_recipient_id_idx");
 
@@ -622,6 +640,43 @@ namespace SignumExplorer.Context
                 entity.Property(e => e.Version)
                     .HasColumnType("smallint(6)")
                     .HasColumnName("version");
+            });
+
+            modelBuilder.Entity<AtMap>(entity =>
+            {
+                entity.HasKey(e => e.DbId)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("at_map");
+
+                entity.Property(e => e.DbId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("db_id");
+
+                entity.Property(e => e.AtId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("at_id");
+
+                entity.Property(e => e.Height)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("height");
+
+                entity.Property(e => e.Key1)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("key1");
+
+                entity.Property(e => e.Key2)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("key2");
+
+                entity.Property(e => e.Latest)
+                    .IsRequired()
+                    .HasColumnName("latest")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.Value)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("value");
             });
 
             modelBuilder.Entity<AtState>(entity =>
@@ -908,6 +963,16 @@ namespace SignumExplorer.Context
                     .HasColumnType("bigint(20)")
                     .HasColumnName("total_fee");
 
+                entity.Property(e => e.TotalFeeBurnt)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("total_fee_burnt")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.TotalFeeCashBack)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("total_fee_cash_back")
+                    .HasDefaultValueSql("'0'");
+
                 entity.Property(e => e.Version)
                     .HasColumnType("int(11)")
                     .HasColumnName("version");
@@ -933,19 +998,21 @@ namespace SignumExplorer.Context
 
                 entity.ToView("block_pool_won");
 
+                entity.Property(e => e.GeneratorId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("generator_id");
+
                 entity.Property(e => e.Height)
                     .HasColumnType("int(11)")
                     .HasColumnName("height");
 
-                entity.Property(e => e.GeneratorId)
-                    .HasColumnType("bigint(20)")
-                    .HasColumnName("generator_id");
-                
                 entity.Property(e => e.PoolId)
-                .HasColumnType("bigint(20)")
-                .HasColumnName("pool_id");
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("pool_id");
 
-
+                entity.Property(e => e.Solo)
+                    .HasColumnType("int(1)")
+                    .HasColumnName("solo");
             });
 
             modelBuilder.Entity<BlockRewardRecipDesc>(entity =>
@@ -1291,6 +1358,8 @@ namespace SignumExplorer.Context
                 entity.HasIndex(e => new { e.AccountId, e.TransactionId }, "indirect_incoming_db_id_uindex")
                     .IsUnique();
 
+                entity.HasIndex(e => e.AccountId, "indirect_incoming_id_index");
+
                 entity.HasIndex(e => e.Height, "indirect_incoming_index");
 
                 entity.Property(e => e.DbId)
@@ -1301,13 +1370,81 @@ namespace SignumExplorer.Context
                     .HasColumnType("bigint(20)")
                     .HasColumnName("account_id");
 
+                entity.Property(e => e.Amount)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("amount")
+                    .HasDefaultValueSql("'0'");
+
                 entity.Property(e => e.Height)
                     .HasColumnType("int(11)")
                     .HasColumnName("height");
 
+                entity.Property(e => e.Quantity)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("quantity")
+                    .HasDefaultValueSql("'0'");
+
                 entity.Property(e => e.TransactionId)
                     .HasColumnType("bigint(20)")
                     .HasColumnName("transaction_id");
+            });
+
+            modelBuilder.Entity<LatestAccountBalance>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("latest_account_balance");
+
+                entity.Property(e => e.Balance)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("balance");
+
+                entity.Property(e => e.CreationHeight)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("creation_height");
+
+                entity.Property(e => e.DbId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("db_id");
+
+                entity.Property(e => e.Description)
+                    .HasColumnType("text")
+                    .HasColumnName("description")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.Property(e => e.ForgedBalance)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("forged_balance");
+
+                entity.Property(e => e.Height)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("height");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("id");
+
+                entity.Property(e => e.KeyHeight)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("key_height");
+
+                entity.Property(e => e.Latest)
+                    .IsRequired()
+                    .HasColumnName("latest")
+                    .HasDefaultValueSql("'1'");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .HasColumnName("name")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.Property(e => e.PublicKey)
+                    .HasMaxLength(32)
+                    .HasColumnName("public_key");
+
+                entity.Property(e => e.UnconfirmedBalance)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("unconfirmed_balance");
             });
 
             modelBuilder.Entity<LatestAccountRewardRecip>(entity =>
@@ -1838,6 +1975,8 @@ namespace SignumExplorer.Context
                 entity.HasIndex(e => new { e.Id, e.Height }, "subscription_id_height_idx")
                     .IsUnique();
 
+                entity.HasIndex(e => e.Latest, "subscription_latest_index");
+
                 entity.HasIndex(e => new { e.RecipientId, e.Height }, "subscription_recipient_id_height_idx");
 
                 entity.HasIndex(e => new { e.SenderId, e.Height }, "subscription_sender_id_height_idx");
@@ -2041,6 +2180,8 @@ namespace SignumExplorer.Context
                 entity.HasIndex(e => e.FullHash, "transaction_full_hash_idx")
                     .IsUnique();
 
+                entity.HasIndex(e => new { e.Height, e.Type, e.Subtype, e.RecipientId, e.SenderId }, "transaction_height_recip_sender");
+
                 entity.HasIndex(e => new { e.Height, e.Timestamp }, "transaction_height_timestamp");
 
                 entity.HasIndex(e => e.Id, "transaction_id_idx")
@@ -2051,6 +2192,12 @@ namespace SignumExplorer.Context
                 entity.HasIndex(e => e.RecipientId, "transaction_recipient_id_idx");
 
                 entity.HasIndex(e => e.SenderId, "transaction_sender_id_idx");
+
+                entity.HasIndex(e => e.Subtype, "transaction_subtype_idx");
+
+                entity.HasIndex(e => e.CashBackId, "tx_cash_back_index");
+
+                entity.HasIndex(e => new { e.SenderId, e.Type }, "tx_sender_type");
 
                 entity.Property(e => e.DbId)
                     .HasColumnType("bigint(20)")
@@ -2071,6 +2218,11 @@ namespace SignumExplorer.Context
                 entity.Property(e => e.BlockTimestamp)
                     .HasColumnType("int(11)")
                     .HasColumnName("block_timestamp");
+
+                entity.Property(e => e.CashBackId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("cash_back_id")
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.Deadline)
                     .HasColumnType("smallint(6)")

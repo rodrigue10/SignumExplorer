@@ -30,6 +30,7 @@ namespace SignumExplorer.Models
         public int? EcBlockHeight { get; set; }
         public long? EcBlockId { get; set; }
         public bool HasEncrypttoselfMessage { get; set; }
+        public long? CashBackId { get; set; }
 
         public virtual Block Block { get; set; } = null!;
     }

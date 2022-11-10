@@ -32,6 +32,8 @@ namespace SignumExplorer.Models
         public long GeneratorId { get; set; }
         public long Nonce { get; set; }
         public byte[]? Ats { get; set; }
+        public long? TotalFeeCashBack { get; set; }
+        public long? TotalFeeBurnt { get; set; }
 
         public virtual Block? NextBlock { get; set; }
         public virtual Block? PreviousBlock { get; set; }

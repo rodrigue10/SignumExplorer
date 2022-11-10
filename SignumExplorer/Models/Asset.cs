@@ -13,5 +13,6 @@ namespace SignumExplorer.Models
         public long Quantity { get; set; }
         public sbyte Decimals { get; set; }
         public int Height { get; set; }
+        public bool Mintable { get; set; }
     }
 }

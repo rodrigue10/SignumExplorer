@@ -20,7 +20,7 @@ else
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
             </MudItem>
         <MudItem xs="12">
-            <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"   RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<IAccount>>>(ServerReload))" 
+            <MudTable HorizontalScrollbar="true" Breakpoint="Breakpoint.None"   RowsPerPage="100" ServerData="@(new Func<TableState, Task<TableData<ILatestAccountBalance>>>(ServerReload))" 
                     @ref="table" FixedHeader="true" Dense="true" Hover="true" Striped="true">
                 <ToolBarContent>
                     <MudText Typo="Typo.h5">Accounts</MudText>
@@ -28,25 +28,18 @@ else
                 </ToolBarContent>
                 <HeaderContent>
                   
-                    <MudTh>
-                    <MudTableSortLabel SortLabel="accountid_field" T="IAccount">
-                    Account Id
-                    </MudTableSortLabel>
-
-
-
-                    </MudTh>
+                    <MudTh> Account Id </MudTh>
 
                     <MudTh>Account RS</MudTh>
                     <MudTh>
-                    <MudTableSortLabel SortLabel="name_field" T="IAccount">
+                    <MudTableSortLabel SortLabel="name_field" T="ILatestAccountBalance">
                     Name
                     </MudTableSortLabel>
                     </MudTh>
      
 
                     <MudTh>
-                    <MudTableSortLabel SortLabel="balance_field" T="IAccount">
+                    <MudTableSortLabel SortLabel="balance_field" T="ILatestAccountBalance">
                     Balance
                     </MudTableSortLabel>
                     </MudTh>
@@ -55,7 +48,7 @@ else
                     <MudTh>Forged Balance</MudTh>
 
                     <MudTh>
-                    <MudTableSortLabel SortLabel="height_field" T="IAccount">
+                    <MudTableSortLabel SortLabel="height_field" T="ILatestAccountBalance">
                     Creation Height
                     </MudTableSortLabel>
                     </MudTh>
@@ -68,7 +61,7 @@ else
                     <MudTd DataLabel="Account RS">   <MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/accounts/{context.AccountId}")>@context.IdRS</MudLink> </MudTd>
                     <MudTd DataLabel="Name"><MudText Style="overflow-wrap:anywhere"  Typo="Typo.caption">@context.Name</MudText></MudTd>
                     <MudTd DataLabel="Balance"><MudText Typo="Typo.caption">@context.Balance.ToString("N0")</MudText></MudTd>
-                    <MudTd DataLabel="Unconfirmed Balance"><MudText Typo="Typo.caption">@context.UnconfirmedBalance.ToString("N0")</MudText></MudTd>
+                   <MudTd DataLabel="Unconfirmed Balance"><MudText Typo="Typo.caption">@context.UnconfirmedBalance.ToString("N0")</MudText></MudTd>
                     <MudTd DataLabel="Forged Balance"><MudText Typo="Typo.caption">@context.ForgedBalance.ToString("N0")</MudText></MudTd>
                   <MudTd DataLabel="Creation Height"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/blocksheight/{(long)context.CreationHeight}")>@context.CreationHeight</MudLink></MudTd>
 
@@ -95,8 +88,8 @@ else
 @code {
 
     private NodeCounts? counts;
-    private IEnumerable<IAccount>? data;
-    private MudTable<IAccount>? table;
+    private IEnumerable<ILatestAccountBalance>? data;
+    private MudTable<ILatestAccountBalance>? table;
     private int totalItems;
     private string searchString = "";
     private int? count;
@@ -109,7 +102,7 @@ else
         count = await SignumService.AccountCount();
     }
 
-    private async Task<TableData<IAccount>> ServerReload(TableState state)
+    private async Task<TableData<ILatestAccountBalance>> ServerReload(TableState state)
     {
 
         totalItems = count.Value;
@@ -121,16 +114,16 @@ else
         {
 
             case "height_field":
-                sortLabel = nameof(IAccount.CreationHeight);
+                sortLabel = nameof(ILatestAccountBalance.CreationHeight);
                 break;
-            case "accountid_field":
-                sortLabel = nameof(IAccount.AccountId);
-                break;
+            //case "accountid_field":
+            //    sortLabel = nameof(ILatestAccountBalance.AccountId);
+            //    break;
             case "name_field":
-                sortLabel = nameof(IAccount.Name);
+                sortLabel = nameof(ILatestAccountBalance.Name);
                 break;
             case "balance_field":
-                sortLabel = nameof(IAccount.Balance);
+               sortLabel = nameof(ILatestAccountBalance.Balance);
                 break;
 
             default:
@@ -138,10 +131,10 @@ else
                 break;
 
         }        
-        data = await SignumService.GetFilteredSortedPagedAccounts(searchString, sortLabel, state.Page, state.PageSize, sortDir );
+        data = await SignumService.GetFilteredSortedPagedLatestAccountBalances(searchString, sortLabel, state.Page, state.PageSize, sortDir );
 
        // totalItems = data.Count();
-        return new TableData<IAccount>() {TotalItems = totalItems, Items = data};
+        return new TableData<ILatestAccountBalance>() {TotalItems = totalItems, Items = data};
     }
 
     private void OnSearch(string text)

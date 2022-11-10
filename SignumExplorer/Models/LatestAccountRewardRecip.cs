@@ -10,9 +10,9 @@ namespace SignumExplorer.Models
         public int CreationHeight { get; set; }
         public byte[]? PublicKey { get; set; }
         public int? KeyHeight { get; set; }
-        public long Balance { get; set; }
-        public long UnconfirmedBalance { get; set; }
-        public long ForgedBalance { get; set; }
+        public long? Balance { get; set; }
+        public long? UnconfirmedBalance { get; set; }
+        public long? ForgedBalance { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public int Height { get; set; }

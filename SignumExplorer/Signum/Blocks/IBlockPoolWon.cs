@@ -6,6 +6,6 @@
         public long GeneratorId { get;  }
         public long PoolId { get;  }
         public int Height { get;  }
-        public bool Solo { get;  }
+        public int Solo { get;  }
     }
 }

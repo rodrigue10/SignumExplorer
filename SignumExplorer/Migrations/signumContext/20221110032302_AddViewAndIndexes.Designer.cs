@@ -11,8 +11,8 @@ using SignumExplorer.Context;
 namespace SignumExplorer.Migrations
 {
     [DbContext(typeof(signumContext))]
-    [Migration("20221110023951_AddViews_Indexes")]
-    partial class AddViews_Indexes
+    [Migration("20221110032302_AddViewAndIndexes")]
+    partial class AddViewAndIndexes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,10 +31,6 @@ namespace SignumExplorer.Migrations
                         .HasColumnType("bigint(20)")
                         .HasColumnName("db_id");
 
-                    b.Property<long>("Balance")
-                        .HasColumnType("bigint(20)")
-                        .HasColumnName("balance");
-
                     b.Property<int>("CreationHeight")
                         .HasColumnType("int(11)")
                         .HasColumnName("creation_height");
@@ -42,10 +38,6 @@ namespace SignumExplorer.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text")
                         .HasColumnName("description");
-
-                    b.Property<long>("ForgedBalance")
-                        .HasColumnType("bigint(20)")
-                        .HasColumnName("forged_balance");
 
                     b.Property<int>("Height")
                         .HasColumnType("int(11)")
@@ -76,14 +68,8 @@ namespace SignumExplorer.Migrations
                         .HasColumnType("varbinary(32)")
                         .HasColumnName("public_key");
 
-                    b.Property<long>("UnconfirmedBalance")
-                        .HasColumnType("bigint(20)")
-                        .HasColumnName("unconfirmed_balance");
-
                     b.HasKey("DbId")
                         .HasName("PRIMARY");
-
-                    b.HasIndex(new[] { "Id", "Balance", "Height" }, "account_id_balance_height_idx");
 
                     b.HasIndex(new[] { "Id", "Height" }, "account_id_height_idx")
                         .IsUnique();
@@ -190,6 +176,48 @@ namespace SignumExplorer.Migrations
                         .HasColumnName("unconfirmed_quantity");
 
                     b.ToView("account_asset_asset_details");
+                });
+
+            modelBuilder.Entity("SignumExplorer.Models.AccountBalance", b =>
+                {
+                    b.Property<long>("DbId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("db_id");
+
+                    b.Property<long>("Balance")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("balance");
+
+                    b.Property<long>("ForgedBalance")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("forged_balance");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("height");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("id");
+
+                    b.Property<bool?>("Latest")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("latest")
+                        .HasDefaultValueSql("'1'");
+
+                    b.Property<long>("UnconfirmedBalance")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("unconfirmed_balance");
+
+                    b.HasKey("DbId")
+                        .HasName("PRIMARY");
+
+                    b.HasIndex(new[] { "Id", "Latest" }, "account_balance_id_latest_idx");
+
+                    b.ToTable("account_balance", (string)null);
                 });
 
             modelBuilder.Entity("SignumExplorer.Models.Alias", b =>
@@ -381,6 +409,10 @@ namespace SignumExplorer.Migrations
                         .HasColumnType("bigint(20)")
                         .HasColumnName("id");
 
+                    b.Property<bool>("Mintable")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("mintable");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -446,8 +478,7 @@ namespace SignumExplorer.Migrations
 
                     b.HasIndex(new[] { "AssetId", "Height" }, "asset_transfer_asset_id_idx");
 
-                    b.HasIndex(new[] { "Id" }, "asset_transfer_id_idx")
-                        .IsUnique();
+                    b.HasIndex(new[] { "Id" }, "asset_transfer_id_idx");
 
                     b.HasIndex(new[] { "RecipientId", "Height" }, "asset_transfer_recipient_id_idx");
 
@@ -589,6 +620,46 @@ namespace SignumExplorer.Migrations
                     b.ToTable("at", (string)null);
 
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_unicode_ci");
+                });
+
+            modelBuilder.Entity("SignumExplorer.Models.AtMap", b =>
+                {
+                    b.Property<long>("DbId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("db_id");
+
+                    b.Property<long>("AtId")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("at_id");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("height");
+
+                    b.Property<long>("Key1")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("key1");
+
+                    b.Property<long?>("Key2")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("key2");
+
+                    b.Property<bool?>("Latest")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("latest")
+                        .HasDefaultValueSql("'1'");
+
+                    b.Property<long?>("Value")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("value");
+
+                    b.HasKey("DbId")
+                        .HasName("PRIMARY");
+
+                    b.ToTable("at_map", (string)null);
                 });
 
             modelBuilder.Entity("SignumExplorer.Models.AtState", b =>
@@ -874,6 +945,18 @@ namespace SignumExplorer.Migrations
                         .HasColumnType("bigint(20)")
                         .HasColumnName("total_fee");
 
+                    b.Property<long?>("TotalFeeBurnt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("total_fee_burnt")
+                        .HasDefaultValueSql("'0'");
+
+                    b.Property<long?>("TotalFeeCashBack")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("total_fee_cash_back")
+                        .HasDefaultValueSql("'0'");
+
                     b.Property<int>("Version")
                         .HasColumnType("int(11)")
                         .HasColumnName("version");
@@ -915,8 +998,9 @@ namespace SignumExplorer.Migrations
                         .HasColumnType("bigint(20)")
                         .HasColumnName("pool_id");
 
-                    b.Property<bool>("Solo")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<int>("Solo")
+                        .HasColumnType("int(1)")
+                        .HasColumnName("solo");
 
                     b.ToView("block_pool_won");
                 });
@@ -1305,9 +1389,21 @@ namespace SignumExplorer.Migrations
                         .HasColumnType("bigint(20)")
                         .HasColumnName("account_id");
 
+                    b.Property<long?>("Amount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("amount")
+                        .HasDefaultValueSql("'0'");
+
                     b.Property<int>("Height")
                         .HasColumnType("int(11)")
                         .HasColumnName("height");
+
+                    b.Property<long?>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("quantity")
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<long>("TransactionId")
                         .HasColumnType("bigint(20)")
@@ -1319,14 +1415,16 @@ namespace SignumExplorer.Migrations
                     b.HasIndex(new[] { "AccountId", "TransactionId" }, "indirect_incoming_db_id_uindex")
                         .IsUnique();
 
+                    b.HasIndex(new[] { "AccountId" }, "indirect_incoming_id_index");
+
                     b.HasIndex(new[] { "Height" }, "indirect_incoming_index");
 
                     b.ToTable("indirect_incoming", (string)null);
                 });
 
-            modelBuilder.Entity("SignumExplorer.Models.LatestAccountRewardRecip", b =>
+            modelBuilder.Entity("SignumExplorer.Models.LatestAccountBalance", b =>
                 {
-                    b.Property<long>("Balance")
+                    b.Property<long?>("Balance")
                         .HasColumnType("bigint(20)")
                         .HasColumnName("balance");
 
@@ -1343,7 +1441,67 @@ namespace SignumExplorer.Migrations
                         .HasColumnName("description")
                         .UseCollation("utf8mb4_unicode_ci");
 
-                    b.Property<long>("ForgedBalance")
+                    b.Property<long?>("ForgedBalance")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("forged_balance");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("height");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("id");
+
+                    b.Property<int?>("KeyHeight")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("key_height");
+
+                    b.Property<bool?>("Latest")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("latest")
+                        .HasDefaultValueSql("'1'");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("name")
+                        .UseCollation("utf8mb4_unicode_ci");
+
+                    b.Property<byte[]>("PublicKey")
+                        .HasMaxLength(32)
+                        .HasColumnType("varbinary(32)")
+                        .HasColumnName("public_key");
+
+                    b.Property<long?>("UnconfirmedBalance")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("unconfirmed_balance");
+
+                    b.ToView("latest_account_balance");
+                });
+
+            modelBuilder.Entity("SignumExplorer.Models.LatestAccountRewardRecip", b =>
+                {
+                    b.Property<long?>("Balance")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("balance");
+
+                    b.Property<int>("CreationHeight")
+                        .HasColumnType("int(11)")
+                        .HasColumnName("creation_height");
+
+                    b.Property<long>("DbId")
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("db_id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description")
+                        .UseCollation("utf8mb4_unicode_ci");
+
+                    b.Property<long?>("ForgedBalance")
                         .HasColumnType("bigint(20)")
                         .HasColumnName("forged_balance");
 
@@ -1396,7 +1554,7 @@ namespace SignumExplorer.Migrations
                         .HasColumnName("recip_name")
                         .UseCollation("utf8mb4_unicode_ci");
 
-                    b.Property<long>("UnconfirmedBalance")
+                    b.Property<long?>("UnconfirmedBalance")
                         .HasColumnType("bigint(20)")
                         .HasColumnName("unconfirmed_balance");
 
@@ -1919,6 +2077,8 @@ namespace SignumExplorer.Migrations
                     b.HasIndex(new[] { "Id", "Height" }, "subscription_id_height_idx")
                         .IsUnique();
 
+                    b.HasIndex(new[] { "Latest" }, "subscription_latest_index");
+
                     b.HasIndex(new[] { "RecipientId", "Height" }, "subscription_recipient_id_height_idx");
 
                     b.HasIndex(new[] { "SenderId", "Height" }, "subscription_sender_id_height_idx");
@@ -2096,6 +2256,12 @@ namespace SignumExplorer.Migrations
                         .HasColumnType("int(11)")
                         .HasColumnName("block_timestamp");
 
+                    b.Property<long?>("CashBackId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint(20)")
+                        .HasColumnName("cash_back_id")
+                        .HasDefaultValueSql("'0'");
+
                     b.Property<short>("Deadline")
                         .HasColumnType("smallint(6)")
                         .HasColumnName("deadline");
@@ -2192,6 +2358,8 @@ namespace SignumExplorer.Migrations
                     b.HasIndex(new[] { "FullHash" }, "transaction_full_hash_idx")
                         .IsUnique();
 
+                    b.HasIndex(new[] { "Height", "Type", "Subtype", "RecipientId", "SenderId" }, "transaction_height_recip_sender");
+
                     b.HasIndex(new[] { "Height", "Timestamp" }, "transaction_height_timestamp");
 
                     b.HasIndex(new[] { "Id" }, "transaction_id_idx")
@@ -2202,6 +2370,12 @@ namespace SignumExplorer.Migrations
                     b.HasIndex(new[] { "RecipientId" }, "transaction_recipient_id_idx");
 
                     b.HasIndex(new[] { "SenderId" }, "transaction_sender_id_idx");
+
+                    b.HasIndex(new[] { "Subtype" }, "transaction_subtype_idx");
+
+                    b.HasIndex(new[] { "CashBackId" }, "tx_cash_back_index");
+
+                    b.HasIndex(new[] { "SenderId", "Type" }, "tx_sender_type");
 
                     b.ToTable("transaction", (string)null);
 

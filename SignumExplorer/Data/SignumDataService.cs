@@ -133,6 +133,7 @@ public interface ISignumDataService
 
     public Task<IEnumerable<ITransaction>> GetFilteredSortedPagedAccountMultiOut(long account, string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0);
     public Task<IEnumerable<IAccount>> GetFilteredSortedPagedAccounts(string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0);
+    public Task<IEnumerable<ILatestAccountBalance>> GetFilteredSortedPagedLatestAccountBalances(string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0);
 
     public Task<List<IBlock>> GetAccountBlocks(long accountId);
     public Task<List<IAccountAsset>> GetAccountAssets(long accountId);
@@ -1053,6 +1054,80 @@ public class SignumDataService : ISignumDataService
         }
 
     }
+
+    public async Task<IEnumerable<ILatestAccountBalance>> GetFilteredSortedPagedLatestAccountBalances(string searchString, string? sortLabel, int page = 0, int pageSize = 50, int sortOrder = 0)
+    {
+
+        List<ILatestAccountBalance> accounts = new List<ILatestAccountBalance>();
+        //Try to convert to account id
+        var accountSuccess = ulong.TryParse(searchString, out ulong accountString);
+
+
+        //Search for name or Exact ID
+
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            IQueryable<ILatestAccountBalance>? query;
+
+
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                //Search for exact account ID and add to the result list
+                if (accountSuccess)
+                {
+                    var result = await context.LatestAccountBalances.Where(m => m.Latest.Value && m.Id == (long)accountString).FirstOrDefaultAsync<ILatestAccountBalance>();
+                    if (result != null) accounts.Add(result);
+
+                }
+
+                //search on other text fields base on text even if numbers
+
+
+                query = context.LatestAccountBalances.Where(element => element.Latest.Value
+                        && (element.Name.Contains(searchString)
+                        || element.Description.Contains(searchString)))
+                        .AsQueryable<ILatestAccountBalance>();
+
+
+            }
+            //Grab everything available
+            else
+            {
+                query = context.LatestAccountBalances.Where(element => element.Latest.Value).AsQueryable<ILatestAccountBalance>();
+            }
+
+            if (!string.IsNullOrWhiteSpace(sortLabel) && sortOrder != 0)
+            {
+                if (sortOrder == 2)
+                {
+
+                    query = query.OrderBy(sortLabel, true);
+
+                }
+                else if (sortOrder == 1)
+                {
+                    query = query.OrderBy(sortLabel, false);
+                }
+
+
+            }
+            else
+            {
+                query = query.OrderByDescending(m => m.CreationHeight);
+            }
+
+
+            var secondResult = await query.Skip(page * pageSize).Take(pageSize).ToListAsync();
+
+
+            return accounts.Concat(secondResult);
+
+        }
+
+    }
+
+
     public async Task<List<Account>> GetAccounts(int taken)
 
     {

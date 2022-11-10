@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Components\" />
     <Folder Include="Migrations\Explorer\" />
-    <Folder Include="Migrations\signumContext\" />
 	
   </ItemGroup>
 

@@ -20,9 +20,7 @@ namespace SignumExplorer.Models
         }
 
         ulong IAccount.AccountId { get => (ulong)Id;  }
-        double IAccount.Balance  => Balance/100000000.0;
-        double IAccount.UnconfirmedBalance  => UnconfirmedBalance/100000000.0;
-        double IAccount.ForgedBalance  => ForgedBalance/100000000.0; 
+
 
     }
 }
