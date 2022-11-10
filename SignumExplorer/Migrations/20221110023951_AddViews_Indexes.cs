@@ -1,18 +1,12 @@
-﻿
-
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using SignumExplorer.Context;
-
 
 #nullable disable
 
 namespace SignumExplorer.Migrations
 {
-
-    [DbContext(typeof(signumContext))]
-    [Migration("AddViewsAndIndex")]
-    public partial class AddViewsAndIndex : Migration
+    public partial class AddViews_Indexes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,35 +49,73 @@ namespace SignumExplorer.Migrations
 
             //Need this second since other views depend on it.
             migrationBuilder.Sql(@"
-                CREATE OR REPLACE
-                ALGORITHM = UNDEFINED VIEW `latest_account_reward_recip` AS
-                select
-                    `a`.`db_id` AS `db_id`,
-                    `a`.`id` AS `id`,
-                    `a`.`creation_height` AS `creation_height`,
-                    `a`.`public_key` AS `public_key`,
-                    `a`.`key_height` AS `key_height`,
-                    `a`.`balance` AS `balance`,
-                    `a`.`unconfirmed_balance` AS `unconfirmed_balance`,
-                    `a`.`forged_balance` AS `forged_balance`,
-                    `a`.`name` AS `name`,
-                    `a`.`description` AS `description`,
-                    `a`.`height` AS `height`,
-                    `a`.`latest` AS `latest`,
-                    `rrnd`.`recip_id` AS `recip_id`,
-                    `rrnd`.`from_height` AS `from_height`,
-                    `rrnd`.`recip_name` AS `recip_name`,
-                    `rrnd`.`recip_descrip` AS `recip_descrip`
-                from
-                    (`account` `a`
-                left join `reward_recip_name_desc` `rrnd` on
-                    (`a`.`id` = `rrnd`.`account_id`))
-                where
-                    `a`.`latest` = 1;
+CREATE OR REPLACE
+ALGORITHM = UNDEFINED VIEW `latest_account_reward_recip` AS
+select
+    `a`.`db_id` AS `db_id`,
+    `a`.`id` AS `id`,
+    `a`.`creation_height` AS `creation_height`,
+    `a`.`public_key` AS `public_key`,
+    `a`.`key_height` AS `key_height`,
+    `ab`.`balance` AS `balance`,
+    `ab`.`unconfirmed_balance` AS `unconfirmed_balance`,
+    `ab`.`forged_balance` AS `forged_balance`,
+    `a`.`name` AS `name`,
+    `a`.`description` AS `description`,
+    `a`.`height` AS `height`,
+    `a`.`latest` AS `latest`,
+    `rrnd`.`recip_id` AS `recip_id`,
+    `rrnd`.`from_height` AS `from_height`,
+    `rrnd`.`recip_name` AS `recip_name`,
+    `rrnd`.`recip_descrip` AS `recip_descrip`
+from `account` `a`
+		left join `reward_recip_name_desc` `rrnd` on
+    	(`a`.`id` = `rrnd`.`account_id`)
+    	left join `account_balance` `ab` on
+    	(`a`.`id` = `ab`.`id`)
+where
+   `a`.`latest` = 1
+    AND `ab`.`latest`=1;
     
 
                     ");
 
+            migrationBuilder.Sql(@"
+
+                CREATE OR REPLACE
+                ALGORITHM = UNDEFINED VIEW `ats_view` AS
+                select
+                    `a`.`db_id` AS `db_id`,
+                    `a`.`id` AS `id`,
+                    `a`.`creator_id` AS `creator_id`,
+                    `a`.`name` AS `name`,
+                    `a`.`description` AS `description`,
+                    `a`.`version` AS `version`,
+                    `a`.`csize` AS `csize`,
+                    `a`.`dsize` AS `dsize`,
+                    `a`.`c_user_stack_bytes` AS `c_user_stack_bytes`,
+                    `a`.`c_call_stack_bytes` AS `c_call_stack_bytes`,
+                    `a`.`creation_height` AS `creation_height`,
+                    `a`.`height` AS `height`,
+                    `a`.`latest` AS `latest`,
+                    `a`.`ap_code_hash_id` AS `ap_code_hash_id`,
+                    `a2`.`ap_code` AS `ap_code`
+                from
+                    (`signum`.`at` `a`
+                left join (
+                    select
+                        distinct `a3`.`ap_code_hash_id` AS `ap_code_hash_id`,
+                        `a3`.`ap_code` AS `ap_code`
+                    from
+                        `signum`.`at` `a3`
+                    where
+                        `a3`.`ap_code` is not null) `a2` on
+                    (`a`.`ap_code_hash_id` = `a2`.`ap_code_hash_id`))
+                order by
+                    `a`.`height` desc;
+
+
+                ");
 
             migrationBuilder.Sql(@"
                 CREATE OR REPLACE
@@ -366,6 +398,7 @@ from
             migrationBuilder.Sql(@" DROP VIEW reward_recip_name_desc; ");
             migrationBuilder.Sql(@" DROP VIEW trade_asset_detail; ");
             migrationBuilder.Sql(@" DROP VIEW block_pool_won; ");
+            migrationBuilder.Sql(@" DROP VIEW ats_view; ");
 
 
         }

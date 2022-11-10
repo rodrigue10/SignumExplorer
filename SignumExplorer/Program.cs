@@ -113,12 +113,13 @@ app.Run();
             //Clean out EF Migrations history.  This will help make the migration always run on startup.
             //Assumptions is that i'm only going to manage 1 custom migration file that includes the necessary SQL scripts for additions.
             //
-            //context.Database.ExecuteSqlRaw(@"DROP TABLE signum.`__EFMigrationsHistory`;");
+            //context.Database.ExecuteSqlRaw(@"TRUNCATE TABLE signum.`__EFMigrationsHistory`;");
 
+            //Create table if not there
             context.Database.Migrate();
-                        
-            //Maybe Remove after migration done?
-           // context.Database.ExecuteSqlRaw(@"DROP TABLE signum.`__EFMigrationsHistory`;");
+
+            //Maybe truncate after migration done?
+            context.Database.ExecuteSqlRaw(@"TRUNCATE TABLE signum.`__EFMigrationsHistory`;");
 
         }
         using (var expcontext = serviceScope.ServiceProvider.GetService<ExplorerContext>())

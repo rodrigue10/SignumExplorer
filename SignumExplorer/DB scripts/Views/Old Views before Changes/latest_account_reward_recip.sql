@@ -6,9 +6,9 @@ select
     `a`.`creation_height` AS `creation_height`,
     `a`.`public_key` AS `public_key`,
     `a`.`key_height` AS `key_height`,
-    `ab`.`balance` AS `balance`,
-    `ab`.`unconfirmed_balance` AS `unconfirmed_balance`,
-    `ab`.`forged_balance` AS `forged_balance`,
+    `a`.`balance` AS `balance`,
+    `a`.`unconfirmed_balance` AS `unconfirmed_balance`,
+    `a`.`forged_balance` AS `forged_balance`,
     `a`.`name` AS `name`,
     `a`.`description` AS `description`,
     `a`.`height` AS `height`,
@@ -17,11 +17,9 @@ select
     `rrnd`.`from_height` AS `from_height`,
     `rrnd`.`recip_name` AS `recip_name`,
     `rrnd`.`recip_descrip` AS `recip_descrip`
-from `account` `a`
-		left join `reward_recip_name_desc` `rrnd` on
-    	(`a`.`id` = `rrnd`.`account_id`)
-    	left join `account_balance` `ab` on
-    	(`a`.`id` = `ab`.`id`)
+from
+    (`account` `a`
+left join `reward_recip_name_desc` `rrnd` on
+    (`a`.`id` = `rrnd`.`account_id`))
 where
-   `a`.`latest` = 1
-    AND `ab`.`latest`=1;
+    `a`.`latest` = 1;
