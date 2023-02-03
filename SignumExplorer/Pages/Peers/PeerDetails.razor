@@ -1,0 +1,84 @@
+﻿@namespace SignumExplorer.Pages
+@page "/peers/{peerid}"
+
+@inject ISignumAPIService SignumAPIService
+@inject ISignumDataService SignumService
+@inject IJSRuntime JS
+@inject IStringLocalizer<App> L
+
+@inject IDialogService DialogService
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+
+ @if (PeerDet == null)
+        {
+            <p><em>Loading Details...</em></p>
+        }
+        else
+        { 
+
+
+            <MudGrid>
+                <MudItem xs="12">
+                        <PropertiesTable TableText="@($"{L["Peer Details"]} - {PeerDet.shareAddress}")" InputObject="PeerDet" InterfaceType="typeof(IGetPeer)"></PropertiesTable>
+                </MudItem>
+            </MudGrid>
+        }
+
+
+    }
+</MudContainer>
+
+
+
+
+@code {
+    private IGetPeer? PeerDet;
+
+
+    [Parameter]
+    public string? Peerid { get; set; }
+
+
+
+    async Task OpenDialog(PropertyInfo info, object InputObject)
+    {
+        if(InputObject != null)
+        {
+            // var info = typeof(IAtState).GetProperty(nameof(IAtState.StateString));
+
+            var parameters = new DialogParameters { ["propinfo"]=info, ["inputobject"] = InputObject };
+
+
+            var result = await DialogService.Show<CodeDialog>(info.Name, parameters).Result;          
+
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        await base.OnParametersSetAsync();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(!string.IsNullOrEmpty(Peerid))
+        {
+            var peer = Peerid;
+
+            PeerDet = await SignumAPIService.getPeer(Peerid);
+
+
+            
+
+        }
+
+
+    }
+
+
+
+}

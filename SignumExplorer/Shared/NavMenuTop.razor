@@ -100,6 +100,17 @@
                            <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
              </MudHidden>
 
+    <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert="true">
+        <MudMenu FullWidth="false" ActivationEvent="@MouseEvent.MouseOver" OffsetY>
+            <ActivatorContent>
+                <MudText><MudIcon Icon="@Icons.Material.Filled.Link"></MudIcon> @L["Peers"]</MudText>
+            </ActivatorContent>
+            <ChildContent>
+                <MudNavLink Href="/peers" Icon="@Icons.Material.Filled.Link">@L["Peers"]</MudNavLink>
+            </ChildContent>
+        </MudMenu>
+        <MudDivider Vertical="true" FlexItem="true" DividerType="DividerType.FullWidth" Class="mx-4 my-3" />
+    </MudHidden>
    
         </MudItem>
 

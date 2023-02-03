@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using SignumExplorer.Models;
+using SignumExplorer.Pages;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -16,6 +17,11 @@ namespace SignumExplorer.Data
 
         public Task<UnconfirmedTransAPI?> getUnconfirmedTransactions(string accountID = "", string includeIndirect = "true");
         public Task<BlockChainStatus?> getBlockChainStats();
+
+        public Task<GetPeers?> getPeers();
+        public Task<GetPeer?> getPeer(string peerID = "");
+
+      
 
     }
 
@@ -138,9 +144,105 @@ namespace SignumExplorer.Data
 
         }
 
+        public async Task<GetPeers?> getPeers()
+        {
+
+
+            string baseAPI = "/burst";
+            string requestType = "?requestType=getPeers";
+
+
+            List<KeyValuePair<string, string>> allIputParams = new()
+            {
+                // Converting Request Params to Key Value Pair.  
+                // new KeyValuePair<string, string>("&account=", accountID),
+                //new KeyValuePair<string, string>("&includeIndirect=", includeIndirect),
+
+            };
+
+            StringBuilder uri = new();
+
+            uri.Append(baseAPI);
+            uri.Append(requestType);
+
+            foreach (var item in allIputParams)
+            {
+                uri.Append(item.Key);
+                uri.Append(item.Value);
+
+            }
+
+
+            try
+            {
+                return await Client.GetFromJsonAsync<GetPeers>(uri.ToString());
+            }
+            catch (HttpRequestException) // Non success
+            {
+                Console.WriteLine("An error occurred.");
+            }
+            catch (NotSupportedException) // When content type is not valid
+            {
+                Console.WriteLine("The content type is not supported.");
+            }
+            catch (JsonException) // Invalid JSON
+            {
+                Console.WriteLine("Invalid JSON.");
+            }
+
+            return null;
+        }
+
+        public async Task<GetPeer?> getPeer(string peerIP = "")
+        {
+
+            //http://csrs-node:7225/api?requestType=getPeer&peer=23.16.167.189"
 
 
 
 
+            string baseAPI = "/burst";
+            string requestType = "?requestType=getPeer";
+
+
+            List<KeyValuePair<string, string>> allIputParams = new()
+            {
+                // Converting Request Params to Key Value Pair.  
+                new KeyValuePair<string, string>("&peer=", peerIP)
+
+            };
+
+            StringBuilder uri = new();
+
+            uri.Append(baseAPI);
+            uri.Append(requestType);
+
+            foreach (var item in allIputParams)
+            {
+                uri.Append(item.Key);
+                uri.Append(item.Value);
+
+            }
+
+
+            try
+            {
+                return await Client.GetFromJsonAsync<GetPeer>(uri.ToString());
+            }
+            catch (HttpRequestException) // Non success
+            {
+                Console.WriteLine("An error occurred.");
+            }
+            catch (NotSupportedException) // When content type is not valid
+            {
+                Console.WriteLine("The content type is not supported.");
+            }
+            catch (JsonException) // Invalid JSON
+            {
+                Console.WriteLine("Invalid JSON.");
+            }
+
+            return null;
+        }
     }
 }

@@ -1,0 +1,70 @@
+﻿@namespace SignumExplorer.Pages
+
+@page "/peers"
+
+@inject ISignumAPIService SignumAPIService
+@inject IStringLocalizer<App> L
+
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+@if (peersdata == null)
+{
+
+}
+else
+{   
+ 
+    <MudGrid>
+        <MudItem xs="12"> 
+@*            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search Name or ID" Adornment="Adornment.Start"
+                   AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0">
+            </MudTextField>*@
+                   </MudItem>
+        <MudItem xs="12">
+
+            <MudTable Items="@peerslisted" Hover="true" Breakpoint="Breakpoint.Sm"  LoadingProgressColor="Color.Info">
+                <HeaderContent>
+                    <MudTh>Peers</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                        <MudTd DataLabel="Peers"><MudLink Typo="Typo.caption" Underline="Underline.None" Href=@($"/peers/{context}")>@context</MudLink></MudTd>
+                </RowTemplate>
+            </MudTable>           
+        </MudItem>
+        </MudGrid>
+        }
+
+</MudContainer>
+
+
+
+@code {
+
+    private IGetPeers peersdata;
+    private List<string> peerslisted;
+
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //counts = await SignumService.NodeCountItems();
+        //count = await SignumService.AliasCount();
+        peersdata = await SignumAPIService.getPeers();
+
+        peerslisted = peersdata.peers;
+        peerslisted.Sort();
+
+
+
+    }
+
+
+    private void OnSearch(string text)
+    {
+
+    }
+
+
+}
