@@ -68,13 +68,17 @@ namespace SignumExplorer
                     using (var contextSignum = _contextFactorySignum.CreateDbContext())
                     using (var contextExplorer = _contextFactoryExplorer.CreateDbContext())
                     {
-                        List<BlockPoolWon> SignumQueryResult = new();
+                            List<BlockPoolWon> SignumQueryResult = new();
 
-                        int? resultSignum = await contextSignum.BlockPoolWons.MaxAsync(e => e.Height);                                            
+                            int? resultSignum = await contextSignum.BlockPoolWons.MaxAsync(e => e.Height);                                            
 
-                        //Get max from explorer database to determine its state
-                        int? resultExplorer = await contextExplorer.PoolWonBlocks.MaxAsync(e => e.Height);
-                                            
+                            //Get max from explorer database to determine its state
+                            int? resultExplorer = await contextExplorer.PoolWonBlocks.MaxAsync(e => e.Height);
+
+                            if (resultSignum.Value - resultExplorer.Value < 0)
+                            {
+                                contextExplorer.RemoveRange(contextExplorer.PoolWonBlocks);
+                            }
 
 
                             if (resultExplorer == null)
@@ -82,44 +86,33 @@ namespace SignumExplorer
                                 SignumQueryResult = await contextSignum.BlockPoolWons.OrderBy(e => e.Height).Take(UpdateSize-BlockLag).ToListAsync();
                             }
                             else
-                            {
-                                //Facilitate bulk updating and additions
-                                if(resultSignum.Value - resultExplorer.Value > UpdateSize - BlockLag)
-                                {
-                                    SignumQueryResult = await contextSignum.BlockPoolWons.OrderBy(e => e.Height).Skip(resultExplorer.Value + 1).Take(UpdateSize - BlockLag).ToListAsync();
-                                }
-                                //What to do if Signum is behind explorer....Blow out Explorer DB, which will start the process over.
-                                else if(resultSignum.Value - resultExplorer.Value < 0 )
-                                {
-                                    
-                                    contextExplorer.RemoveRange(contextExplorer.PoolWonBlocks);
-                                }
-                                //When less than bulk update go through each item....this will be the steady state once explorer and signum DB are synced
-                                else
-                                {
-                                    for (int i = resultExplorer.Value + 1; i < resultSignum.Value - BlockLag; i++)
-                                    {
-                                        var result = await contextSignum.BlockPoolWons.Select(e => new BlockPoolWon()).Where(e => e.Height == i).FirstAsync() ;
-                                        SignumQueryResult.Add(result);
-                                    }
-
-                                }
-                               
-
+                            {     
+                                SignumQueryResult = await contextSignum.BlockPoolWons.OrderBy(e => e.Height).Skip(resultExplorer.Value + 1).Take(UpdateSize - BlockLag).ToListAsync();
 
                             }
 
-                            List<PoolWonBlock> converted = ConvertSignumToExplorer(SignumQueryResult);
+                        List<PoolWonBlock> converted = ConvertSignumToExplorer(SignumQueryResult);
 
-                            await contextExplorer.PoolWonBlocks.AddRangeAsync(converted);
-                            await contextExplorer.SaveChangesAsync();
-
-                        
+                        await contextExplorer.PoolWonBlocks.AddRangeAsync(converted);
+                        await contextExplorer.SaveChangesAsync();
 
                     }
 
                         _logger.LogInformation($"{nameof(PoolBlocksProcessor)} running {nameof(ExecuteAsync)}");
-                    await Task.Delay(TimeSpan.FromSeconds(UpdateTime));
+
+                    //Creatively break up the delay and check for cancellation token so the service can be managed via web UI
+                    for (int i = 0; i < 500; i++)
+                    {
+                        if (!stoppingToken.IsCancellationRequested)
+                        {
+                            await Task.Delay(TimeSpan.FromMinutes((double)UpdateTime / 500), stoppingToken);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                  //  await Task.Delay(TimeSpan.FromSeconds(UpdateTime));
                 }
                 IsRunning = false;
                 _logger.LogInformation($"{nameof(PoolBlocksProcessor)} ending {nameof(ExecuteAsync)}");

@@ -22,14 +22,12 @@ namespace SignumExplorer.Data
     public class SignumAPIService : ISignumAPIService
     {
         public HttpClient Client { get;  }
-        IConfiguration? _configuraton;
       
         //private readonly JsonSerializerOptions _options;
 
-        public SignumAPIService(HttpClient client, IConfiguration configuration)
+        public SignumAPIService(HttpClient client)
         {
-            _configuraton = configuration;
-            //client.BaseAddress = new Uri(_configuraton["SignumNodeUri"]);
+
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
            
             //_options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true};

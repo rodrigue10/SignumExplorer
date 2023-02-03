@@ -1284,7 +1284,7 @@ public class SignumDataService : ISignumDataService
 
                 }
 
-                //search on other text fields base on text even if numbers
+                //search on other text fields based on text even if numbers
 
                 //query = context.Transactions.Where(element => element.Height.ToString().Contains(searchString))
 
@@ -1296,7 +1296,7 @@ public class SignumDataService : ISignumDataService
                 }
                 else
                 {
-                    query = context.Transactions.Where(m => m.Height == null).AsQueryable<ITransaction>();
+                    query = context.Transactions.AsQueryable<ITransaction>();
                 }
 
 
