@@ -1,4 +1,4 @@
-# SignumExplorer
+# C# SignumExplorer 
 This project was started as a way for me to learn ASP/.NET Blazor and .NET EF Core.  Expect there to be lots of room for improvement in this project.
 
 The goals of this project are as follows
