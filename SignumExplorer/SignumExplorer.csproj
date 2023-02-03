@@ -14,9 +14,6 @@
     <None Remove="Components\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="README.md" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
