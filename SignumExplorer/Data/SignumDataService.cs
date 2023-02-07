@@ -139,6 +139,8 @@ public interface ISignumDataService
     public Task<List<IAccountAsset>> GetAccountAssets(long accountId);
     public Task<IAccount> GetAccount(long accountId);
 
+    public Task<ILatestAccountBalance> GetLatestAccountBal(long accountId);
+
     public Task<List<ITransaction>> GetAccountTransactions(long accountid);
     public Task<List<ITransaction>> GetAccountTransactions(long accountid, int take);
 
@@ -1145,6 +1147,17 @@ public class SignumDataService : ISignumDataService
         using (var context = _contextFactory.CreateDbContext())
         {
             return await context.Accounts.Where(o => o.Id == accountId && o.Latest.Value).FirstAsync<IAccount>();
+
+        }
+
+    }
+
+    public async Task<ILatestAccountBalance> GetLatestAccountBal(long accountId)
+
+    {
+        using (var context = _contextFactory.CreateDbContext())
+        {
+            return await context.LatestAccountBalances.Where(o => o.Id == accountId).FirstAsync<ILatestAccountBalance>();
 
         }
 

@@ -88,6 +88,7 @@ else
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRequestLocalization(localizatonOptions);

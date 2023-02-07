@@ -18,11 +18,16 @@ else
 {
     <MudGrid>
 
-        <MudItem xs="12">
+@*        <MudItem xs="12">
                <PropertiesTable InputObject="AccountDet" InterfaceType="typeof(IAccount)" TableText="@($"{L["Account"]} {L["Details"]} - {AccountDet.AccountId}")"> </PropertiesTable>
-            </MudItem>
+            </MudItem>*@
             
-    </MudGrid>
+  
+            <MudItem xs="12">
+               <PropertiesTable InputObject="LatestAccountBal" InterfaceType="typeof(ILatestAccountBalance)" TableText="@($"{L["Account"]} {L["Details"]} - {LatestAccountBal.AccountId}")"> </PropertiesTable>
+            </MudItem>
+
+        </MudGrid>
     <MudGrid>
     @if (rewardRecip == null ) 
     {
@@ -692,10 +697,11 @@ else
     private IEnumerable<IAskOrder>? AccountAsks;
     private IEnumerable<IAssetTransfer>? AccountAssetTransfers;
     private IAccount? AccountDet;
-   // private List<ITransaction>? AccountTransactions;
+    // private List<ITransaction>? AccountTransactions;
     private IEnumerable<IAccountAsset>? AccountAssets;
     private IEnumerable<IAlias>? AccountAliases;
     private IEnumerable<IAt>? AccountAts;
+    private ILatestAccountBalance LatestAccountBal;
 
 
     private IEnumerable<IRewardRecipAssign>? poolMembers;
@@ -711,7 +717,7 @@ else
     private long account;
 
     //Multi-Out
-        private IEnumerable<ITransaction>? multidata;
+    private IEnumerable<ITransaction>? multidata;
     private MudTable<ITransaction>? multitable;
     private int multitotalItems;
     private string multisearchString = "";
@@ -737,30 +743,32 @@ else
         AccountBids = null;
         rewardRecip = null;
         AccountAts = null;
+        LatestAccountBal = null;
 
 
         await OnInitializedAsync();
-         //await base.OnParametersSetAsync();
- 
+        //await base.OnParametersSetAsync();
+
     }
 
     protected override async Task OnInitializedAsync()
     {
         if(Accountid != null)
         {
-                   account = (long)UInt64.Parse(Accountid);
+            account = (long)UInt64.Parse(Accountid);
 
-                accountCounts = await SignumService.AccountCountItems(account);
-                AccountDet = await SignumService.GetAccount(account);
-                AccountTrades = await SignumService.GetAccountTrades(account);
-                AccountAssets = await SignumService.GetAccountAssets(account);
-                AccountAssetTransfers = await SignumService.GetAccountAssetTransfers(account);
-                AccountAliases = await SignumService.GetAccountAliases(account);
-                AccountAsks = await SignumService.GetAccountAskOrders(account); 
-                AccountBids = await SignumService.GetAccountBidOrders(account);
-                poolMembers = await SignumService.GetPoolAccountMembers(account);
-                rewardRecip = await SignumService.GetAccountRewardRecipient(account);
-                AccountAts = await SignumService.GetAccountCreatedAts(account);             
+            accountCounts = await SignumService.AccountCountItems(account);
+            AccountDet = await SignumService.GetAccount(account);
+            AccountTrades = await SignumService.GetAccountTrades(account);
+            AccountAssets = await SignumService.GetAccountAssets(account);
+            AccountAssetTransfers = await SignumService.GetAccountAssetTransfers(account);
+            AccountAliases = await SignumService.GetAccountAliases(account);
+            AccountAsks = await SignumService.GetAccountAskOrders(account); 
+            AccountBids = await SignumService.GetAccountBidOrders(account);
+            poolMembers = await SignumService.GetPoolAccountMembers(account);
+            rewardRecip = await SignumService.GetAccountRewardRecipient(account);
+            AccountAts = await SignumService.GetAccountCreatedAts(account);
+            LatestAccountBal = await SignumService.GetLatestAccountBal(account);
 
 
 

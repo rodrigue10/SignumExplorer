@@ -9,7 +9,8 @@ namespace SignumExplorer.Models
         public long DbId { get; }
         public long Id { get; }
         public int CreationHeight { get; }
-        public byte[]? PublicKey { get; }
+       // public byte[]? PublicKey { get; }
+        public string PublicKeyString { get; }
         public int? KeyHeight { get; }
         public long Balance { get; }
         public long UnconfirmedBalance { get; }

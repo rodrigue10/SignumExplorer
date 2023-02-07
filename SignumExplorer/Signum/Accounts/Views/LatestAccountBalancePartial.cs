@@ -6,6 +6,7 @@ namespace SignumExplorer.Models
     public partial class LatestAccountBalance : ILatestAccountBalance
     {
 
+
         ulong ILatestAccountBalance.AccountId { get => (ulong)Id; }
 
         public string PublicKeyString
