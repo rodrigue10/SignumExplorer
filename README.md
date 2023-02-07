@@ -47,15 +47,27 @@ time so using your DB access tool of choice you will find a series of `.sql` scr
   "Urls": "http://localhost:4100;http://localhost:4101",
  ```
   
+## Hosting
+The application is designed to be Cross-platform.  As such it can be hosted in Windows via IIS or on Linux using some sort of reverse proxy.  This information may not be all encompassing of what's necessary to get the site running, but will give some insight into what's necessary.  
+- This is a good starting point to help on [this https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-7.0]
+### Windows IIS
+
+### Linux
+
+[https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-7.0&tabs=linux-ubuntu]
 ## Development
 
 The project is in active development so bugs/issues are to be expected.  I'm open to others playing with and helping increase/update the functionality.  If you feel like donating to help my developer journey please do so at this Signum Address: 
 #### S-TGS2-BU2Q-DBFR-DNATE
 
 ### Pre-Requisites for development
-  - Current development is being done with Pre-Release versions of .NET Core, EF Core, and [Pomelo.EnittyFramework](https://github.com/PomeloFoundation). 
+  - Current development is being done with version 7 of .NET Core, EF Core, and [Pomelo.EnittyFramework](https://github.com/PomeloFoundation). 
   - The most recent Visual Studio 2022 is recommended and may be required to help with ease of development.
-  - Pomelo EF Core should be compatible with .NET Core 6
+  - Pomelo EF Core should be compatible with .NET Core 7
+  - This app will be updated to .NET Core 8 once released
+  
+ 
+  
   
 
 
